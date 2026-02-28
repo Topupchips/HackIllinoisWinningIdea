@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pkl
+*.pt
+*.pyc
+data/raw/*.xml
+data/raw/*.zip
+data/raw/*.sql
+data/raw/*.gz
+data/raw/*.tsv
+.DS_Store
