@@ -1,0 +1,26 @@
+.collapsible-section {
+  margin-top: 16px;
+}
+
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.collapsible-header:hover {
+  color: var(--accent);
+}
+
+.collapsible-content {
+  padding-top: 12px;
+}

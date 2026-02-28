@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacogen API Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0c0c0e;
+      color: #fafafa;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: #14b8a6;
+    }
+    .subtitle {
+      color: #71717a;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    .card {
+      background: #16161a;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      color: #a1a1aa;
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    input, button {
+      font-family: inherit;
+      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    input {
+      background: #0c0c0e;
+      color: #fafafa;
+      flex: 1;
+      min-width: 120px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #14b8a6;
+    }
+    button {
+      background: rgba(20, 184, 166, 0.15);
+      color: #14b8a6;
+      border-color: #14b8a6;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    button:hover {
+      background: #14b8a6;
+      color: #0c0c0e;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .output {
+      background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 12px;
+    }
+    .output.empty { color: #71717a; }
+    .output.error { border-color: #ef4444; color: #ef4444; }
+    .output.success { border-color: #22c55e; }
+    .status { font-size: 12px; color: #71717a; margin-top: 8px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      background: rgba(20, 184, 166, 0.15);
+      color: #14b8a6;
+      margin-left: 8px;
+    }
+    .timeline-chart {
+      height: 200px;
+      margin-top: 12px;
+      background: #0c0c0e;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      position: relative;
+    }
+    .timeline-chart svg { width: 100%; height: 100%; }
+    .timeline-chart .risk { fill: rgba(239,68,68,0.3); stroke: #ef4444; }
+    .timeline-chart .conc { fill: rgba(20,184,166,0.3); stroke: #14b8a6; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pharmacogen API Demo</h1>
+    <p class="subtitle">Try the API endpoints below. Uses <span id="api-base">/</span></p>
+
+    <!-- Health -->
+    <div class="card">
+      <h2>1. Health Check <span class="badge">GET /v1/health</span></h2>
+      <button onclick="callHealth()">Check API Status</button>
+      <div id="health-output" class="output empty">Click to check...</div>
+    </div>
+
+    <!-- Drug Search -->
+    <div class="card">
+      <h2>2. Search Drugs <span class="badge">GET /v1/drugs/search</span></h2>
+      <div class="row">
+        <input type="text" id="search-q" placeholder="e.g. aspirin" value="aspirin">
+        <button onclick="callSearch()">Search</button>
+      </div>
+      <div id="search-output" class="output empty">Results appear here...</div>
+    </div>
+
+    <!-- Get Compound -->
+    <div class="card">
+      <h2>3. Get Compound <span class="badge">GET /v1/drugs/name/{name}</span></h2>
+      <div class="row">
+        <input type="text" id="compound-name" placeholder="e.g. Aspirin" value="Aspirin">
+        <button onclick="callCompound()">Fetch</button>
+      </div>
+      <div id="compound-output" class="output empty">SMILES, formula, CID...</div>
+    </div>
+
+    <!-- Predict Interaction -->
+    <div class="card">
+      <h2>4. Predict Interaction <span class="badge">POST /v1/interactions/predict</span></h2>
+      <p class="status">Predicts risk for Aspirin + Ibuprofen</p>
+      <button onclick="callPredict()">Predict</button>
+      <div id="predict-output" class="output empty">Tanimoto, confidence, pairs...</div>
+    </div>
+
+    <!-- Prediction Timeline Graph -->
+    <div class="card">
+      <h2>5. Prediction Timeline <span class="badge">GET /v1/interactions/timeline</span></h2>
+      <p class="status">72-hour risk & concentration curve. Optional: run Predict first, then Fetch Graph to use Tanimoto.</p>
+      <div class="row">
+        <input type="number" id="timeline-count" placeholder="Compounds" value="2" min="1" max="10" style="max-width:80px">
+        <input type="number" id="timeline-tanimoto" placeholder="Tanimoto" value="0.5" min="0" max="1" step="0.01" style="max-width:80px">
+        <label style="display:flex;align-items:center;gap:6px;color:#a1a1aa"><input type="checkbox" id="timeline-vaccine"> Vaccine</label>
+        <button onclick="callTimeline()">Fetch Graph</button>
+      </div>
+      <div id="timeline-chart" class="timeline-chart"></div>
+      <div id="timeline-output" class="output empty" style="margin-top:12px">Chart appears above...</div>
+    </div>
+
+    <!-- Explain -->
+    <div class="card">
+      <h2>6. AI Explanation <span class="badge">POST /v1/interactions/explain</span></h2>
+      <p class="status">Mechanistic explanation (fallback if no OpenAI key)</p>
+      <button onclick="callExplain()">Explain</button>
+      <div id="explain-output" class="output empty">AI-generated explanation...</div>
+    </div>
+  </div>
+
+  <script>
+    const BASE = window.location.origin;
+    document.getElementById('api-base').textContent = BASE;
+
+    function out(id, text, isError = false) {
+      const el = document.getElementById(id);
+      el.textContent = typeof text === 'string' ? text : JSON.stringify(text, null, 2);
+      el.className = 'output' + (isError ? ' error' : text ? ' success' : ' empty');
+    }
+
+    async function callHealth() {
+      out('health-output', 'Loading...');
+      try {
+        const r = await fetch(BASE + '/v1/health');
+        const data = await r.json();
+        out('health-output', data);
+      } catch (e) {
+        out('health-output', 'Error: ' + e.message, true);
+      }
+    }
+
+    async function callSearch() {
+      const q = document.getElementById('search-q').value.trim() || 'aspirin';
+      out('search-output', 'Loading...');
+      try {
+        const r = await fetch(BASE + '/v1/drugs/search?q=' + encodeURIComponent(q));
+        const data = await r.json();
+        out('search-output', data);
+      } catch (e) {
+        out('search-output', 'Error: ' + e.message, true);
+      }
+    }
+
+    async function callCompound() {
+      const name = document.getElementById('compound-name').value.trim() || 'Aspirin';
+      out('compound-output', 'Loading...');
+      try {
+        const r = await fetch(BASE + '/v1/drugs/name/' + encodeURIComponent(name));
+        if (!r.ok) {
+          const err = await r.json();
+          out('compound-output', err, true);
+          return;
+        }
+        const data = await r.json();
+        out('compound-output', data);
+      } catch (e) {
+        out('compound-output', 'Error: ' + e.message, true);
+      }
+    }
+
+    async function callPredict() {
+      out('predict-output', 'Loading...');
+      try {
+        const r = await fetch(BASE + '/v1/interactions/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            compounds: ['Aspirin', 'Ibuprofen'],
+            smiles_list: ['CC(=O)OC1=CC=CC=C1C(=O)O', 'CC(C)Cc1ccc(cc1)C(C)C(O)=O'],
+            has_vaccine: false
+          })
+        });
+        const data = await r.json();
+        out('predict-output', data);
+        if (data.tanimoto_avg !== undefined) {
+          document.getElementById('timeline-tanimoto').value = data.tanimoto_avg;
+        }
+      } catch (e) {
+        out('predict-output', 'Error: ' + e.message, true);
+      }
+    }
+
+    async function callTimeline() {
+      const count = parseInt(document.getElementById('timeline-count').value) || 2;
+      const tanimoto = parseFloat(document.getElementById('timeline-tanimoto').value) || 0.5;
+      const hasVaccine = document.getElementById('timeline-vaccine').checked;
+      document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#71717a">Loading...</div>';
+      out('timeline-output', '');
+      try {
+        const params = new URLSearchParams({
+          compound_count: String(count),
+          has_vaccine: String(hasVaccine),
+          tanimoto_avg: String(tanimoto)
+        });
+        const r = await fetch(BASE + '/v1/interactions/timeline?' + params);
+        const data = await r.json();
+        if (data.timeline && data.timeline.length) {
+          renderChart(data.timeline);
+          out('timeline-output', data);
+        } else {
+          document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#ef4444">No data</div>';
+        }
+      } catch (e) {
+        document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#ef4444">Error: ' + e.message + '</div>';
+        out('timeline-output', 'Error: ' + e.message, true);
+      }
+    }
+
+    function renderChart(timeline) {
+      const w = 600, h = 180, pad = { t: 10, r: 10, b: 30, l: 40 };
+      const xMin = 0, xMax = 72;
+      const yMin = 0, yMax = 100;
+      const x = (h) => pad.l + (h / xMax) * (w - pad.l - pad.r);
+      const y = (v) => h - pad.b - (v / yMax) * (h - pad.t - pad.b);
+      let riskPath = '', concPath = '';
+      for (let i = 0; i < timeline.length; i++) {
+        const p = timeline[i];
+        const px = x(p.hour), pyRisk = y(p.risk), pyConc = y(p.concentration);
+        riskPath += (i === 0 ? 'M' : 'L') + px + ',' + pyRisk;
+        concPath += (i === 0 ? 'M' : 'L') + px + ',' + pyConc;
+      }
+      riskPath += ' L' + x(72) + ',' + (h - pad.b) + ' L' + pad.l + ',' + (h - pad.b) + ' Z';
+      concPath += ' L' + x(72) + ',' + (h - pad.b) + ' L' + pad.l + ',' + (h - pad.b) + ' Z';
+      const svg = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
+        <line x1="${pad.l}" y1="${h-pad.b}" x2="${w-pad.r}" y2="${h-pad.b}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${h-pad.b}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+        <path d="${riskPath}" class="risk" stroke-width="2" fill="rgba(239,68,68,0.25)"/>
+        <path d="${concPath}" class="conc" stroke-width="2" fill="rgba(20,184,166,0.25)"/>
+        <text x="${pad.l}" y="${h-8}" fill="#71717a" font-size="10">0h</text>
+        <text x="${w-pad.r-25}" y="${h-8}" fill="#71717a" font-size="10">72h</text>
+        <text x="10" y="25" fill="#ef4444" font-size="10">Risk</text>
+        <text x="10" y="40" fill="#14b8a6" font-size="10">Concentration</text>
+      </svg>`;
+      document.getElementById('timeline-chart').innerHTML = svg;
+    }
+
+    async function callExplain() {
+      out('explain-output', 'Loading...');
+      try {
+        const r = await fetch(BASE + '/v1/interactions/explain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            compounds: ['Aspirin', 'Ibuprofen'],
+            tanimoto: 0.45,
+            confidence: 85,
+            has_vaccine: false
+          })
+        });
+        const data = await r.json();
+        out('explain-output', data.explanation || data, !!data.error);
+      } catch (e) {
+        out('explain-output', 'Error: ' + e.message, true);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+.drug-search {
+  margin-bottom: 16px;
+}
+
+.drug-search-input-wrap {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.drug-search-input {
+  width: 100%;
+  padding-left: 40px !important;
+}
+
+.drug-search-status,
+.drug-search-error {
+  font-size: 12px;
+  margin-top: 8px;
+  color: var(--text-muted);
+}
+
+.drug-search-error {
+  color: var(--danger);
+}
+
+.drug-search-suggestions {
+  list-style: none;
+  margin-top: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.drug-search-suggestions li button {
+  width: 100%;
+  padding: 10px 14px;
+  text-align: left;
+  background: var(--bg-primary);
+  border: none;
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.drug-search-suggestions li button:hover {
+  background: var(--accent-muted);
+}
+
+.drug-search-suggestions li button[draggable="true"] {
+  cursor: grab;
+}
+
+.drug-search-suggestions li button[draggable="true"]:active {
+  cursor: grabbing;
+}

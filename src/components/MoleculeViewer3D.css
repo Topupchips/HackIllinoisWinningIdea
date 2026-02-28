@@ -1,0 +1,11 @@
+.molecule-viewer-3d {
+  width: 100%;
+  height: 140px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.molecule-viewer-3d canvas {
+  display: block;
+}

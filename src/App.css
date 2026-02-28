@@ -1,0 +1,9 @@
+.app-content {
+  min-height: 100vh;
+  animation: app-fade-in 0.4s ease-out;
+}
+
+@keyframes app-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

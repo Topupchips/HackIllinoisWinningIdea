@@ -1,0 +1,121 @@
+.compound-drop-zone {
+  position: relative;
+  min-height: 140px;
+  padding: 24px;
+  background: var(--bg-elevated);
+  border: 2px dashed var(--border-subtle);
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+
+.compound-drop-zone.drag-over {
+  border-color: var(--accent);
+  background: var(--accent-muted);
+}
+
+.compound-drop-zone.empty .drop-zone-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-muted);
+  padding: 20px;
+}
+
+.compound-drop-zone.empty .drop-zone-placeholder svg {
+  opacity: 0.5;
+}
+
+.compound-drop-zone.empty .drop-zone-placeholder p {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.compound-drop-zone.empty .drop-zone-placeholder span {
+  font-size: 12px;
+}
+
+.drop-zone-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.compound-card {
+  position: relative;
+  width: 100px;
+  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.compound-card:hover {
+  border-color: var(--border-hover);
+}
+
+.compound-card-structure {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 8px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.compound-card-name {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.compound-card-actions {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.compound-card:hover .compound-card-actions {
+  opacity: 1;
+}
+
+.compound-card-similar,
+.compound-card-remove {
+  padding: 4px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.compound-card-similar:hover {
+  color: var(--accent);
+}
+
+.compound-card-remove:hover {
+  color: var(--danger);
+}
+
+.drop-zone-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--accent);
+}

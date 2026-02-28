@@ -1,0 +1,71 @@
+.gene-visual {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.gene-visual.selected {
+  border-color: var(--accent);
+  background: var(--accent-muted);
+}
+
+.gene-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
+.gene-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.gene-name {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.gene-enzyme {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.gene-metabolism {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metabolism-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--border-subtle);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.metabolism-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.metabolism-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  min-width: 70px;
+}
