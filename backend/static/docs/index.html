@@ -201,12 +201,12 @@
     <h3>Key Features</h3>
     <table>
       <tr><th>Feature</th><th>Description</th></tr>
-      <tr><td>Versioned API</td><td>All endpoints under <code>/v1/</code></td></tr>
+      <tr><td>Health & Validate</td><td><code>GET /v1/health</code>, <code>GET /v1/validate</code></td></tr>
+      <tr><td>Drugs</td><td><code>GET /v1/drugs</code>, <code>GET /v1/drugs/{id}</code>, search, batch</td></tr>
+      <tr><td>Genes</td><td><code>GET /v1/genes</code>, <code>GET /v1/genes/{symbol}</code>, <code>GET /v1/genes/{symbol}/alleles</code></td></tr>
+      <tr><td>Predict</td><td><code>POST /v1/predict</code> (SMILES), <code>POST /v1/predict/natural</code> (natural language)</td></tr>
+      <tr><td>Explain</td><td><code>POST /v1/explain</code> — AI mechanistic risk explanation</td></tr>
       <tr><td>Optional auth</td><td>API key via <code>X-API-Key</code> when <code>API_KEY</code> is set</td></tr>
-      <tr><td>Rate limiting</td><td>100 req/min per IP (configurable)</td></tr>
-      <tr><td>Standard errors</td><td><code>{error: {code, message}, request_id}</code></td></tr>
-      <tr><td>Pagination</td><td><code>limit</code> / <code>offset</code> on search</td></tr>
-      <tr><td>Batch lookup</td><td><code>POST /v1/drugs/batch</code> for multiple compounds</td></tr>
     </table>
 
     <h2 id="setup">Setup Guide</h2>

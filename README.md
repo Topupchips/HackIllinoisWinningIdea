@@ -1,22 +1,12 @@
-# Pharmacogen
+# Pharmacogen / PharmaRisk
 
-Drug-drug interaction prediction and pharmacogenomics API. Predict interaction risk for novel combinations with little or no clinical data using chemical structure (SMILES) and AI.
+Pharmacogenomics drug risk prediction API. Gene profile + drug → personalized risk score + clinical recommendation. Also supports drug–drug interaction prediction via PubChem.
 
 **HackIllinois** — Best Web API track
 
 ---
 
-## API Template Features
-
-- **Documentation** — Docs (`/docs`), ReDoc (`/redoc`), interactive demo (`/demo`)
-- **Error handling** — Standard `{error: {code, message}, request_id}` format
-- **Security** — Optional API key auth (`X-API-Key`), configurable rate limiting
-- **Extensibility** — Config via env vars (`backend/config.py`)
-- **Naming** — RESTful `/v1/{resource}/{action}` convention
-
----
-
-## Quick Start
+## Quick Start (Your Workflow)
 
 ### 1. Install dependencies
 
@@ -26,6 +16,7 @@ npm install
 
 # Backend (Python 3.10+)
 pip install -r backend/requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 2. Run the API locally
@@ -35,7 +26,7 @@ python backend/run_local.py
 ```
 
 API runs at **http://127.0.0.1:8000**  
-Interactive docs: **http://127.0.0.1:8000/docs**
+Docs: **http://127.0.0.1:8000/docs**
 
 ### 3. Run the frontend
 
@@ -43,91 +34,68 @@ Interactive docs: **http://127.0.0.1:8000/docs**
 npm run dev
 ```
 
-The app uses `VITE_API_URL` from `.env` (default: `http://127.0.0.1:8000`).
+App uses `VITE_API_URL` from `.env` (default: `http://127.0.0.1:8000`).
 
 ---
 
-## Web API
+## Two Modes
 
-RESTful API with versioned endpoints under `/v1/`.
-
-| Category | Endpoints |
-|----------|-----------|
-| **Health** | `GET /v1/health`, `GET /` |
-| **Drugs** | `GET /v1/drugs/search?q=`, `GET /v1/drugs/name/{name}`, `GET /v1/drugs/similar`, `GET /v1/drugs/structure/image` |
-| **Interactions** | `POST /v1/interactions/predict`, `POST /v1/interactions/explain`, `POST /v1/interactions/ask` |
-
-**Docs:** [API Reference](docs/API.md) | [Getting Started](docs/GETTING_STARTED.md) | [Data & Model Spec](docs/DATA_AND_MODEL_SPEC.md) | Docs at `/docs`
-
-### Test an endpoint
-
-```bash
-curl http://127.0.0.1:8000/v1/health
-curl "http://127.0.0.1:8000/v1/drugs/search?q=aspirin"
-```
+| Mode | When | Endpoints |
+|------|------|-----------|
+| **PharmaRisk (full)** | `data/processed/drugs.csv` exists | `/v1/health`, `/v1/drugs`, `/v1/genes`, `/v1/predict`, `/v1/predict/natural`, `/v1/explain` — CPIC data + ML model |
+| **PubChem fallback** | No data or model | Same `/v1/*` endpoints — PubChem lookup, Tanimoto similarity, OpenAI explain |
 
 ---
 
-## Deploy
+## API Endpoints
 
-### Modal (API)
-
-```bash
-pip install modal
-modal token new   # one-time auth
-modal deploy backend/modal_app.py
-modal secret create openai-api-key OPENAI_API_KEY=sk-...
-```
-
-Set `VITE_API_URL` to your Modal URL (e.g. `https://your-workspace--pharmacogen-api.modal.run`).
-
-### Cloudflare Pages (Frontend)
-
-```bash
-npm run build
-npx wrangler pages deploy dist --project-name pharmacogen
-```
-
-Or connect the repo in Cloudflare Pages and deploy on push to `main`.
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/v1/health` | Health check |
+| GET | `/v1/validate` | Validate data |
+| GET | `/v1/drugs` | List drugs (searchable) |
+| GET | `/v1/drugs/{id}` | Get drug by name or CID |
+| GET | `/v1/genes` | List genes |
+| GET | `/v1/genes/{symbol}` | Gene details |
+| GET | `/v1/genes/{symbol}/alleles` | Gene alleles |
+| POST | `/v1/predict` | Predict risk (genes + drug) |
+| POST | `/v1/predict/natural` | Predict from natural language |
+| POST | `/v1/explain` | AI explanation |
+| POST | `/v1/interactions/predict` | Drug–drug interaction (frontend) |
 
 ---
 
 ## Project Structure
 
 ```
-├── backend/
-│   ├── config.py         # Env-based configuration
-│   ├── auth.py           # Optional API key auth
-│   ├── rate_limit.py     # Rate limiting
-│   ├── modal_app.py      # Modal deployment (full API)
-│   ├── run_local.py      # Local run (no Modal)
-│   ├── static/           # Docs theme, demo page
+├── api/                 # PharmaRisk API (dev branch)
+│   ├── routes/          # health, drugs, genes, predict, explain
+│   ├── services/        # data_service, model_service
+│   └── models/
+├── backend/             # Entry point + docs
+│   ├── run_local.py     # Main: python backend/run_local.py
+│   ├── static/docs/     # Docs pages
 │   └── requirements.txt
-├── src/
-│   ├── components/       # React UI
-│   ├── services/         # API client, PubChem
-│   └── utils/
-├── docs/
-│   └── API.md
-└── .env                  # VITE_API_URL (create from .env.example)
+├── data/processed/      # CPIC, drugs, genes (from dev)
+├── embeddings/          # Gene/drug embeddings
+├── src/                 # React frontend
+├── docs/                # API.md, etc.
+└── requirements.txt     # Root deps (PyTorch, etc.)
 ```
 
 ---
 
-## Configuration (Extensibility)
+## Deploy
 
-| Variable | Purpose |
-|----------|---------|
-| `API_KEY` | Require `X-API-Key` header (optional) |
-| `RATE_LIMIT_REQUESTS` | Max requests per window (default: 100) |
-| `RATE_LIMIT_WINDOW_SEC` | Window in seconds (default: 60) |
-| `CORS_ORIGINS` | Allowed origins (default: `*`) |
-| `OPENAI_API_KEY` | For AI explain/ask |
+- **Modal:** `modal deploy backend/modal_app.py`
+- **Frontend:** `npm run build && npx wrangler pages deploy dist --project-name pharmacogen`
 
 ---
 
-## Tech Stack
+## Configuration
 
-- **Frontend:** React, Vite, Recharts, Three.js
-- **API:** FastAPI, Modal
-- **Data:** PubChem, OpenAI (optional)
+| Variable | Purpose |
+|----------|---------|
+| `API_KEY` | Require X-API-Key (optional) |
+| `OPENAI_API_KEY` | Natural language + explain |
+| `VITE_API_URL` | Frontend API URL |

@@ -26,3 +26,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python
+__pycache__/
+*.pyc
+
+# Data (dev branch)
+data/raw/*.xml
+data/raw/*.zip
+data/raw/*.sql
+data/raw/*.gz
+data/raw/*.tsv

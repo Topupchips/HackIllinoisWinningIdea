@@ -1,6 +1,6 @@
 # Pharmacogen API Reference
 
-RESTful API for drug–drug interaction prediction and pharmacogenomics. Predict interaction risk for novel drug combinations using chemical structure (SMILES) and AI.
+Pharmacogenomics drug risk prediction API. Takes a patient's gene profile and a drug, returns a risk score with clinical recommendations from CPIC guidelines.
 
 **Built for HackIllinois — Best Web API track**
 
@@ -17,6 +17,9 @@ RESTful API for drug–drug interaction prediction and pharmacogenomics. Predict
 - [Endpoints](#endpoints)
   - [Health](#health)
   - [Drugs](#drugs)
+  - [Genes](#genes)
+  - [Predict](#predict)
+  - [Explain](#explain)
   - [Interactions](#interactions)
 - [Configuration](#configuration)
 - [Workflows & Examples](#workflows--examples)
@@ -30,15 +33,12 @@ The Pharmacogen API enables developers to:
 
 | Capability | Description |
 |------------|-------------|
-| **Drug search** | Look up compounds by name via PubChem autocomplete |
-| **Compound lookup** | Fetch SMILES, molecular formula, and PubChem CID for any drug |
-| **Batch lookup** | Retrieve multiple compounds in a single request |
-| **Similar drugs** | Find structurally related compounds (Tanimoto similarity) |
-| **Structure images** | Get 2D structure image URLs from PubChem |
-| **Interaction prediction** | Predict risk for drug combinations using structural similarity |
-| **Timeline visualization** | 72-hour risk and concentration curves for graphing |
-| **AI explanation** | Mechanistic insights via OpenAI (optional) |
-| **Q&A** | Ask questions about drug interactions with context |
+| **Health & Validate** | API status, dependency health, data validation |
+| **Drugs** | List drugs, get by ID, search, batch lookup, similar drugs |
+| **Genes** | List pharmacogenomics genes, get gene details, alleles |
+| **Predict** | Risk prediction (SMILES or natural language) |
+| **Explain** | AI mechanistic risk explanation (OpenAI, optional) |
+| **Interactions** | Legacy endpoints: predict, explain, timeline, ask |
 
 All endpoints are versioned under `/v1/` for stable, backward-compatible evolution.
 
@@ -72,10 +72,18 @@ curl "http://127.0.0.1:8000/v1/drugs/search?q=aspirin"
 # Get compound details
 curl "http://127.0.0.1:8000/v1/drugs/name/Aspirin"
 
-# Predict interaction (Aspirin + Ibuprofen)
-curl -X POST http://127.0.0.1:8000/v1/interactions/predict \
+# Predict (SMILES)
+curl -X POST http://127.0.0.1:8000/v1/predict \
   -H "Content-Type: application/json" \
   -d '{"compounds":["Aspirin","Ibuprofen"],"smiles_list":["CC(=O)OC1=CC=CC=C1C(=O)O","CC(C)Cc1ccc(cc1)C(C)C(O)=O"],"has_vaccine":false}'
+
+# Predict (natural language)
+curl -X POST http://127.0.0.1:8000/v1/predict/natural \
+  -H "Content-Type: application/json" \
+  -d '{"query":"Aspirin and Ibuprofen risk"}'
+
+# List genes
+curl "http://127.0.0.1:8000/v1/genes"
 ```
 
 ---
@@ -183,6 +191,21 @@ Returns API status and dependency health (PubChem, OpenAI).
 
 ---
 
+#### `GET /v1/validate`
+
+Validate API data sources (PubChem, config).
+
+**Response:**
+
+```json
+{
+  "valid": true,
+  "message": "OK"
+}
+```
+
+---
+
 #### `GET /`
 
 Root endpoint with links to documentation and health.
@@ -201,6 +224,24 @@ Root endpoint with links to documentation and health.
 ---
 
 ### Drugs
+
+#### `GET /v1/drugs`
+
+List drugs. With `q`, searches via PubChem autocomplete.
+
+**Query parameters:** `q` (optional), `limit`, `offset`
+
+**Response:** `{"drugs": [{"id": "...", "name": "..."}], "total": N}`
+
+---
+
+#### `GET /v1/drugs/{drug_id}`
+
+Get drug by name or PubChem CID.
+
+**Response:** `{"id": "...", "name": "...", "smiles": "...", "formula": "...", "cid": N}`
+
+---
 
 #### `GET /v1/drugs/search`
 
@@ -351,6 +392,66 @@ Get PubChem URL for 2D structure image of a compound.
   "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O"
 }
 ```
+
+---
+
+### Genes
+
+#### `GET /v1/genes`
+
+List pharmacogenomics genes (CYP2C19, CYP2D6, CYP3A4, CYP2C9, NAT2).
+
+**Response:** `{"genes": [{"symbol": "CYP2C19", "name": "..."}], "total": N}`
+
+---
+
+#### `GET /v1/genes/{symbol}`
+
+Get gene details by symbol.
+
+**Response:** `{"symbol": "...", "name": "...", "chromosome": "...", "function": "...", "alleles": [...], "cpic_guidelines": [...]}`
+
+---
+
+#### `GET /v1/genes/{symbol}/alleles`
+
+Get alleles for a gene.
+
+**Response:** `{"symbol": "...", "alleles": [{"id": "*1", "function": "Normal", "phenotype": "Extensive"}, ...]}`
+
+---
+
+### Predict
+
+#### `POST /v1/predict`
+
+Predict interaction risk from SMILES.
+
+**Request body:** `{"compounds": ["A","B"], "smiles_list": ["...","..."], "has_vaccine": false}`
+
+**Response:** `{"compounds": [...], "tanimoto_avg": 0.45, "confidence": 80, "risk_score": 0.52, "recommendation": "...", "pairs": [...]}`
+
+---
+
+#### `POST /v1/predict/natural`
+
+Predict risk from natural language (e.g. "Aspirin and Ibuprofen risk" or "CYP2C19 *2 with clopidogrel").
+
+**Request body:** `{"query": "Aspirin and Ibuprofen risk"}`
+
+**Response:** `{"risk_score": 0.5, "confidence": 70, "recommendation": "...", "compounds": [...], "source": "openai"}`
+
+---
+
+### Explain
+
+#### `POST /v1/explain`
+
+Generate mechanistic AI explanation of predicted risk.
+
+**Request body:** `{"compounds": ["A","B"], "tanimoto": 0.45, "confidence": 85, "has_vaccine": false}`
+
+**Response:** `{"explanation": "...", "source": "openai"}`
 
 ---
 

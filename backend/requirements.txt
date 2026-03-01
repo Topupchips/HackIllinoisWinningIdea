@@ -4,3 +4,7 @@ httpx>=0.27.0
 pydantic>=2.0.0
 openai>=1.0.0
 modal>=1.0.0
+# PharmaRisk model (when data/processed/drugs.csv exists)
+torch>=2.0.0
+numpy>=1.24.0
+xgboost>=2.0.0
