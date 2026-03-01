@@ -12,6 +12,10 @@
   <img src="https://img.shields.io/badge/HackIllinois-2026-orange" alt="HackIllinois 2026">
 </p>
 
+<p align="center">
+  <a href="https://geneai.tech"><strong>🌐 geneai.tech</strong></a>
+</p>
+
 ---
 
 ## Problem
@@ -73,6 +77,12 @@ Post-prediction, CPIC recommendation text is looked up and optionally enriched b
 ├── frontend/            # React + Three.js UI (GeneAI app)
 └── requirements.txt     # Python dependencies
 ```
+
+## Live
+
+> **[geneai.tech](https://geneai.tech)** — UI live
+> **[geneai.tech/docs](https://geneai.tech/docs)** — Documentation
+> **[geneai.tech/demo](https://geneai.tech/demo)** — Interactive demo
 
 ## Quickstart
 
