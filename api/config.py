@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR / "data" / "processed"
+DATA_DIR = BASE_DIR / "pipeline" / "data" / "processed"
 MODEL_DIR = BASE_DIR / "model"
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
