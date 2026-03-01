@@ -1,5 +1,5 @@
 """
-Pharmacogen API - Drug interaction prediction & pharmacogenomics.
+Pharmagen API - Drug interaction prediction & pharmacogenomics.
 Run: python backend/run_local.py
 Docs: http://127.0.0.1:8000/docs
 
@@ -63,7 +63,7 @@ ERROR_RESPONSES = {
 }
 
 app = FastAPI(
-    title="Pharmacogen API",
+    title="Pharmagen API",
     description="""
 Pharmacogenomics drug risk prediction API. Takes a patient's gene profile and a drug, returns a risk score with clinical recommendations from CPIC guidelines.
 
@@ -331,14 +331,14 @@ def _check_openai() -> bool:
 
 
 if not PHARMARISK_LOADED:
-    @app.get("/v1/health", tags=["Health"], summary="Health check", responses={200: {"content": {"application/json": {"example": {"status": "ok", "api": "pharmacogen", "version": "1.0.0", "dependencies": {"pubchem": "ok", "openai": "configured"}}}}}})
+    @app.get("/v1/health", tags=["Health"], summary="Health check", responses={200: {"content": {"application/json": {"example": {"status": "ok", "api": "pharmagen", "version": "1.0.0", "dependencies": {"pubchem": "ok", "openai": "configured"}}}}}})
     def health():
         """Returns API status and dependency health (PubChem, OpenAI)."""
         pubchem_ok = _check_pubchem()
         openai_configured = _check_openai()
         return {
             "status": "ok",
-            "api": "pharmacogen",
+            "api": "pharmagen",
             "version": "1.0.0",
             "dependencies": {
                 "pubchem": "ok" if pubchem_ok else "unreachable",
@@ -356,7 +356,7 @@ if not PHARMARISK_LOADED:
 @app.get("/", tags=["Health"], summary="API info")
 def root():
     """Root endpoint with links to docs, demo, and health."""
-    return {"message": "Pharmacogen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
+    return {"message": "Pharmagen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
 
 
 # --- Drugs ---

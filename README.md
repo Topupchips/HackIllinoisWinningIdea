@@ -1,4 +1,4 @@
-# Pharmacogen / PharmaRisk
+# Pharmagen
 
 Pharmacogenomics drug risk prediction API. Gene profile + drug → personalized risk score + clinical recommendation. Also supports drug–drug interaction prediction via PubChem.
 
@@ -88,7 +88,7 @@ App uses `VITE_API_URL` from `.env` (default: `http://127.0.0.1:8000`).
 ## Deploy
 
 - **Modal:** `modal deploy backend/modal_app.py`
-- **Frontend:** `npm run build && npx wrangler pages deploy dist --project-name pharmacogen`
+- **Frontend:** `npm run build && npx wrangler pages deploy dist --project-name pharmagen`
 
 ---
 

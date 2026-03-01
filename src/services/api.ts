@@ -1,6 +1,6 @@
 /**
- * Pharmacogen Web API client
- * Set VITE_API_URL to your Modal deployment (e.g. https://your-workspace--pharmacogen-api.modal.run)
+ * Pharmagen Web API client
+ * Set VITE_API_URL to your Modal deployment (e.g. https://your-workspace--pharmagen-api.modal.run)
  */
 
 const BASE = import.meta.env.VITE_API_URL || '';
@@ -28,7 +28,7 @@ async function post<T>(path: string, body: object): Promise<T> {
 // --- Health ---
 
 export async function healthCheck(): Promise<{ status: string; api: string; version: string }> {
-  if (!BASE) return { status: 'offline', api: 'pharmacogen', version: '1.0.0' };
+  if (!BASE) return { status: 'offline', api: 'pharmagen', version: '1.0.0' };
   return get('/v1/health');
 }
 

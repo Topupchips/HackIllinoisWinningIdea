@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmacogen API — Documentation</title>
+  <title>Pharmagen API — Documentation</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -149,7 +149,7 @@
           <circle cx="10" cy="16" r="1.5" fill="#14b8a6"/><circle cx="22" cy="16" r="1.5" fill="#14b8a6"/>
           <circle cx="10" cy="24" r="1.5" fill="#14b8a6"/><circle cx="22" cy="24" r="1.5" fill="#14b8a6"/>
         </svg>
-        Pharmacogen API
+        Pharmagen API
       </a>
       <nav class="site-nav">
         <a href="/docs" class="active">Home</a>
@@ -162,7 +162,7 @@
   </header>
 
   <main class="page-content">
-    <h1>Pharmacogen API — Documentation</h1>
+    <h1>Pharmagen API — Documentation</h1>
     <p>Drug–drug interaction prediction and pharmacogenomics. Predict interaction risk for novel drug combinations using chemical structure (SMILES) and AI.</p>
     <p><strong>HackIllinois — Best Web API</strong> track</p>
 
@@ -175,7 +175,7 @@
       <strong>Drug–drug interactions (DDIs)</strong> occur when two or more medications are taken together and one affects the pharmacokinetics, pharmacodynamics, or safety of another. These interactions can cause adverse events, reduced efficacy, or toxicity—especially when combining novel drugs or when clinical trial data is limited.
     </p>
     <p>
-      Pharmacogen addresses this by predicting interaction risk for <em>novel drug combinations</em> using <strong>chemical structure (SMILES)</strong> and structural similarity. Instead of relying solely on curated databases (which often lack newer drugs), we use computational methods to estimate risk based on molecular overlap and shared metabolic pathways.
+      Pharmagen addresses this by predicting interaction risk for <em>novel drug combinations</em> using <strong>chemical structure (SMILES)</strong> and structural similarity. Instead of relying solely on curated databases (which often lack newer drugs), we use computational methods to estimate risk based on molecular overlap and shared metabolic pathways.
     </p>
 
     <h3>Core Problem</h3>
@@ -259,7 +259,7 @@ python backend/run_local.py</code></pre>
     <h3>Deploy</h3>
     <ul>
       <li><strong>API (Modal):</strong> <code>modal deploy backend/modal_app.py</code></li>
-      <li><strong>Frontend (Cloudflare Pages):</strong> <code>npm run build && npx wrangler pages deploy dist --project-name pharmacogen</code></li>
+      <li><strong>Frontend (Cloudflare Pages):</strong> <code>npm run build && npx wrangler pages deploy dist --project-name pharmagen</code></li>
     </ul>
   </main>
 </body>

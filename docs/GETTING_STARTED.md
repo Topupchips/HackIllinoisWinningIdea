@@ -1,12 +1,12 @@
-# Getting Started with Pharmacogen
+# Getting Started with Pharmagen
 
-A step-by-step guide to running the Pharmacogen API and frontend, and integrating with your application.
+A step-by-step guide to running the Pharmagen API and frontend, and integrating with your application.
 
 ---
 
-## What is Pharmacogen?
+## What is Pharmagen?
 
-Pharmacogen is a **drug–drug interaction prediction API** that helps developers:
+Pharmagen is a **drug–drug interaction prediction API** that helps developers:
 
 - **Search** and **look up** drugs by name (powered by PubChem)
 - **Predict** interaction risk for novel drug combinations using structural similarity (SMILES)
@@ -162,13 +162,13 @@ modal deploy backend/modal_app.py
 modal secret create openai-api-key OPENAI_API_KEY=sk-...
 ```
 
-Set `VITE_API_URL` to your Modal URL (e.g. `https://your-workspace--pharmacogen-api.modal.run`).
+Set `VITE_API_URL` to your Modal URL (e.g. `https://your-workspace--pharmagen-api.modal.run`).
 
 ### Frontend (Cloudflare Pages)
 
 ```bash
 npm run build
-npx wrangler pages deploy dist --project-name pharmacogen
+npx wrangler pages deploy dist --project-name pharmagen
 ```
 
 Or connect the repo in [Cloudflare Pages](https://dash.cloudflare.com/pages) and deploy on push to `main`.

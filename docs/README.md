@@ -1,6 +1,6 @@
-# Pharmacogen Documentation
+# Pharmagen Documentation
 
-Documentation for the Pharmacogen drug–drug interaction prediction API.
+Documentation for the Pharmagen drug–drug interaction prediction API.
 
 ---
 

@@ -1,5 +1,5 @@
 """
-Pharmacogen Web API - Drug interaction prediction & pharmacogenomics
+Pharmagen Web API - Drug interaction prediction & pharmacogenomics
 Deploy: modal deploy backend/modal_app.py
 Serve locally: modal serve backend/modal_app.py
 
@@ -19,7 +19,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import get_swagger_ui_html, get_swagger_ui_oauth2_redirect_html
 from pydantic import BaseModel, Field
 
-app = modal.App("pharmacogen-api")
+app = modal.App("pharmagen-api")
 
 _image = (
     modal.Image.debian_slim()
@@ -58,7 +58,7 @@ class BatchCompoundRequest(BaseModel):
 # --- FastAPI app ---
 
 web_app = FastAPI(
-    title="Pharmacogen API",
+    title="Pharmagen API",
     description="""
 ## Drug–drug interaction prediction and pharmacogenomics
 
@@ -99,7 +99,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     return _error_response(exc.status_code, code, str(exc.detail), rid)
 
 
-# Themed docs (Pharmacogen dark theme)
+# Themed docs (Pharmagen dark theme)
 web_app.mount("/static", StaticFiles(directory="/static"), name="static")
 
 
@@ -157,7 +157,7 @@ def health():
     """Health check. Returns API status and dependency health."""
     return {
         "status": "ok",
-        "api": "pharmacogen",
+        "api": "pharmagen",
         "version": "1.0.0",
         "dependencies": {
             "pubchem": "ok" if _check_pubchem() else "unreachable",
@@ -169,7 +169,7 @@ def health():
 @web_app.get("/", tags=["Health"])
 def root():
     """Root redirect to docs."""
-    return {"message": "Pharmacogen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
+    return {"message": "Pharmagen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
 
 
 # --- Drugs ---
