@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmagen — Documentation</title>
+  <title>GeneAI — Documentation</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -138,15 +138,13 @@
       padding: 20px;
       margin: 24px 0;
     }
-    .cta-box a {
-      font-weight: 600;
-    }
+    .cta-box a { font-weight: 600; }
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="site-header-inner">
-      <a href="/" class="site-logo">Pharmagen</a>
+      <a href="/docs" class="site-logo">GeneAI</a>
       <nav class="site-nav">
         <a href="/docs" id="nav-home">Home</a>
         <a href="/docs/api" id="nav-api">API Endpoints</a>
@@ -158,9 +156,9 @@
   </header>
 
   <main class="page-content">
-    <h1>Pharmagen — Documentation</h1>
-    <p>Drug–drug interaction prediction and pharmacogenomics. Predict interaction risk for novel drug combinations using chemical structure (SMILES) and AI.</p>
-    <p><strong>HackIllinois — Best Web API</strong> track</p>
+    <h1>GeneAI — Documentation</h1>
+    <p>Pharmacogenomics drug-gene interaction analysis. Given a patient's genetic profile and a medication, GeneAI predicts interaction risk and surfaces personalized safety recommendations from CPIC guidelines.</p>
+    <p><strong>HackIllinois 2026</strong></p>
 
     <div class="cta-box">
       <a href="/docs/api">→ View API Endpoints</a>
@@ -168,48 +166,52 @@
 
     <h2>What We're Solving</h2>
     <p>
-      <strong>Drug–drug interactions (DDIs)</strong> occur when two or more medications are taken together and one affects the pharmacokinetics, pharmacodynamics, or safety of another. These interactions can cause adverse events, reduced efficacy, or toxicity—especially when combining novel drugs or when clinical trial data is limited.
+      <strong>Pharmacogenomics</strong> is the study of how a person's genes affect their response to drugs. Genetic variants in enzymes like CYP2D6 and CYP2C19 can make a standard dose either ineffective or dangerous depending on whether someone is a poor, intermediate, normal, or ultra-rapid metabolizer.
     </p>
     <p>
-      Pharmagen addresses this by predicting interaction risk for <em>novel drug combinations</em> using <strong>chemical structure (SMILES)</strong> and structural similarity. Instead of relying solely on curated databases (which often lack newer drugs), we use computational methods to estimate risk based on molecular overlap and shared metabolic pathways.
+      GeneAI addresses this by combining a trained <strong>Set Transformer</strong> model with <strong>CPIC clinical guidelines</strong> to deliver per-gene risk scores and evidence-based recommendations — instantly, for any supported drug-gene combination.
     </p>
 
     <h3>Core Problem</h3>
     <ul>
-      <li>Clinical DDI databases (e.g. NCATS, DrugBank) cover known pairs but miss novel combinations.</li>
-      <li>Polypharmacy is common—patients often take 5+ medications—increasing interaction risk.</li>
-      <li>Vaccines and biologics add complexity; LNP components and immune modulation can interact with small molecules.</li>
-      <li>Pharmacogenomics (CYP450, etc.) affects metabolism; genotype influences who is at risk.</li>
+      <li>Genetic variants in CYP450 enzymes (CYP2D6, CYP2C19, CYP2C9, etc.) affect how drugs are metabolized.</li>
+      <li>Poor metabolizers can accumulate toxic drug levels; ultra-rapid metabolizers may get no therapeutic effect.</li>
+      <li>Clinicians rarely have time to manually cross-reference CPIC guidelines per patient per drug.</li>
+      <li>Existing tools are either too complex for bedside use or lack ML-powered risk scoring.</li>
     </ul>
 
     <h3>Our Approach</h3>
     <p>
-      We combine <strong>deterministic logic</strong> (PubChem lookup, Tanimoto similarity) with <strong>AI-powered explanation</strong> (OpenAI) and clear extension points for trained ML models. The API provides:
+      We combine a <strong>Set Transformer</strong> (trained on CPIC-scored gene-drug pairs) with a <strong>CPIC recommendation lookup</strong> and an optional <strong>OpenAI natural language interface</strong>. The API provides:
     </p>
     <ul>
-      <li><strong>Drug search & lookup</strong> — Resolve drug names to SMILES via PubChem</li>
-      <li><strong>Interaction prediction</strong> — Structural similarity (Tanimoto) + confidence scoring</li>
-      <li><strong>Timeline visualization</strong> — 72-hour risk and concentration curves</li>
-      <li><strong>AI explanation</strong> — Mechanistic insights (CYP450, metabolic competition)</li>
-      <li><strong>Q&A</strong> — Ask questions about interactions with context</li>
+      <li><strong>Drug lookup</strong> — Search 323 CPIC-covered drugs by name</li>
+      <li><strong>Gene lookup</strong> — Browse 17 pharmacogenes with phenotype and allele data</li>
+      <li><strong>Risk prediction</strong> — Per-gene activity scores + CPIC recommendation text</li>
+      <li><strong>Natural language input</strong> — Parse free-text like "I'm a CYP2D6 poor metabolizer taking codeine"</li>
+      <li><strong>AI explanation</strong> — Plain-English risk summary via GPT-4o-mini</li>
     </ul>
 
-    <h3>Key Features</h3>
+    <h3>Key Endpoints</h3>
     <table>
-      <tr><th>Feature</th><th>Description</th></tr>
-      <tr><td>Health & Validate</td><td><code>GET /v1/health</code>, <code>GET /v1/validate</code></td></tr>
-      <tr><td>Drugs</td><td><code>GET /v1/drugs/search</code>, <code>GET /v1/drugs/name/{name}</code>, <code>POST /v1/drugs/batch</code>, <code>GET /v1/drugs/similar</code>, <code>GET /v1/drugs/structure/image</code></td></tr>
-      <tr><td>Interactions</td><td><code>POST /v1/interactions/predict</code>, <code>POST /v1/interactions/explain</code>, <code>POST /v1/interactions/ask</code>, <code>GET /v1/interactions/timeline</code></td></tr>
-      <tr><td>Genes (when data loaded)</td><td><code>GET /v1/genes</code>, <code>GET /v1/genes/{symbol}</code>, <code>GET /v1/genes/{symbol}/alleles</code></td></tr>
-      <tr><td>Predict (when model loaded)</td><td><code>POST /v1/predict</code> (gene + drug), <code>POST /v1/predict/natural</code> (natural language)</td></tr>
-      <tr><td>Optional auth</td><td>API key via <code>X-API-Key</code> when <code>API_KEY</code> is set</td></tr>
+      <tr><th>Category</th><th>Endpoint</th><th>Description</th></tr>
+      <tr><td>Health</td><td><code>GET /health</code></td><td>API status, model loaded, data counts</td></tr>
+      <tr><td>Health</td><td><code>GET /validate</code></td><td>Validate data + list available genes</td></tr>
+      <tr><td>Drugs</td><td><code>GET /drugs</code></td><td>List/search 323 CPIC drugs (paginated)</td></tr>
+      <tr><td>Drugs</td><td><code>GET /drugs/{drug_id}</code></td><td>Get drug detail (SMILES, RxNorm, DrugBank)</td></tr>
+      <tr><td>Genes</td><td><code>GET /genes</code></td><td>List 17 pharmacogenes with phenotypes</td></tr>
+      <tr><td>Genes</td><td><code>GET /genes/{symbol}</code></td><td>Get gene detail and recommendation count</td></tr>
+      <tr><td>Genes</td><td><code>GET /genes/{symbol}/alleles</code></td><td>Get allele function data</td></tr>
+      <tr><td>Predict</td><td><code>POST /predict</code></td><td>Gene profile + drug → per-gene risk + CPIC text</td></tr>
+      <tr><td>Predict</td><td><code>POST /predict/natural</code></td><td>Natural language → parsed predict call</td></tr>
+      <tr><td>Explain</td><td><code>POST /explain</code></td><td>GPT-4o-mini plain-English risk summary</td></tr>
     </table>
 
     <h2 id="setup">Setup Guide</h2>
     <h3>Prerequisites</h3>
     <ul>
-      <li><strong>Python 3.10+</strong> — For the API</li>
-      <li><strong>Node.js 18+</strong> — For the GeneAI frontend (optional)</li>
+      <li><strong>Python 3.10+</strong> — For the API and model</li>
+      <li><strong>Node.js 18+</strong> — For the GeneAI React frontend</li>
       <li><strong>Git</strong></li>
     </ul>
 
@@ -217,55 +219,45 @@
     <pre><code>git clone https://github.com/Topupchips/HackIllinoisWinningIdea.git
 cd HackIllinoisWinningIdea</code></pre>
 
-    <h3>2. Install Backend Dependencies</h3>
-    <pre><code>pip install -r backend/requirements.txt
-pip install -r requirements.txt</code></pre>
+    <h3>2. Install Python Dependencies</h3>
+    <pre><code>pip install -r requirements.txt</code></pre>
 
-    <h3>3. Build the GeneAI App (Optional)</h3>
-    <p>To serve the 3D GeneAI app at the root URL:</p>
-    <pre><code>npm run build:app</code></pre>
+    <h3>3. Install Frontend Dependencies</h3>
+    <pre><code>cd frontend
+npm install
+cd ..</code></pre>
 
-    <h3>4. Environment Variables (Optional)</h3>
-    <pre><code>cp .env.example .env</code></pre>
-    <p>Edit <code>.env</code> for <code>OPENAI_API_KEY</code>, <code>API_KEY</code>, etc.</p>
+    <h3>4. Environment Variables (Optional — for AI explanation)</h3>
+    <pre><code>export OPENAI_API_KEY=sk-your-key</code></pre>
 
     <h2 id="run">Run Guide</h2>
-    <h3>Run Everything</h3>
-    <pre><code>python backend/run_local.py</code></pre>
-    <p>Single command runs the full stack at <strong>http://127.0.0.1:8000</strong>:</p>
+    <h3>Run the API</h3>
+    <pre><code>python -m uvicorn api.main:app --reload --host 0.0.0.0 --port 8000</code></pre>
+    <p>The API starts at <strong>http://localhost:8000</strong>:</p>
     <ul>
-      <li><strong>/</strong> — GeneAI app (3D helix) if built, else API info</li>
-      <li><strong>/docs</strong> — Documentation</li>
-      <li><strong>/docs/api</strong> — Swagger API endpoints</li>
-      <li><strong>/demo</strong> — Interactive demo</li>
+      <li><strong>/docs</strong> — Documentation (this page)</li>
+      <li><strong>/docs/api</strong> — Interactive API explorer</li>
+      <li><strong>/demo</strong> — Live endpoint demo</li>
+      <li><strong>/swagger</strong> — Auto-generated Swagger UI</li>
+      <li><strong>/health</strong> — Health check</li>
     </ul>
 
-    <h3>Optional: Run GeneAI in Dev Mode</h3>
-    <pre><code>npm run dev</code></pre>
-    <p>Runs GeneAI at <strong>http://localhost:5177</strong> (requires API on 8000).</p>
+    <h3>Run the Frontend</h3>
+    <pre><code>cd frontend
+npm start</code></pre>
+    <p>GeneAI opens at <strong>http://localhost:3000</strong> (requires API on port 8000).</p>
 
     <h3>Quick Verification</h3>
-    <pre><code>curl http://127.0.0.1:8000/v1/health
-curl "http://127.0.0.1:8000/v1/drugs/search?q=aspirin"</code></pre>
-
-    <h3>Optional: AI Features</h3>
-    <pre><code>export OPENAI_API_KEY=sk-your-key
-python backend/run_local.py</code></pre>
-
-    <h3>Optional: API Key Auth</h3>
-    <pre><code>export API_KEY=your-secret-key
-python backend/run_local.py</code></pre>
-    <p>Then include <code>X-API-Key</code> header in requests.</p>
+    <pre><code>curl http://localhost:8000/health
+curl http://localhost:8000/drugs?q=codeine
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"genes":[{"name":"CYP2D6","phenotype":"Poor Metabolizer"}],"drug":"codeine"}'</code></pre>
 
     <h3>Explore the Demo</h3>
     <p>Visit <a href="/demo">/demo</a> to try each endpoint interactively.</p>
-
-    <h3>Deploy</h3>
-    <ul>
-      <li><strong>API (Modal):</strong> <code>modal deploy backend/modal_app.py</code></li>
-      <li><strong>Frontend (Cloudflare Pages):</strong> <code>npm run build && npx wrangler pages deploy dist --project-name pharmagen</code></li>
-    </ul>
   </main>
+
   <script>
     (function() {
       function setActive() {
@@ -279,7 +271,7 @@ python backend/run_local.py</code></pre>
             if (hash === '#setup' && a.id === 'nav-setup') a.classList.add('active');
             else if (hash === '#run' && a.id === 'nav-run') a.classList.add('active');
             else if (!hash && a.id === 'nav-home') a.classList.add('active');
-          }
+          } else if (path === '/demo' && a.id === 'nav-demo') a.classList.add('active');
         });
       }
       setActive();

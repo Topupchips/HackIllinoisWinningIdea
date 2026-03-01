@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Endpoints — Pharmagen</title>
+  <title>API Endpoints — GeneAI</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/backend-static/docs/theme.css">
+  <link rel="stylesheet" href="/static/docs/theme.css">
   <style>
     :root {
       --pg-bg: #f0f0f0;
@@ -61,7 +61,7 @@
 <body>
   <header class="site-header">
     <div class="site-header-inner">
-      <a href="/" class="site-logo">Pharmagen</a>
+      <a href="/docs" class="site-logo">GeneAI</a>
       <nav class="site-nav">
         <a href="/docs" id="nav-home">Home</a>
         <a href="/docs/api" id="nav-api" class="active">API Endpoints</a>
@@ -89,7 +89,6 @@
       syntaxHighlight: { theme: 'arta' },
       tryItOutEnabled: true
     });
-    // Set filter placeholder (visible text)
     (function setFilterPlaceholder(attempt) {
       attempt = attempt || 0;
       var input = document.querySelector('.swagger-ui .filter-container input, .swagger-ui .filter input');
