@@ -119,7 +119,7 @@ def validate(args):
     print(f"Validation samples: {val_size}")
 
     # ── Load trained model ────────────────────────────────────────────────────
-    checkpoint = torch.load(args.model_path, map_location=device)
+    checkpoint = torch.load(args.model_path, map_location=device, weights_only=False)
     saved_args = checkpoint["args"]
 
     model = PharmaSetTransformer(

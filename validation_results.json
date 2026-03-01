@@ -1,0 +1,2554 @@
+{
+  "model_path": "set_transformer.pt",
+  "val_samples": 423,
+  "metrics": {
+    "rmse": 2.0241,
+    "spearman": 0.6231,
+    "within_one_acc": 0.6478,
+    "risk_level_acc": 0.6809
+  },
+  "targets": {
+    "spearman_target": 0.7,
+    "spearman_met": false
+  },
+  "per_sample": [
+    {
+      "predicted": 9.13,
+      "actual": 9.5,
+      "error": 0.37,
+      "within_one": true
+    },
+    {
+      "predicted": 6.61,
+      "actual": 5.7,
+      "error": 0.91,
+      "within_one": true
+    },
+    {
+      "predicted": 5.4,
+      "actual": 1.5,
+      "error": 3.9,
+      "within_one": false
+    },
+    {
+      "predicted": 2.42,
+      "actual": 2.0,
+      "error": 0.42,
+      "within_one": true
+    },
+    {
+      "predicted": 9.13,
+      "actual": 9.2,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 9.2,
+      "actual": 9.2,
+      "error": 0.0,
+      "within_one": true
+    },
+    {
+      "predicted": 7.86,
+      "actual": 7.6,
+      "error": 0.26,
+      "within_one": true
+    },
+    {
+      "predicted": 6.23,
+      "actual": 6.7,
+      "error": 0.47,
+      "within_one": true
+    },
+    {
+      "predicted": 8.42,
+      "actual": 8.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 7.85,
+      "actual": 7.6,
+      "error": 0.25,
+      "within_one": true
+    },
+    {
+      "predicted": 7.61,
+      "actual": 7.4,
+      "error": 0.21,
+      "within_one": true
+    },
+    {
+      "predicted": 7.67,
+      "actual": 1.5,
+      "error": 6.17,
+      "within_one": false
+    },
+    {
+      "predicted": 7.61,
+      "actual": 7.6,
+      "error": 0.01,
+      "within_one": true
+    },
+    {
+      "predicted": 4.93,
+      "actual": 4.8,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 3.66,
+      "actual": 7.6,
+      "error": 3.94,
+      "within_one": false
+    },
+    {
+      "predicted": 7.8,
+      "actual": 7.6,
+      "error": 0.2,
+      "within_one": true
+    },
+    {
+      "predicted": 3.87,
+      "actual": 8.6,
+      "error": 4.73,
+      "within_one": false
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.4,
+      "error": 0.31,
+      "within_one": true
+    },
+    {
+      "predicted": 7.76,
+      "actual": 2.5,
+      "error": 5.26,
+      "within_one": false
+    },
+    {
+      "predicted": 6.23,
+      "actual": 7.6,
+      "error": 1.37,
+      "within_one": false
+    },
+    {
+      "predicted": 2.23,
+      "actual": 2.5,
+      "error": 0.27,
+      "within_one": true
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.6,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 3.78,
+      "actual": 4.5,
+      "error": 0.72,
+      "within_one": true
+    },
+    {
+      "predicted": 8.27,
+      "actual": 8.2,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 9.46,
+      "actual": 2.5,
+      "error": 6.96,
+      "within_one": false
+    },
+    {
+      "predicted": 7.15,
+      "actual": 7.6,
+      "error": 0.45,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 1.5,
+      "error": 4.66,
+      "within_one": false
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 3.66,
+      "actual": 2.5,
+      "error": 1.16,
+      "within_one": false
+    },
+    {
+      "predicted": 7.08,
+      "actual": 1.0,
+      "error": 6.08,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 9.13,
+      "actual": 8.2,
+      "error": 0.93,
+      "within_one": true
+    },
+    {
+      "predicted": 2.78,
+      "actual": 8.7,
+      "error": 5.92,
+      "within_one": false
+    },
+    {
+      "predicted": 6.9,
+      "actual": 7.6,
+      "error": 0.7,
+      "within_one": true
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.6,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 6.98,
+      "actual": 7.5,
+      "error": 0.52,
+      "within_one": true
+    },
+    {
+      "predicted": 5.09,
+      "actual": 5.7,
+      "error": 0.61,
+      "within_one": true
+    },
+    {
+      "predicted": 5.22,
+      "actual": 5.7,
+      "error": 0.48,
+      "within_one": true
+    },
+    {
+      "predicted": 2.83,
+      "actual": 3.5,
+      "error": 0.67,
+      "within_one": true
+    },
+    {
+      "predicted": 1.58,
+      "actual": 1.5,
+      "error": 0.08,
+      "within_one": true
+    },
+    {
+      "predicted": 5.43,
+      "actual": 7.4,
+      "error": 1.97,
+      "within_one": false
+    },
+    {
+      "predicted": 6.9,
+      "actual": 7.6,
+      "error": 0.7,
+      "within_one": true
+    },
+    {
+      "predicted": 7.67,
+      "actual": 2.5,
+      "error": 5.17,
+      "within_one": false
+    },
+    {
+      "predicted": 7.15,
+      "actual": 6.7,
+      "error": 0.45,
+      "within_one": true
+    },
+    {
+      "predicted": 7.77,
+      "actual": 7.6,
+      "error": 0.17,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 2.57,
+      "actual": 2.5,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 5.57,
+      "actual": 5.7,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 2.34,
+      "actual": 2.5,
+      "error": 0.16,
+      "within_one": true
+    },
+    {
+      "predicted": 9.16,
+      "actual": 8.2,
+      "error": 0.96,
+      "within_one": true
+    },
+    {
+      "predicted": 6.31,
+      "actual": 6.7,
+      "error": 0.39,
+      "within_one": true
+    },
+    {
+      "predicted": 6.4,
+      "actual": 7.6,
+      "error": 1.2,
+      "within_one": false
+    },
+    {
+      "predicted": 7.63,
+      "actual": 6.7,
+      "error": 0.93,
+      "within_one": true
+    },
+    {
+      "predicted": 7.52,
+      "actual": 7.6,
+      "error": 0.08,
+      "within_one": true
+    },
+    {
+      "predicted": 3.55,
+      "actual": 2.5,
+      "error": 1.05,
+      "within_one": false
+    },
+    {
+      "predicted": 4.1,
+      "actual": 4.7,
+      "error": 0.6,
+      "within_one": true
+    },
+    {
+      "predicted": 4.41,
+      "actual": 3.5,
+      "error": 0.91,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.5,
+      "error": 0.28,
+      "within_one": true
+    },
+    {
+      "predicted": 9.12,
+      "actual": 9.2,
+      "error": 0.08,
+      "within_one": true
+    },
+    {
+      "predicted": 5.45,
+      "actual": 2.8,
+      "error": 2.65,
+      "within_one": false
+    },
+    {
+      "predicted": 7.81,
+      "actual": 7.6,
+      "error": 0.21,
+      "within_one": true
+    },
+    {
+      "predicted": 8.02,
+      "actual": 7.6,
+      "error": 0.42,
+      "within_one": true
+    },
+    {
+      "predicted": 7.75,
+      "actual": 7.6,
+      "error": 0.15,
+      "within_one": true
+    },
+    {
+      "predicted": 7.88,
+      "actual": 8.6,
+      "error": 0.72,
+      "within_one": true
+    },
+    {
+      "predicted": 7.97,
+      "actual": 6.7,
+      "error": 1.27,
+      "within_one": false
+    },
+    {
+      "predicted": 5.74,
+      "actual": 7.6,
+      "error": 1.86,
+      "within_one": false
+    },
+    {
+      "predicted": 7.66,
+      "actual": 7.6,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 3.23,
+      "actual": 7.6,
+      "error": 4.37,
+      "within_one": false
+    },
+    {
+      "predicted": 5.25,
+      "actual": 6.7,
+      "error": 1.45,
+      "within_one": false
+    },
+    {
+      "predicted": 5.35,
+      "actual": 7.6,
+      "error": 2.25,
+      "within_one": false
+    },
+    {
+      "predicted": 8.7,
+      "actual": 9.5,
+      "error": 0.8,
+      "within_one": true
+    },
+    {
+      "predicted": 9.01,
+      "actual": 9.5,
+      "error": 0.49,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 7.8,
+      "actual": 7.6,
+      "error": 0.2,
+      "within_one": true
+    },
+    {
+      "predicted": 2.42,
+      "actual": 7.5,
+      "error": 5.08,
+      "within_one": false
+    },
+    {
+      "predicted": 7.66,
+      "actual": 7.6,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 1.5,
+      "error": 2.6,
+      "within_one": false
+    },
+    {
+      "predicted": 7.75,
+      "actual": 7.6,
+      "error": 0.15,
+      "within_one": true
+    },
+    {
+      "predicted": 5.63,
+      "actual": 4.7,
+      "error": 0.93,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 8.7,
+      "error": 4.6,
+      "within_one": false
+    },
+    {
+      "predicted": 3.85,
+      "actual": 2.5,
+      "error": 1.35,
+      "within_one": false
+    },
+    {
+      "predicted": 8.67,
+      "actual": 9.5,
+      "error": 0.83,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 7.13,
+      "actual": 7.6,
+      "error": 0.47,
+      "within_one": true
+    },
+    {
+      "predicted": 3.82,
+      "actual": 4.5,
+      "error": 0.68,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 3.5,
+      "error": 3.65,
+      "within_one": false
+    },
+    {
+      "predicted": 3.73,
+      "actual": 5.8,
+      "error": 2.07,
+      "within_one": false
+    },
+    {
+      "predicted": 2.09,
+      "actual": 2.5,
+      "error": 0.41,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 7.72,
+      "actual": 8.6,
+      "error": 0.88,
+      "within_one": true
+    },
+    {
+      "predicted": 6.98,
+      "actual": 7.5,
+      "error": 0.52,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 1.5,
+      "error": 4.66,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 5.22,
+      "actual": 4.5,
+      "error": 0.72,
+      "within_one": true
+    },
+    {
+      "predicted": 7.72,
+      "actual": 7.5,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 8.27,
+      "actual": 8.7,
+      "error": 0.43,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 8.7,
+      "error": 0.27,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 3.5,
+      "error": 0.6,
+      "within_one": true
+    },
+    {
+      "predicted": 2.57,
+      "actual": 8.7,
+      "error": 6.13,
+      "within_one": false
+    },
+    {
+      "predicted": 7.17,
+      "actual": 7.6,
+      "error": 0.43,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 8.27,
+      "actual": 8.6,
+      "error": 0.33,
+      "within_one": true
+    },
+    {
+      "predicted": 7.81,
+      "actual": 8.6,
+      "error": 0.79,
+      "within_one": true
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 8.02,
+      "actual": 8.6,
+      "error": 0.58,
+      "within_one": true
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.6,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 3.37,
+      "actual": 3.5,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 8.38,
+      "actual": 1.5,
+      "error": 6.88,
+      "within_one": false
+    },
+    {
+      "predicted": 6.67,
+      "actual": 1.5,
+      "error": 5.17,
+      "within_one": false
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 2.23,
+      "actual": 2.5,
+      "error": 0.27,
+      "within_one": true
+    },
+    {
+      "predicted": 7.3,
+      "actual": 7.2,
+      "error": 0.1,
+      "within_one": true
+    },
+    {
+      "predicted": 5.57,
+      "actual": 2.5,
+      "error": 3.07,
+      "within_one": false
+    },
+    {
+      "predicted": 7.15,
+      "actual": 9.2,
+      "error": 2.05,
+      "within_one": false
+    },
+    {
+      "predicted": 5.49,
+      "actual": 6.7,
+      "error": 1.21,
+      "within_one": false
+    },
+    {
+      "predicted": 3.87,
+      "actual": 1.5,
+      "error": 2.37,
+      "within_one": false
+    },
+    {
+      "predicted": 3.45,
+      "actual": 1.5,
+      "error": 1.95,
+      "within_one": false
+    },
+    {
+      "predicted": 9.19,
+      "actual": 9.5,
+      "error": 0.31,
+      "within_one": true
+    },
+    {
+      "predicted": 4.26,
+      "actual": 2.5,
+      "error": 1.76,
+      "within_one": false
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 7.13,
+      "actual": 7.6,
+      "error": 0.47,
+      "within_one": true
+    },
+    {
+      "predicted": 5.09,
+      "actual": 2.8,
+      "error": 2.29,
+      "within_one": false
+    },
+    {
+      "predicted": 3.85,
+      "actual": 2.5,
+      "error": 1.35,
+      "within_one": false
+    },
+    {
+      "predicted": 6.41,
+      "actual": 7.6,
+      "error": 1.19,
+      "within_one": false
+    },
+    {
+      "predicted": 8.43,
+      "actual": 4.5,
+      "error": 3.93,
+      "within_one": false
+    },
+    {
+      "predicted": 7.13,
+      "actual": 6.7,
+      "error": 0.43,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 7.86,
+      "actual": 7.6,
+      "error": 0.26,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 2.78,
+      "actual": 2.5,
+      "error": 0.28,
+      "within_one": true
+    },
+    {
+      "predicted": 5.16,
+      "actual": 4.5,
+      "error": 0.66,
+      "within_one": true
+    },
+    {
+      "predicted": 7.5,
+      "actual": 7.6,
+      "error": 0.1,
+      "within_one": true
+    },
+    {
+      "predicted": 7.77,
+      "actual": 7.6,
+      "error": 0.17,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.5,
+      "error": 0.34,
+      "within_one": true
+    },
+    {
+      "predicted": 3.52,
+      "actual": 2.5,
+      "error": 1.02,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 6.3,
+      "actual": 5.7,
+      "error": 0.6,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 3.63,
+      "actual": 3.5,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 2.81,
+      "actual": 1.5,
+      "error": 1.31,
+      "within_one": false
+    },
+    {
+      "predicted": 8.85,
+      "actual": 9.5,
+      "error": 0.65,
+      "within_one": true
+    },
+    {
+      "predicted": 7.19,
+      "actual": 1.5,
+      "error": 5.69,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 9.27,
+      "actual": 9.2,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 7.77,
+      "actual": 7.6,
+      "error": 0.17,
+      "within_one": true
+    },
+    {
+      "predicted": 5.22,
+      "actual": 2.5,
+      "error": 2.72,
+      "within_one": false
+    },
+    {
+      "predicted": 8.85,
+      "actual": 9.5,
+      "error": 0.65,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 7.6,
+      "error": 0.45,
+      "within_one": true
+    },
+    {
+      "predicted": 7.75,
+      "actual": 7.6,
+      "error": 0.15,
+      "within_one": true
+    },
+    {
+      "predicted": 4.56,
+      "actual": 9.5,
+      "error": 4.94,
+      "within_one": false
+    },
+    {
+      "predicted": 7.75,
+      "actual": 7.6,
+      "error": 0.15,
+      "within_one": true
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 4.57,
+      "actual": 4.5,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 9.13,
+      "actual": 7.6,
+      "error": 1.53,
+      "within_one": false
+    },
+    {
+      "predicted": 2.54,
+      "actual": 3.5,
+      "error": 0.96,
+      "within_one": true
+    },
+    {
+      "predicted": 7.66,
+      "actual": 7.6,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 6.84,
+      "actual": 9.2,
+      "error": 2.36,
+      "within_one": false
+    },
+    {
+      "predicted": 2.63,
+      "actual": 2.5,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 7.6,
+      "error": 0.83,
+      "within_one": true
+    },
+    {
+      "predicted": 6.23,
+      "actual": 4.5,
+      "error": 1.73,
+      "within_one": false
+    },
+    {
+      "predicted": 7.86,
+      "actual": 7.6,
+      "error": 0.26,
+      "within_one": true
+    },
+    {
+      "predicted": 7.61,
+      "actual": 7.6,
+      "error": 0.01,
+      "within_one": true
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 2.26,
+      "actual": 2.5,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 6.7,
+      "error": 0.54,
+      "within_one": true
+    },
+    {
+      "predicted": 4.0,
+      "actual": 3.5,
+      "error": 0.5,
+      "within_one": true
+    },
+    {
+      "predicted": 5.16,
+      "actual": 4.5,
+      "error": 0.66,
+      "within_one": true
+    },
+    {
+      "predicted": 6.4,
+      "actual": 7.6,
+      "error": 1.2,
+      "within_one": false
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 4.17,
+      "actual": 7.6,
+      "error": 3.43,
+      "within_one": false
+    },
+    {
+      "predicted": 7.81,
+      "actual": 7.6,
+      "error": 0.21,
+      "within_one": true
+    },
+    {
+      "predicted": 7.35,
+      "actual": 7.2,
+      "error": 0.15,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 7.6,
+      "error": 0.45,
+      "within_one": true
+    },
+    {
+      "predicted": 4.0,
+      "actual": 2.5,
+      "error": 1.5,
+      "within_one": false
+    },
+    {
+      "predicted": 4.1,
+      "actual": 1.5,
+      "error": 2.6,
+      "within_one": false
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.6,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 7.77,
+      "actual": 7.6,
+      "error": 0.17,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 9.5,
+      "error": 1.07,
+      "within_one": false
+    },
+    {
+      "predicted": 4.1,
+      "actual": 2.5,
+      "error": 1.6,
+      "within_one": false
+    },
+    {
+      "predicted": 8.38,
+      "actual": 2.5,
+      "error": 5.88,
+      "within_one": false
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 6.3,
+      "actual": 7.6,
+      "error": 1.3,
+      "within_one": false
+    },
+    {
+      "predicted": 6.4,
+      "actual": 7.6,
+      "error": 1.2,
+      "within_one": false
+    },
+    {
+      "predicted": 6.23,
+      "actual": 7.6,
+      "error": 1.37,
+      "within_one": false
+    },
+    {
+      "predicted": 3.78,
+      "actual": 4.5,
+      "error": 0.72,
+      "within_one": true
+    },
+    {
+      "predicted": 7.81,
+      "actual": 7.6,
+      "error": 0.21,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 9.5,
+      "error": 1.07,
+      "within_one": false
+    },
+    {
+      "predicted": 7.68,
+      "actual": 7.5,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 4.26,
+      "actual": 4.5,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 8.38,
+      "actual": 3.5,
+      "error": 4.88,
+      "within_one": false
+    },
+    {
+      "predicted": 4.3,
+      "actual": 4.5,
+      "error": 0.2,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 2.15,
+      "actual": 2.5,
+      "error": 0.35,
+      "within_one": true
+    },
+    {
+      "predicted": 8.7,
+      "actual": 9.5,
+      "error": 0.8,
+      "within_one": true
+    },
+    {
+      "predicted": 6.61,
+      "actual": 4.5,
+      "error": 2.11,
+      "within_one": false
+    },
+    {
+      "predicted": 1.89,
+      "actual": 7.5,
+      "error": 5.61,
+      "within_one": false
+    },
+    {
+      "predicted": 8.38,
+      "actual": 2.5,
+      "error": 5.88,
+      "within_one": false
+    },
+    {
+      "predicted": 7.79,
+      "actual": 7.6,
+      "error": 0.19,
+      "within_one": true
+    },
+    {
+      "predicted": 4.19,
+      "actual": 4.5,
+      "error": 0.31,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 7.6,
+      "error": 0.45,
+      "within_one": true
+    },
+    {
+      "predicted": 3.64,
+      "actual": 2.7,
+      "error": 0.94,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 5.78,
+      "actual": 2.5,
+      "error": 3.28,
+      "within_one": false
+    },
+    {
+      "predicted": 4.17,
+      "actual": 3.5,
+      "error": 0.67,
+      "within_one": true
+    },
+    {
+      "predicted": 8.7,
+      "actual": 8.7,
+      "error": 0.0,
+      "within_one": true
+    },
+    {
+      "predicted": 2.94,
+      "actual": 2.5,
+      "error": 0.44,
+      "within_one": true
+    },
+    {
+      "predicted": 7.13,
+      "actual": 7.6,
+      "error": 0.47,
+      "within_one": true
+    },
+    {
+      "predicted": 6.4,
+      "actual": 6.7,
+      "error": 0.3,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 1.5,
+      "error": 4.66,
+      "within_one": false
+    },
+    {
+      "predicted": 7.15,
+      "actual": 7.6,
+      "error": 0.45,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 2.5,
+      "error": 1.6,
+      "within_one": false
+    },
+    {
+      "predicted": 8.02,
+      "actual": 6.7,
+      "error": 1.32,
+      "within_one": false
+    },
+    {
+      "predicted": 7.67,
+      "actual": 7.6,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 6.23,
+      "actual": 7.6,
+      "error": 1.37,
+      "within_one": false
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 7.19,
+      "actual": 2.0,
+      "error": 5.19,
+      "within_one": false
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 6.5,
+      "error": 0.65,
+      "within_one": true
+    },
+    {
+      "predicted": 6.3,
+      "actual": 6.7,
+      "error": 0.4,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 2.5,
+      "error": 3.66,
+      "within_one": false
+    },
+    {
+      "predicted": 6.94,
+      "actual": 7.6,
+      "error": 0.66,
+      "within_one": true
+    },
+    {
+      "predicted": 6.78,
+      "actual": 6.7,
+      "error": 0.08,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 3.52,
+      "actual": 1.5,
+      "error": 2.02,
+      "within_one": false
+    },
+    {
+      "predicted": 7.86,
+      "actual": 7.6,
+      "error": 0.26,
+      "within_one": true
+    },
+    {
+      "predicted": 3.79,
+      "actual": 2.5,
+      "error": 1.29,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 9.06,
+      "actual": 9.5,
+      "error": 0.44,
+      "within_one": true
+    },
+    {
+      "predicted": 8.7,
+      "actual": 8.7,
+      "error": 0.0,
+      "within_one": true
+    },
+    {
+      "predicted": 2.54,
+      "actual": 8.7,
+      "error": 6.16,
+      "within_one": false
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.6,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 7.67,
+      "actual": 6.7,
+      "error": 0.97,
+      "within_one": true
+    },
+    {
+      "predicted": 2.56,
+      "actual": 2.5,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 5.78,
+      "actual": 8.2,
+      "error": 2.42,
+      "within_one": false
+    },
+    {
+      "predicted": 7.74,
+      "actual": 7.6,
+      "error": 0.14,
+      "within_one": true
+    },
+    {
+      "predicted": 7.68,
+      "actual": 7.6,
+      "error": 0.08,
+      "within_one": true
+    },
+    {
+      "predicted": 6.3,
+      "actual": 4.7,
+      "error": 1.6,
+      "within_one": false
+    },
+    {
+      "predicted": 1.88,
+      "actual": 1.5,
+      "error": 0.38,
+      "within_one": true
+    },
+    {
+      "predicted": 7.13,
+      "actual": 7.6,
+      "error": 0.47,
+      "within_one": true
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 3.87,
+      "actual": 9.2,
+      "error": 5.33,
+      "within_one": false
+    },
+    {
+      "predicted": 7.75,
+      "actual": 8.7,
+      "error": 0.95,
+      "within_one": true
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 1.5,
+      "error": 2.6,
+      "within_one": false
+    },
+    {
+      "predicted": 7.8,
+      "actual": 7.6,
+      "error": 0.2,
+      "within_one": true
+    },
+    {
+      "predicted": 5.76,
+      "actual": 8.6,
+      "error": 2.84,
+      "within_one": false
+    },
+    {
+      "predicted": 7.88,
+      "actual": 6.7,
+      "error": 1.18,
+      "within_one": false
+    },
+    {
+      "predicted": 6.79,
+      "actual": 6.7,
+      "error": 0.09,
+      "within_one": true
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 7.27,
+      "actual": 2.5,
+      "error": 4.77,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 3.79,
+      "actual": 1.5,
+      "error": 2.29,
+      "within_one": false
+    },
+    {
+      "predicted": 7.77,
+      "actual": 7.6,
+      "error": 0.17,
+      "within_one": true
+    },
+    {
+      "predicted": 3.07,
+      "actual": 3.5,
+      "error": 0.43,
+      "within_one": true
+    },
+    {
+      "predicted": 3.85,
+      "actual": 2.5,
+      "error": 1.35,
+      "within_one": false
+    },
+    {
+      "predicted": 8.94,
+      "actual": 9.2,
+      "error": 0.26,
+      "within_one": true
+    },
+    {
+      "predicted": 2.0,
+      "actual": 8.7,
+      "error": 6.7,
+      "within_one": false
+    },
+    {
+      "predicted": 8.43,
+      "actual": 3.5,
+      "error": 4.93,
+      "within_one": false
+    },
+    {
+      "predicted": 5.12,
+      "actual": 2.8,
+      "error": 2.32,
+      "within_one": false
+    },
+    {
+      "predicted": 7.66,
+      "actual": 7.6,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 7.86,
+      "actual": 7.6,
+      "error": 0.26,
+      "within_one": true
+    },
+    {
+      "predicted": 8.85,
+      "actual": 9.5,
+      "error": 0.65,
+      "within_one": true
+    },
+    {
+      "predicted": 6.78,
+      "actual": 1.5,
+      "error": 5.28,
+      "within_one": false
+    },
+    {
+      "predicted": 9.27,
+      "actual": 9.5,
+      "error": 0.23,
+      "within_one": true
+    },
+    {
+      "predicted": 8.85,
+      "actual": 9.2,
+      "error": 0.35,
+      "within_one": true
+    },
+    {
+      "predicted": 6.61,
+      "actual": 7.6,
+      "error": 0.99,
+      "within_one": true
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 5.12,
+      "actual": 1.5,
+      "error": 3.62,
+      "within_one": false
+    },
+    {
+      "predicted": 4.17,
+      "actual": 2.5,
+      "error": 1.67,
+      "within_one": false
+    },
+    {
+      "predicted": 7.63,
+      "actual": 7.6,
+      "error": 0.03,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 8.08,
+      "actual": 8.6,
+      "error": 0.52,
+      "within_one": true
+    },
+    {
+      "predicted": 6.72,
+      "actual": 6.7,
+      "error": 0.02,
+      "within_one": true
+    },
+    {
+      "predicted": 2.39,
+      "actual": 2.5,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 9.13,
+      "actual": 9.2,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 7.61,
+      "actual": 7.6,
+      "error": 0.01,
+      "within_one": true
+    },
+    {
+      "predicted": 7.48,
+      "actual": 7.6,
+      "error": 0.12,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 9.2,
+      "error": 0.77,
+      "within_one": true
+    },
+    {
+      "predicted": 9.16,
+      "actual": 9.2,
+      "error": 0.04,
+      "within_one": true
+    },
+    {
+      "predicted": 7.27,
+      "actual": 2.5,
+      "error": 4.77,
+      "within_one": false
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 3.5,
+      "error": 0.6,
+      "within_one": true
+    },
+    {
+      "predicted": 5.16,
+      "actual": 6.7,
+      "error": 1.54,
+      "within_one": false
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 7.88,
+      "actual": 6.7,
+      "error": 1.18,
+      "within_one": false
+    },
+    {
+      "predicted": 4.37,
+      "actual": 1.5,
+      "error": 2.87,
+      "within_one": false
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 8.07,
+      "actual": 8.7,
+      "error": 0.63,
+      "within_one": true
+    },
+    {
+      "predicted": 6.93,
+      "actual": 5.7,
+      "error": 1.23,
+      "within_one": false
+    },
+    {
+      "predicted": 6.17,
+      "actual": 6.7,
+      "error": 0.53,
+      "within_one": true
+    },
+    {
+      "predicted": 7.73,
+      "actual": 7.6,
+      "error": 0.13,
+      "within_one": true
+    },
+    {
+      "predicted": 6.4,
+      "actual": 1.5,
+      "error": 4.9,
+      "within_one": false
+    },
+    {
+      "predicted": 7.88,
+      "actual": 8.6,
+      "error": 0.72,
+      "within_one": true
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 8.7,
+      "actual": 9.2,
+      "error": 0.5,
+      "within_one": true
+    },
+    {
+      "predicted": 4.36,
+      "actual": 6.7,
+      "error": 2.34,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 1.58,
+      "actual": 2.5,
+      "error": 0.92,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 9.2,
+      "error": 1.31,
+      "within_one": false
+    },
+    {
+      "predicted": 6.27,
+      "actual": 2.5,
+      "error": 3.77,
+      "within_one": false
+    },
+    {
+      "predicted": 3.45,
+      "actual": 7.6,
+      "error": 4.15,
+      "within_one": false
+    },
+    {
+      "predicted": 7.66,
+      "actual": 7.6,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 7.66,
+      "actual": 7.6,
+      "error": 0.06,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 3.5,
+      "error": 4.93,
+      "within_one": false
+    },
+    {
+      "predicted": 7.75,
+      "actual": 7.6,
+      "error": 0.15,
+      "within_one": true
+    },
+    {
+      "predicted": 6.41,
+      "actual": 7.6,
+      "error": 1.19,
+      "within_one": false
+    },
+    {
+      "predicted": 6.97,
+      "actual": 7.2,
+      "error": 0.23,
+      "within_one": true
+    },
+    {
+      "predicted": 8.21,
+      "actual": 8.6,
+      "error": 0.39,
+      "within_one": true
+    },
+    {
+      "predicted": 8.94,
+      "actual": 9.5,
+      "error": 0.56,
+      "within_one": true
+    },
+    {
+      "predicted": 7.17,
+      "actual": 7.5,
+      "error": 0.33,
+      "within_one": true
+    },
+    {
+      "predicted": 6.41,
+      "actual": 3.5,
+      "error": 2.91,
+      "within_one": false
+    },
+    {
+      "predicted": 4.34,
+      "actual": 4.5,
+      "error": 0.16,
+      "within_one": true
+    },
+    {
+      "predicted": 5.22,
+      "actual": 3.5,
+      "error": 1.72,
+      "within_one": false
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 9.2,
+      "error": 2.05,
+      "within_one": false
+    },
+    {
+      "predicted": 4.0,
+      "actual": 3.5,
+      "error": 0.5,
+      "within_one": true
+    },
+    {
+      "predicted": 4.66,
+      "actual": 4.7,
+      "error": 0.04,
+      "within_one": true
+    },
+    {
+      "predicted": 7.88,
+      "actual": 7.6,
+      "error": 0.28,
+      "within_one": true
+    },
+    {
+      "predicted": 1.58,
+      "actual": 8.6,
+      "error": 7.02,
+      "within_one": false
+    },
+    {
+      "predicted": 5.57,
+      "actual": 2.5,
+      "error": 3.07,
+      "within_one": false
+    },
+    {
+      "predicted": 6.4,
+      "actual": 1.5,
+      "error": 4.9,
+      "within_one": false
+    },
+    {
+      "predicted": 4.1,
+      "actual": 2.5,
+      "error": 1.6,
+      "within_one": false
+    },
+    {
+      "predicted": 7.72,
+      "actual": 7.6,
+      "error": 0.12,
+      "within_one": true
+    },
+    {
+      "predicted": 8.85,
+      "actual": 9.5,
+      "error": 0.65,
+      "within_one": true
+    },
+    {
+      "predicted": 7.78,
+      "actual": 7.6,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 4.0,
+      "actual": 6.7,
+      "error": 2.7,
+      "within_one": false
+    },
+    {
+      "predicted": 3.79,
+      "actual": 6.7,
+      "error": 2.91,
+      "within_one": false
+    },
+    {
+      "predicted": 7.77,
+      "actual": 7.6,
+      "error": 0.17,
+      "within_one": true
+    },
+    {
+      "predicted": 7.83,
+      "actual": 7.6,
+      "error": 0.23,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 1.58,
+      "actual": 4.5,
+      "error": 2.92,
+      "within_one": false
+    },
+    {
+      "predicted": 7.87,
+      "actual": 7.6,
+      "error": 0.27,
+      "within_one": true
+    },
+    {
+      "predicted": 7.68,
+      "actual": 7.5,
+      "error": 0.18,
+      "within_one": true
+    },
+    {
+      "predicted": 9.16,
+      "actual": 9.2,
+      "error": 0.04,
+      "within_one": true
+    },
+    {
+      "predicted": 7.15,
+      "actual": 9.2,
+      "error": 2.05,
+      "within_one": false
+    },
+    {
+      "predicted": 2.6,
+      "actual": 8.7,
+      "error": 6.1,
+      "within_one": false
+    },
+    {
+      "predicted": 9.16,
+      "actual": 9.2,
+      "error": 0.04,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 7.61,
+      "actual": 7.6,
+      "error": 0.01,
+      "within_one": true
+    },
+    {
+      "predicted": 5.96,
+      "actual": 2.0,
+      "error": 3.96,
+      "within_one": false
+    },
+    {
+      "predicted": 2.41,
+      "actual": 2.5,
+      "error": 0.09,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 5.7,
+      "error": 1.6,
+      "within_one": false
+    },
+    {
+      "predicted": 5.12,
+      "actual": 7.6,
+      "error": 2.48,
+      "within_one": false
+    },
+    {
+      "predicted": 8.43,
+      "actual": 7.6,
+      "error": 0.83,
+      "within_one": true
+    },
+    {
+      "predicted": 7.79,
+      "actual": 7.6,
+      "error": 0.19,
+      "within_one": true
+    },
+    {
+      "predicted": 8.94,
+      "actual": 9.5,
+      "error": 0.56,
+      "within_one": true
+    },
+    {
+      "predicted": 9.16,
+      "actual": 9.2,
+      "error": 0.04,
+      "within_one": true
+    },
+    {
+      "predicted": 2.83,
+      "actual": 1.5,
+      "error": 1.33,
+      "within_one": false
+    },
+    {
+      "predicted": 8.15,
+      "actual": 8.7,
+      "error": 0.55,
+      "within_one": true
+    },
+    {
+      "predicted": 6.93,
+      "actual": 6.7,
+      "error": 0.23,
+      "within_one": true
+    },
+    {
+      "predicted": 9.27,
+      "actual": 7.5,
+      "error": 1.77,
+      "within_one": false
+    },
+    {
+      "predicted": 5.35,
+      "actual": 5.7,
+      "error": 0.35,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 3.31,
+      "actual": 3.5,
+      "error": 0.19,
+      "within_one": true
+    },
+    {
+      "predicted": 6.27,
+      "actual": 5.7,
+      "error": 0.57,
+      "within_one": true
+    },
+    {
+      "predicted": 7.79,
+      "actual": 7.6,
+      "error": 0.19,
+      "within_one": true
+    },
+    {
+      "predicted": 7.23,
+      "actual": 7.6,
+      "error": 0.37,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 7.6,
+      "error": 0.83,
+      "within_one": true
+    },
+    {
+      "predicted": 7.84,
+      "actual": 7.6,
+      "error": 0.24,
+      "within_one": true
+    },
+    {
+      "predicted": 6.41,
+      "actual": 7.6,
+      "error": 1.19,
+      "within_one": false
+    },
+    {
+      "predicted": 7.17,
+      "actual": 7.6,
+      "error": 0.43,
+      "within_one": true
+    },
+    {
+      "predicted": 4.86,
+      "actual": 5.7,
+      "error": 0.84,
+      "within_one": true
+    },
+    {
+      "predicted": 5.78,
+      "actual": 1.5,
+      "error": 4.28,
+      "within_one": false
+    },
+    {
+      "predicted": 8.43,
+      "actual": 9.2,
+      "error": 0.77,
+      "within_one": true
+    },
+    {
+      "predicted": 4.47,
+      "actual": 4.7,
+      "error": 0.23,
+      "within_one": true
+    },
+    {
+      "predicted": 7.89,
+      "actual": 7.6,
+      "error": 0.29,
+      "within_one": true
+    },
+    {
+      "predicted": 6.41,
+      "actual": 7.6,
+      "error": 1.19,
+      "within_one": false
+    },
+    {
+      "predicted": 4.57,
+      "actual": 7.6,
+      "error": 3.03,
+      "within_one": false
+    },
+    {
+      "predicted": 7.81,
+      "actual": 8.6,
+      "error": 0.79,
+      "within_one": true
+    },
+    {
+      "predicted": 3.05,
+      "actual": 2.5,
+      "error": 0.55,
+      "within_one": true
+    },
+    {
+      "predicted": 5.76,
+      "actual": 7.6,
+      "error": 1.84,
+      "within_one": false
+    },
+    {
+      "predicted": 6.61,
+      "actual": 4.5,
+      "error": 2.11,
+      "within_one": false
+    },
+    {
+      "predicted": 9.16,
+      "actual": 9.2,
+      "error": 0.04,
+      "within_one": true
+    },
+    {
+      "predicted": 5.09,
+      "actual": 7.6,
+      "error": 2.51,
+      "within_one": false
+    },
+    {
+      "predicted": 3.65,
+      "actual": 4.5,
+      "error": 0.85,
+      "within_one": true
+    },
+    {
+      "predicted": 8.43,
+      "actual": 7.6,
+      "error": 0.83,
+      "within_one": true
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 3.73,
+      "actual": 5.7,
+      "error": 1.97,
+      "within_one": false
+    },
+    {
+      "predicted": 7.63,
+      "actual": 7.6,
+      "error": 0.03,
+      "within_one": true
+    },
+    {
+      "predicted": 6.04,
+      "actual": 6.7,
+      "error": 0.66,
+      "within_one": true
+    },
+    {
+      "predicted": 9.16,
+      "actual": 7.6,
+      "error": 1.56,
+      "within_one": false
+    },
+    {
+      "predicted": 8.85,
+      "actual": 9.2,
+      "error": 0.35,
+      "within_one": true
+    },
+    {
+      "predicted": 7.5,
+      "actual": 7.6,
+      "error": 0.1,
+      "within_one": true
+    },
+    {
+      "predicted": 4.1,
+      "actual": 7.5,
+      "error": 3.4,
+      "within_one": false
+    },
+    {
+      "predicted": 9.06,
+      "actual": 9.2,
+      "error": 0.14,
+      "within_one": true
+    },
+    {
+      "predicted": 4.84,
+      "actual": 4.7,
+      "error": 0.14,
+      "within_one": true
+    },
+    {
+      "predicted": 5.16,
+      "actual": 5.7,
+      "error": 0.54,
+      "within_one": true
+    },
+    {
+      "predicted": 6.61,
+      "actual": 5.7,
+      "error": 0.91,
+      "within_one": true
+    },
+    {
+      "predicted": 7.23,
+      "actual": 7.6,
+      "error": 0.37,
+      "within_one": true
+    },
+    {
+      "predicted": 6.97,
+      "actual": 6.7,
+      "error": 0.27,
+      "within_one": true
+    },
+    {
+      "predicted": 5.32,
+      "actual": 4.5,
+      "error": 0.82,
+      "within_one": true
+    },
+    {
+      "predicted": 5.49,
+      "actual": 3.5,
+      "error": 1.99,
+      "within_one": false
+    },
+    {
+      "predicted": 7.71,
+      "actual": 7.6,
+      "error": 0.11,
+      "within_one": true
+    },
+    {
+      "predicted": 5.78,
+      "actual": 1.5,
+      "error": 4.28,
+      "within_one": false
+    },
+    {
+      "predicted": 4.34,
+      "actual": 1.5,
+      "error": 2.84,
+      "within_one": false
+    },
+    {
+      "predicted": 2.48,
+      "actual": 1.5,
+      "error": 0.98,
+      "within_one": true
+    },
+    {
+      "predicted": 5.09,
+      "actual": 3.5,
+      "error": 1.59,
+      "within_one": false
+    },
+    {
+      "predicted": 2.08,
+      "actual": 8.7,
+      "error": 6.62,
+      "within_one": false
+    },
+    {
+      "predicted": 6.16,
+      "actual": 8.6,
+      "error": 2.44,
+      "within_one": false
+    },
+    {
+      "predicted": 4.92,
+      "actual": 5.7,
+      "error": 0.78,
+      "within_one": true
+    },
+    {
+      "predicted": 7.67,
+      "actual": 7.6,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 1.98,
+      "actual": 2.5,
+      "error": 0.52,
+      "within_one": true
+    },
+    {
+      "predicted": 9.13,
+      "actual": 9.2,
+      "error": 0.07,
+      "within_one": true
+    },
+    {
+      "predicted": 7.61,
+      "actual": 7.6,
+      "error": 0.01,
+      "within_one": true
+    },
+    {
+      "predicted": 6.16,
+      "actual": 7.6,
+      "error": 1.44,
+      "within_one": false
+    },
+    {
+      "predicted": 7.82,
+      "actual": 7.6,
+      "error": 0.22,
+      "within_one": true
+    },
+    {
+      "predicted": 5.49,
+      "actual": 2.5,
+      "error": 2.99,
+      "within_one": false
+    },
+    {
+      "predicted": 2.52,
+      "actual": 2.5,
+      "error": 0.02,
+      "within_one": true
+    },
+    {
+      "predicted": 6.41,
+      "actual": 3.5,
+      "error": 2.91,
+      "within_one": false
+    },
+    {
+      "predicted": 5.25,
+      "actual": 2.8,
+      "error": 2.45,
+      "within_one": false
+    },
+    {
+      "predicted": 3.79,
+      "actual": 7.6,
+      "error": 3.81,
+      "within_one": false
+    },
+    {
+      "predicted": 7.44,
+      "actual": 8.6,
+      "error": 1.16,
+      "within_one": false
+    }
+  ]
+}
