@@ -124,7 +124,8 @@ class PharmaSetTransformer(nn.Module):
         # This encodes how strongly each protein is functioning in this patient.
         # A CYP2D6 with activity=0.0 (poor metabolizer) contributes a zero vector —
         # effectively absent from the interaction. activity=2.0 (ultrarapid) amplifies it.
-        genes = genes * activity_levels.unsqueeze(-1)     # [n_genes, 128]
+        activity_normalized = activity_levels / 6.0   # normalize to [0,1] — max activity is 6.0 (gene duplication)
+        genes = genes * activity_normalized.unsqueeze(-1)     # [n_genes, 128]
 
         genes = genes + self.target_embed(target_flags)   # inject DrugBank prior
         drug  = self.drug_proj(drug_embedding)            # [1, 128]
