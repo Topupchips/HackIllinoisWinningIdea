@@ -1,12 +1,8 @@
-<p align="center">
-  <img src="docs/Workflow.png" alt="PharmaRisk Architecture" width="800"/>
-</p>
-
-<h1 align="center">PharmaRisk</h1>
+<h1 align="center">GeneAI</h1>
 
 <p align="center">
-  <strong>Pharmacogenomics Drug Risk API</strong><br>
-  Gene profile + drug &rarr; personalized risk score + clinical recommendation
+  <strong>Pharmacogenomics Drug Risk Analysis</strong><br>
+  Gene profile + drug &rarr; personalized risk score + CPIC clinical recommendation
 </p>
 
 <p align="center">
@@ -20,48 +16,88 @@
 
 ## Problem
 
-**1.3 million emergency room admissions per year** in the U.S. are caused by adverse drug reactions. Most drugs are still prescribed based on symptoms and diagnosis alone — not genetics. Patients with certain gene variants metabolize drugs too quickly, too slowly, or not at all, leading to toxicity or treatment failure.
+**1.3 million emergency room admissions per year** in the U.S. are caused by adverse drug reactions. Most drugs are prescribed based on symptoms alone — not genetics. Patients with certain gene variants metabolize drugs too quickly, too slowly, or not at all, leading to toxicity or treatment failure.
 
-Pharmacogenomic guidelines exist (CPIC), but they're buried in academic tables that clinicians don't have time to look up mid-appointment.
+CPIC pharmacogenomic guidelines exist, but they're buried in academic tables clinicians don't have time to look up mid-appointment.
 
 ## Solution
 
-PharmaRisk is an API that takes a patient's **gene profile** and a **drug name**, and returns:
+GeneAI is an API + UI that takes a patient's **gene profile** and a **drug name**, and returns:
 
-- A **risk score (1-10)** predicting how dangerous that gene-drug combination is
-- The **CPIC clinical recommendation** text (e.g., "Avoid codeine use" or "Use standard dosing")
-- A **plain-English explanation** suitable for patients
-- **Gene-level contributions** showing which genes drive the risk
-
-It supports both structured input (`{"genes": [...], "drug": "codeine"}`) and natural language input (`"I'm a CYP2D6 poor metabolizer taking codeine"`).
+- **Per-gene activity scores** from a trained Set Transformer model
+- **CPIC clinical recommendation text** (e.g., "Avoid codeine use" or "Use standard dosing")
+- **Plain-English explanation** suitable for patients
+- Supports both structured JSON and **natural language input**
 
 ## Architecture
 
-The system has two prediction paths:
+Two prediction paths:
 
-1. **Natural Language Path** — User query &rarr; OpenAI parses to structured JSON &rarr; model pipeline
-2. **Structured Path** — Direct JSON with gene/phenotype/drug &rarr; model pipeline
+1. **Natural Language** — User query → OpenAI parses to structured JSON → model pipeline
+2. **Structured** — Direct JSON `{"genes": [...], "drug": "..."}` → model pipeline
 
-The model pipeline:
+Model pipeline:
 - **Gene embeddings** via ESM-2 protein language model
 - **Drug embeddings** via Morgan fingerprints from SMILES
 - **Target flags** from DrugBank drug-gene interactions
-- **Cross-Attention Set Transformer** fuses multi-gene + drug features
-- **Risk scorer** outputs score (1-10) + per-gene contributions
+- **Cross-Attention Set Transformer** fuses multi-gene + drug features → per-gene risk scores
 
-Post-prediction, OpenAI generates a patient-friendly explanation.
+Post-prediction, CPIC recommendation text is looked up and optionally enriched by GPT-4o-mini.
 
 ## Tech Stack
 
 | Component | Technology |
 |-----------|-----------|
 | API | FastAPI + Uvicorn |
-| Model | PyTorch (Set Transformer) + XGBoost baseline |
+| Model | PyTorch (Set Transformer) |
 | Gene Embeddings | ESM-2 (Meta protein language model) |
 | Drug Embeddings | RDKit Morgan fingerprints from SMILES |
 | NLP | OpenAI gpt-4o-mini |
 | Data | CPIC database, DrugBank, PubChem |
-| Deployment | Railway / Docker / Modal |
+| Frontend | React + Three.js (3D DNA helix) |
+
+## Project Structure
+
+```
+├── api/                 # FastAPI backend
+│   ├── routes/          # health, drugs, genes, predict, explain
+│   ├── services/        # data_service, model_service, openai_service
+│   ├── models/          # request/response schemas
+│   └── static/          # docs + demo HTML pages
+├── model/               # Set Transformer model
+│   ├── model_api.py     # PharmaRiskModel interface
+│   ├── model.py         # PharmaSetTransformer architecture
+│   ├── set_transformer.pt
+│   └── embeddings/      # gene_embeddings.pkl, drug_embeddings.pkl, target_flags.pkl
+├── pipeline/            # Data pipeline + processed CPIC data
+├── frontend/            # React + Three.js UI (GeneAI app)
+└── requirements.txt     # Python dependencies
+```
+
+## Quickstart
+
+```bash
+# Clone
+git clone https://github.com/Topupchips/HackIllinoisWinningIdea.git
+cd HackIllinoisWinningIdea
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# (Optional) Set OpenAI key for natural language + explain
+export OPENAI_API_KEY=sk-...
+
+# Run API
+python -m uvicorn api.main:app --reload --port 8000
+
+# Run frontend (separate terminal)
+cd frontend && npm install && npm start
+```
+
+- **http://localhost:3000** — GeneAI React app
+- **http://localhost:8000/docs** — Documentation
+- **http://localhost:8000/docs/api** — Interactive API explorer
+- **http://localhost:8000/demo** — Live endpoint demo
 
 ## API Endpoints
 
@@ -72,33 +108,13 @@ Post-prediction, OpenAI generates a patient-friendly explanation.
 | `GET` | `/drugs` | List all drugs (paginated, searchable) |
 | `GET` | `/drugs/{drug_id}` | Get drug details + SMILES |
 | `GET` | `/genes` | List all genes (paginated, searchable) |
-| `GET` | `/genes/{symbol}` | Gene details + alleles |
+| `GET` | `/genes/{symbol}` | Gene details + recommendation count |
 | `GET` | `/genes/{symbol}/alleles` | All alleles for a gene |
 | `POST` | `/predict` | Predict risk from structured gene/drug input |
 | `POST` | `/predict/natural` | Predict risk from natural language |
 | `POST` | `/explain` | Generate plain-English explanation |
 
-All list endpoints support `?search=`, `?page=`, `?limit=` parameters and return fuzzy "did you mean" suggestions on no results.
-
-## Quickstart
-
-```bash
-# Clone
-git clone https://github.com/Topupchips/HackIllinoisWinningIdea.git
-cd HackIllinoisWinningIdea
-
-# Install dependencies
-pip install -r requirements.txt
-
-# (Optional) Set OpenAI key for natural language features
-export OPENAI_API_KEY=sk-...
-
-# Run
-uvicorn api.main:app --reload --port 8000
-
-# Open interactive docs
-open http://localhost:8000/docs
-```
+All list endpoints support `?search=`, `?page=`, `?limit=` and return fuzzy "did you mean" suggestions on no results.
 
 ## Curl Examples
 
@@ -107,44 +123,24 @@ open http://localhost:8000/docs
 curl http://localhost:8000/health
 ```
 ```json
-{
-  "status": "healthy",
-  "model_loaded": false,
-  "data_loaded": true,
-  "drug_count": 323,
-  "gene_count": 17
-}
-```
-
-**Search drugs:**
-```bash
-curl "http://localhost:8000/drugs?search=codein"
-```
-```json
-{
-  "drugs": [{"drug_id": "RxNorm:2670", "drug_name": "codeine", "smiles": "CN1CCC23..."}],
-  "total": 1, "page": 1, "limit": 20
-}
+{"status": "healthy", "model_loaded": true, "data_loaded": true, "drug_count": 323, "gene_count": 17}
 ```
 
 **Predict risk (structured):**
 ```bash
 curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
-  -d '{
-    "genes": [{"name": "CYP2D6", "phenotype": "Poor Metabolizer"}],
-    "drug": "codeine"
-  }'
+  -d '{"genes": [{"name": "CYP2D6", "phenotype": "Poor Metabolizer"}], "drug": "codeine"}'
 ```
 ```json
-{
-  "drug": "codeine",
-  "risk_score": 7.5,
-  "risk_label": "Moderate Risk",
-  "gene_contributions": [{"gene": "CYP2D6", "phenotype": "Poor Metabolizer", "contribution": 0.8}],
-  "recommendation_text": "CYP2D6: Greatly reduced morphine formation leading to diminished analgesia. | Avoid codeine use...",
-  "cpic_recommendation": "Avoid codeine use because of possibility of diminished analgesia."
-}
+[
+  {
+    "gene": "CYP2D6",
+    "activity_level": 0.0,
+    "medicine": "codeine",
+    "text": "Avoid codeine use because of possibility of diminished analgesia."
+  }
+]
 ```
 
 **Predict risk (natural language):**
@@ -160,33 +156,6 @@ curl -X POST http://localhost:8000/explain \
   -H "Content-Type: application/json" \
   -d '{"drug": "codeine", "risk_score": 8.5, "gene_contributions": {"CYP2D6": 0.85}}'
 ```
-```json
-{
-  "explanation": "Your genetic profile suggests a higher risk with codeine. Your CYP2D6 gene variant may cause your body to process this drug differently, potentially leading to adverse effects. Please discuss alternative options with your doctor."
-}
-```
-
-**Get gene details:**
-```bash
-curl http://localhost:8000/genes/CYP2D6
-```
-
-**Get drug by name:**
-```bash
-curl http://localhost:8000/drugs/codeine
-```
-
-## Validation Results
-
-<!-- TODO: Fill in real numbers after model validation -->
-
-| Metric | Value |
-|--------|-------|
-| Test set size | TBD |
-| Mean Absolute Error | TBD |
-| Spearman correlation | TBD |
-| High-risk recall (score >= 7) | TBD |
-| Low-risk precision (score <= 3) | TBD |
 
 ## Data Sources
 
@@ -211,14 +180,14 @@ curl http://localhost:8000/drugs/codeine
 **What we built ourselves:**
 - Data extraction and cleaning pipeline (CPIC SQL, DrugBank XML, PubChem API)
 - Risk score engineering and labeling logic
-- Model architecture design (Cross-Attention Set Transformer + XGBoost)
+- Model architecture design (Cross-Attention Set Transformer)
 - Training pipeline and feature engineering
 - API design, endpoint logic, and service layer
-- Validation framework
+- React + Three.js frontend
 
 ## Team
 
-- **Sanjavan Ghodasara** — API, data pipeline, deployment
+- **Sanjavan Ghodasara** — API, data pipeline, frontend
 - **Charles** — Model architecture, training, embeddings
 
 ## License
