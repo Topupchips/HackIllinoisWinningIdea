@@ -81,7 +81,7 @@ async def predict(req: PredictRequest):
             )
         )
 
-    return PredictResponse(results=enriched)
+    return enriched
 
 
 @router.post(

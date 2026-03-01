@@ -16,8 +16,7 @@ class GeneDrugResult(BaseModel):
     )
 
 
-class PredictResponse(BaseModel):
-    results: list[GeneDrugResult]
+PredictResponse = list[GeneDrugResult]
 
 
 class DrugResponse(BaseModel):
