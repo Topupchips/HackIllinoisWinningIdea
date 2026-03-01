@@ -199,6 +199,8 @@ curl -X POST http://localhost:8000/explain \
 
 - [Sanjavan Ghodasara](https://www.linkedin.com/in/sanjavan-ghodasara-854138235/)
 - [Suhaan Khan](https://www.linkedin.com/in/suhaankhan/)
+- [Keming (Charles) Hu](https://www.linkedin.com/in/kemingh/)
+- [Ansh Tuli](https://www.linkedin.com/in/ansh-tuli-651a60221/)
 
 ## License
 
