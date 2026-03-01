@@ -42,6 +42,7 @@ image = (
         "torch",
         "fair-esm",
         "numpy",
+        "pandas",
         "requests",
     )
 )
