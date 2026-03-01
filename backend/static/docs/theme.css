@@ -66,6 +66,14 @@ html, body {
   margin-bottom: 12px !important;
 }
 
+/* Hide version badge and openapi link */
+.swagger-ui .info .title small,
+.swagger-ui .info .link,
+.swagger-ui .info .info__contact,
+.swagger-ui .info a[href="/openapi.json"] {
+  display: none !important;
+}
+
 .swagger-ui .info .description {
   font-size: 14px !important;
   line-height: 1.7 !important;

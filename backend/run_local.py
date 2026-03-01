@@ -17,7 +17,7 @@ from config import API_KEY, CORS_ORIGINS
 from rate_limit import check_rate_limit
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import (
     get_redoc_html,
@@ -131,21 +131,15 @@ async def demo_redirect():
 
 
 @app.get("/docs", include_in_schema=False)
-async def custom_swagger_ui_html():
-    return get_swagger_ui_html(
-        openapi_url=app.openapi_url,
-        title=app.title + " - API Reference",
-        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
-        swagger_js_url="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js",
-        swagger_css_url="/static/docs/theme.css",
-        swagger_ui_parameters={
-            "defaultModelsExpandDepth": 0,
-            "docExpansion": "list",
-            "filter": True,
-            "syntaxHighlight.theme": "monokai",
-            "tryItOutEnabled": True,
-        },
-    )
+async def docs_home():
+    """Serve docs home page directly (no redirect)."""
+    return FileResponse(static_dir / "docs" / "index.html")
+
+
+@app.get("/docs/api", include_in_schema=False)
+async def docs_endpoints():
+    """Serve API endpoints page (Swagger UI with site header)."""
+    return FileResponse(static_dir / "docs" / "endpoints.html")
 
 
 @app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)

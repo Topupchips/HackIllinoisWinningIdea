@@ -2,7 +2,27 @@
 
 ## Overview
 
-This document specifies data types, sources, and model approaches for building a production-quality drug interaction prediction system.
+This document specifies data types, sources, and model approaches for building a production-quality drug interaction prediction system. It serves as both a technical specification for future ML integration and a reference for the current API implementation.
+
+---
+
+## Current API Implementation (as of v1.0)
+
+The Pharmacogen API implements a **hybrid approach**: deterministic logic today, with clear extension points for ML models.
+
+| Spec Concept | Current Implementation | Endpoint |
+|--------------|------------------------|----------|
+| Drug lookup by name | PubChem REST (`/compound/name/{name}/JSON`) | `GET /v1/drugs/name/{name}` |
+| Drug search | PubChem autocomplete | `GET /v1/drugs/search` |
+| Batch compound lookup | Sequential PubChem calls | `POST /v1/drugs/batch` |
+| Tanimoto similarity | N-gram approximation (3-char) on SMILES | `POST /v1/interactions/predict` |
+| DDI prediction | Heuristic: Tanimoto + compound count + vaccine flag | `POST /v1/interactions/predict` |
+| Timeline (72h risk/concentration) | Parametric model (compound count, vaccine, Tanimoto) | `GET /v1/interactions/timeline` |
+| Similar drugs | Placeholder (demo list) | `GET /v1/drugs/similar` |
+| AI explanation | OpenAI GPT-4o-mini or fallback | `POST /v1/interactions/explain` |
+| Q&A | OpenAI with context | `POST /v1/interactions/ask` |
+
+**Planned upgrades:** RDKit-based Morgan fingerprints for true Tanimoto; NCATS/HODDI for known-DDI lookup; Actian VectorAI for similar-drug search; trained DDINet/CYP models for confidence scoring.
 
 ---
 
@@ -182,3 +202,13 @@ SMILES → RDKit → Morgan Fingerprint → Tanimoto(A, B)
 - CPIC API: https://api.cpicpgx.org
 - RDKit.js: https://www.rdkitjs.com/
 - PubChem REST: https://pubchem.ncbi.nlm.nih.gov/docs/pug-rest
+
+---
+
+## 9. Related Documentation
+
+| Document | Description |
+|----------|-------------|
+| [API.md](API.md) | Full API reference: endpoints, schemas, examples, error codes |
+| [GETTING_STARTED.md](GETTING_STARTED.md) | Setup, run locally, deploy, integrate in your app |
+| [README](../README.md) | Project overview, quick start, configuration |

@@ -8,7 +8,7 @@ Drug-drug interaction prediction and pharmacogenomics API. Predict interaction r
 
 ## API Template Features
 
-- **Documentation** — Swagger UI (`/docs`), ReDoc (`/redoc`), interactive demo (`/demo`)
+- **Documentation** — Docs (`/docs`), ReDoc (`/redoc`), interactive demo (`/demo`)
 - **Error handling** — Standard `{error: {code, message}, request_id}` format
 - **Security** — Optional API key auth (`X-API-Key`), configurable rate limiting
 - **Extensibility** — Config via env vars (`backend/config.py`)
@@ -57,7 +57,7 @@ RESTful API with versioned endpoints under `/v1/`.
 | **Drugs** | `GET /v1/drugs/search?q=`, `GET /v1/drugs/name/{name}`, `GET /v1/drugs/similar`, `GET /v1/drugs/structure/image` |
 | **Interactions** | `POST /v1/interactions/predict`, `POST /v1/interactions/explain`, `POST /v1/interactions/ask` |
 
-**Docs:** [docs/API.md](docs/API.md) | Swagger UI at `/docs`
+**Docs:** [API Reference](docs/API.md) | [Getting Started](docs/GETTING_STARTED.md) | [Data & Model Spec](docs/DATA_AND_MODEL_SPEC.md) | Docs at `/docs`
 
 ### Test an endpoint
 
