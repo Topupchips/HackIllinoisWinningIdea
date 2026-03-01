@@ -78,16 +78,10 @@ async def predict(req: PredictRequest):
                 activity_level=r["activity_level"],
                 medicine=r["medicine"],
                 text=r["text"],
-                risk_score=r["risk_score"],
-                contribution=r["contribution"],
             )
         )
 
-    return PredictResponse(
-        results=enriched,
-        overall_risk_score=result["overall_risk_score"],
-        risk_label=result["risk_label"],
-    )
+    return PredictResponse(results=enriched)
 
 
 @router.post(

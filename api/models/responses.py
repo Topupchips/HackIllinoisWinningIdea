@@ -8,20 +8,16 @@ class ErrorResponse(BaseModel):
 
 class GeneDrugResult(BaseModel):
     gene: str = Field(..., example="CYP2D6")
-    activity_level: float = Field(..., ge=0.0, le=2.0, example=0.0)
+    activity_level: float = Field(..., ge=0.0, example=0.0)
     medicine: str = Field(..., example="codeine")
     text: str = Field(
         ...,
-        example="Contraindicated. Ultrarapid metabolizers may convert codeine to morphine too rapidly.",
+        example="Avoid codeine use because of possibility of diminished analgesia.",
     )
-    risk_score: float = Field(..., ge=1.0, le=10.0, example=9.0)
-    contribution: float = Field(..., ge=0.0, le=1.0, example=0.85)
 
 
 class PredictResponse(BaseModel):
     results: list[GeneDrugResult]
-    overall_risk_score: float = Field(..., example=8.5)
-    risk_label: str = Field(..., example="High Risk")
 
 
 class DrugResponse(BaseModel):

@@ -37,18 +37,14 @@ def load_model():
 
 
 def predict(genes: list[dict], drug: str) -> dict:
-    """Return risk prediction. Uses real model if available, else mock.
+    """Return per-gene CPIC results. Uses real model if available, else mock.
 
     Args:
         genes: List of {"name": "CYP2D6", "phenotype": "Poor Metabolizer"}
         drug: Drug name string
 
     Returns:
-        {
-          "results": [{"gene", "activity_level", "medicine", "text", "risk_score", "contribution"}, ...],
-          "overall_risk_score": float,
-          "risk_label": str
-        }
+        {"results": [{"gene", "activity_level", "medicine", "text"}, ...]}
     """
     if _real_model and not _using_mock:
         try:
@@ -60,8 +56,7 @@ def predict(genes: list[dict], drug: str) -> dict:
 
 
 def _predict_real(genes: list[dict], drug: str) -> dict:
-    """Call Charles's model and convert output to our per-gene format."""
-    # Convert phenotype -> activity_level for Charles's API
+    """Call Charles's model and build per-gene results."""
     model_genes = [
         {"name": g["name"], "activity_level": _phenotype_to_activity(g.get("phenotype", ""))}
         for g in genes
@@ -69,42 +64,19 @@ def _predict_real(genes: list[dict], drug: str) -> dict:
 
     raw = _real_model.predict(model_genes, drug)
 
-    # Handle error responses from model
     if raw.get("error") or raw.get("risk_score") is None:
         raise ValueError(raw.get("error", "Model returned no score"))
 
-    overall_score = raw["risk_score"]
-    contributions = raw.get("gene_contributions", {})
-
-    # Build per-gene results array
     results = []
     for g in genes:
-        name = g["name"]
-        activity = _phenotype_to_activity(g.get("phenotype", ""))
-        contrib = contributions.get(name, contributions.get(name.upper(), 0.0))
-
         results.append({
-            "gene": name,
-            "activity_level": activity,
+            "gene": g["name"],
+            "activity_level": _phenotype_to_activity(g.get("phenotype", "")),
             "medicine": drug,
-            "text": "",  # will be enriched with CPIC text by the route
-            "risk_score": round(overall_score * max(contrib, 0.1), 1) if contrib else overall_score,
-            "contribution": contrib,
+            "text": "",  # enriched with CPIC text by the route
         })
 
-    risk_label = raw.get("risk_level", "")
-    if risk_label == "HIGH":
-        label = "High Risk"
-    elif risk_label == "MEDIUM":
-        label = "Moderate Risk"
-    else:
-        label = "Low Risk"
-
-    return {
-        "results": results,
-        "overall_risk_score": overall_score,
-        "risk_label": label,
-    }
+    return {"results": results}
 
 
 # Phenotype -> activity level mapping (CPIC convention)
@@ -131,7 +103,7 @@ def _phenotype_to_activity(phenotype: str) -> float:
 
 
 def _mock_predict(genes: list[dict], drug: str) -> dict:
-    """Deterministic mock returning per-gene results with activity levels."""
+    """Deterministic mock returning per-gene results with CPIC-style text."""
     results = []
 
     for gene in genes:
@@ -140,24 +112,14 @@ def _mock_predict(genes: list[dict], drug: str) -> dict:
         activity = _phenotype_to_activity(phenotype)
 
         if "poor" in phenotype or "no function" in phenotype:
-            risk = 8.0
-            contrib = 0.8
             text = f"Contraindicated. {name} poor/no function significantly alters metabolism of {drug}."
         elif "intermediate" in phenotype or "decreased" in phenotype:
-            risk = 5.5
-            contrib = 0.5
             text = f"Consider dose reduction. {name} intermediate function may reduce metabolism of {drug}."
         elif "rapid" in phenotype or "ultrarapid" in phenotype:
-            risk = 7.0
-            contrib = 0.6
             text = f"Increased risk. {name} ultrarapid function may cause rapid conversion of {drug}."
         elif "normal" in phenotype:
-            risk = 2.0
-            contrib = 0.1
             text = f"Standard dosing recommended. No significant pharmacogenomic interaction expected for {name} and {drug}."
         else:
-            risk = 5.0
-            contrib = 0.3
             text = f"Indeterminate. Insufficient data for {name} interaction with {drug}."
 
         results.append({
@@ -165,28 +127,9 @@ def _mock_predict(genes: list[dict], drug: str) -> dict:
             "activity_level": activity,
             "medicine": drug,
             "text": text,
-            "risk_score": risk,
-            "contribution": contrib,
         })
 
-    # Overall score = max of individual gene risks
-    overall = max(r["risk_score"] for r in results) if results else 5.0
-    overall = round(min(10.0, max(1.0, overall)), 1)
-
-    if overall >= 8:
-        label = "High Risk"
-    elif overall >= 6:
-        label = "Moderate Risk"
-    elif overall >= 4:
-        label = "Low-Moderate Risk"
-    else:
-        label = "Low Risk"
-
-    return {
-        "results": results,
-        "overall_risk_score": overall,
-        "risk_label": label,
-    }
+    return {"results": results}
 
 
 def is_model_loaded() -> bool:
