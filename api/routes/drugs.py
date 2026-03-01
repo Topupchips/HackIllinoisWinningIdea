@@ -51,7 +51,7 @@ async def list_drugs(
 
 
 @router.get(
-    "/drugs/{drug_id:path}",
+    "/drugs/{drug_id}",
     response_model=DrugResponse,
     responses={404: {"model": ErrorResponse}},
 )

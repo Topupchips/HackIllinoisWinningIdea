@@ -1,6 +1,6 @@
 # Pharmagen
 
-Pharmacogenomics drug risk prediction API. Gene profile + drug → personalized risk score + clinical recommendation. Also supports drug–drug interaction prediction via PubChem.
+GeneAI is a pharmacogenomics platform: gene profile + drug → personalized risk score, clinical recommendation, and explainable AI guidance. Also supports drug–drug interaction prediction via PubChem.
 
 **HackIllinois** — Best Web API track
 
@@ -11,30 +11,26 @@ Pharmacogenomics drug risk prediction API. Gene profile + drug → personalized 
 ### 1. Install dependencies
 
 ```bash
-# Frontend
-npm install
-
 # Backend (Python 3.10+)
 pip install -r backend/requirements.txt
 pip install -r requirements.txt
 ```
 
-### 2. Run the API locally
+### 2. Build the GeneAI app (optional — for / at root)
+
+```bash
+npm run build:app
+```
+
+### 3. Run the API locally
 
 ```bash
 python backend/run_local.py
 ```
 
-API runs at **http://127.0.0.1:8000**  
-Docs: **http://127.0.0.1:8000/docs**
-
-### 3. Run the frontend
-
-```bash
-npm run dev
-```
-
-App uses `VITE_API_URL` from `.env` (default: `http://127.0.0.1:8000`).
+- **http://127.0.0.1:8000** — GeneAI app (if built) or API info
+- **http://127.0.0.1:8000/docs** — Swagger docs
+- **http://127.0.0.1:8000/demo** — API demo
 
 ---
 

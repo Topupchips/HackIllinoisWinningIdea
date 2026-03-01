@@ -3,34 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmagen API — Documentation</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <title>Pharmagen — Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pg-bg: #0c0c0e;
-      --pg-bg-secondary: #16161a;
-      --pg-accent: #14b8a6;
-      --pg-accent-muted: rgba(20, 184, 166, 0.15);
-      --pg-text: #fafafa;
-      --pg-text-secondary: #a1a1aa;
-      --pg-text-muted: #71717a;
-      --pg-border: rgba(255, 255, 255, 0.08);
+      --pg-bg: #f0f0f0;
+      --pg-bg-secondary: rgba(255, 255, 255, 0.06);
+      --pg-accent: #1a1a1a;
+      --pg-accent-muted: rgba(0, 0, 0, 0.08);
+      --pg-text: #1a1a1a;
+      --pg-text-secondary: #555;
+      --pg-text-muted: #777;
+      --pg-border: rgba(0, 0, 0, 0.07);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'DM Sans', system-ui, sans-serif;
+      font-family: 'Inter', 'Helvetica Neue', sans-serif;
       background: var(--pg-bg);
       color: var(--pg-text);
       min-height: 100vh;
       line-height: 1.6;
     }
     .site-header {
-      background: var(--pg-bg-secondary);
+      background: var(--pg-bg);
       border-bottom: 1px solid var(--pg-border);
       padding: 16px 24px;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+      backdrop-filter: none;
     }
     .site-header-inner {
       max-width: 1000px;
@@ -44,7 +45,9 @@
     .site-logo {
       font-size: 1.25rem;
       font-weight: 600;
-      color: var(--pg-accent);
+      color: var(--pg-text);
+      text-decoration: none;
+      letter-spacing: -0.3px;
     }
     .site-nav {
       display: flex;
@@ -61,7 +64,7 @@
     }
     .site-nav a:hover {
       color: var(--pg-text);
-      background: rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.05);
     }
     .site-nav a.active {
       background: var(--pg-accent-muted);
@@ -71,6 +74,8 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 40px 24px 64px;
+      position: relative;
+      z-index: 1;
     }
     .page-content h1 {
       font-size: 1.75rem;
@@ -141,28 +146,19 @@
 <body>
   <header class="site-header">
     <div class="site-header-inner">
-      <a href="/docs" class="site-logo">
-        <svg class="gene-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 4c2 4 2 8 2 12s0 8-2 12M22 4c-2 4-2 8-2 12s0 8 2 12" stroke="#14b8a6" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M10 8h12M10 16h12M10 24h12" stroke="#14b8a6" stroke-width="1.2" stroke-linecap="round"/>
-          <circle cx="10" cy="8" r="1.5" fill="#14b8a6"/><circle cx="22" cy="8" r="1.5" fill="#14b8a6"/>
-          <circle cx="10" cy="16" r="1.5" fill="#14b8a6"/><circle cx="22" cy="16" r="1.5" fill="#14b8a6"/>
-          <circle cx="10" cy="24" r="1.5" fill="#14b8a6"/><circle cx="22" cy="24" r="1.5" fill="#14b8a6"/>
-        </svg>
-        Pharmagen API
-      </a>
+      <a href="/" class="site-logo">Pharmagen</a>
       <nav class="site-nav">
-        <a href="/docs" class="active">Home</a>
-        <a href="/docs/api">API Endpoints</a>
-        <a href="/docs#setup">Setup Guide</a>
-        <a href="/docs#run">Run Guide</a>
-        <a href="/demo">Demo</a>
+        <a href="/docs" id="nav-home">Home</a>
+        <a href="/docs/api" id="nav-api">API Endpoints</a>
+        <a href="/docs#setup" id="nav-setup">Setup Guide</a>
+        <a href="/docs#run" id="nav-run">Run Guide</a>
+        <a href="/demo" id="nav-demo">Demo</a>
       </nav>
     </div>
   </header>
 
   <main class="page-content">
-    <h1>Pharmagen API — Documentation</h1>
+    <h1>Pharmagen — Documentation</h1>
     <p>Drug–drug interaction prediction and pharmacogenomics. Predict interaction risk for novel drug combinations using chemical structure (SMILES) and AI.</p>
     <p><strong>HackIllinois — Best Web API</strong> track</p>
 
@@ -202,10 +198,10 @@
     <table>
       <tr><th>Feature</th><th>Description</th></tr>
       <tr><td>Health & Validate</td><td><code>GET /v1/health</code>, <code>GET /v1/validate</code></td></tr>
-      <tr><td>Drugs</td><td><code>GET /v1/drugs</code>, <code>GET /v1/drugs/{id}</code>, search, batch</td></tr>
-      <tr><td>Genes</td><td><code>GET /v1/genes</code>, <code>GET /v1/genes/{symbol}</code>, <code>GET /v1/genes/{symbol}/alleles</code></td></tr>
-      <tr><td>Predict</td><td><code>POST /v1/predict</code> (SMILES), <code>POST /v1/predict/natural</code> (natural language)</td></tr>
-      <tr><td>Explain</td><td><code>POST /v1/explain</code> — AI mechanistic risk explanation</td></tr>
+      <tr><td>Drugs</td><td><code>GET /v1/drugs/search</code>, <code>GET /v1/drugs/name/{name}</code>, <code>POST /v1/drugs/batch</code>, <code>GET /v1/drugs/similar</code>, <code>GET /v1/drugs/structure/image</code></td></tr>
+      <tr><td>Interactions</td><td><code>POST /v1/interactions/predict</code>, <code>POST /v1/interactions/explain</code>, <code>POST /v1/interactions/ask</code>, <code>GET /v1/interactions/timeline</code></td></tr>
+      <tr><td>Genes (when data loaded)</td><td><code>GET /v1/genes</code>, <code>GET /v1/genes/{symbol}</code>, <code>GET /v1/genes/{symbol}/alleles</code></td></tr>
+      <tr><td>Predict (when model loaded)</td><td><code>POST /v1/predict</code> (gene + drug), <code>POST /v1/predict/natural</code> (natural language)</td></tr>
       <tr><td>Optional auth</td><td>API key via <code>X-API-Key</code> when <code>API_KEY</code> is set</td></tr>
     </table>
 
@@ -213,7 +209,7 @@
     <h3>Prerequisites</h3>
     <ul>
       <li><strong>Python 3.10+</strong> — For the API</li>
-      <li><strong>Node.js 18+</strong> — For the frontend (optional)</li>
+      <li><strong>Node.js 18+</strong> — For the GeneAI frontend (optional)</li>
       <li><strong>Git</strong></li>
     </ul>
 
@@ -222,23 +218,31 @@
 cd HackIllinoisWinningIdea</code></pre>
 
     <h3>2. Install Backend Dependencies</h3>
-    <pre><code>pip install -r backend/requirements.txt</code></pre>
+    <pre><code>pip install -r backend/requirements.txt
+pip install -r requirements.txt</code></pre>
 
-    <h3>3. Install Frontend Dependencies (Optional)</h3>
-    <pre><code>npm install</code></pre>
+    <h3>3. Build the GeneAI App (Optional)</h3>
+    <p>To serve the 3D GeneAI app at the root URL:</p>
+    <pre><code>npm run build:app</code></pre>
 
     <h3>4. Environment Variables (Optional)</h3>
     <pre><code>cp .env.example .env</code></pre>
-    <p>Edit <code>.env</code> for <code>VITE_API_URL</code>, <code>OPENAI_API_KEY</code>, <code>API_KEY</code>, etc.</p>
+    <p>Edit <code>.env</code> for <code>OPENAI_API_KEY</code>, <code>API_KEY</code>, etc.</p>
 
     <h2 id="run">Run Guide</h2>
-    <h3>Run the API</h3>
+    <h3>Run Everything</h3>
     <pre><code>python backend/run_local.py</code></pre>
-    <p>API runs at <strong>http://127.0.0.1:8000</strong>.</p>
+    <p>Single command runs the full stack at <strong>http://127.0.0.1:8000</strong>:</p>
+    <ul>
+      <li><strong>/</strong> — GeneAI app (3D helix) if built, else API info</li>
+      <li><strong>/docs</strong> — Documentation</li>
+      <li><strong>/docs/api</strong> — Swagger API endpoints</li>
+      <li><strong>/demo</strong> — Interactive demo</li>
+    </ul>
 
-    <h3>Run the Frontend</h3>
+    <h3>Optional: Run GeneAI in Dev Mode</h3>
     <pre><code>npm run dev</code></pre>
-    <p>App runs at <strong>http://localhost:5173</strong>.</p>
+    <p>Runs GeneAI at <strong>http://localhost:5177</strong> (requires API on 8000).</p>
 
     <h3>Quick Verification</h3>
     <pre><code>curl http://127.0.0.1:8000/v1/health
@@ -262,5 +266,25 @@ python backend/run_local.py</code></pre>
       <li><strong>Frontend (Cloudflare Pages):</strong> <code>npm run build && npx wrangler pages deploy dist --project-name pharmagen</code></li>
     </ul>
   </main>
+  <script>
+    (function() {
+      function setActive() {
+        var path = window.location.pathname;
+        var hash = window.location.hash || '';
+        document.querySelectorAll('.site-nav a').forEach(function(a) {
+          a.classList.remove('active');
+          if (path === '/docs/api') {
+            if (a.id === 'nav-api') a.classList.add('active');
+          } else if (path === '/docs') {
+            if (hash === '#setup' && a.id === 'nav-setup') a.classList.add('active');
+            else if (hash === '#run' && a.id === 'nav-run') a.classList.add('active');
+            else if (!hash && a.id === 'nav-home') a.classList.add('active');
+          }
+        });
+      }
+      setActive();
+      window.addEventListener('hashchange', setActive);
+    })();
+  </script>
 </body>
 </html>

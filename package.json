@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "cd frontend && npm start",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "api": "python backend/run_local.py"
+    "api": "python backend/run_local.py",
+    "build:app": "cd frontend && npm install && npm run build"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

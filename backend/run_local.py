@@ -12,7 +12,7 @@ import uuid
 from pathlib import Path
 from urllib.parse import quote
 import uvicorn
-from fastapi import FastAPI, Query, HTTPException, Request
+from fastapi import FastAPI, Path, Query, HTTPException, Request
 
 # Add project root for api imports, backend for config
 ROOT = Path(__file__).resolve().parent.parent
@@ -89,7 +89,7 @@ app.add_middleware(CORSMiddleware, allow_origins=CORS_ORIGINS, allow_methods=["*
 async def rate_limit_middleware(request: Request, call_next):
     """Apply rate limiting. Skip for docs/static."""
     path = request.url.path
-    if path in ("/", "/docs", "/redoc", "/openapi.json", "/demo", "/v1/health", "/v1/validate") or path.startswith("/static"):
+    if path in ("/", "/docs", "/redoc", "/openapi.json", "/demo", "/v1/health", "/v1/validate") or path.startswith("/static") or path.startswith("/backend-static"):
         return await call_next(request)
     try:
         check_rate_limit(request)
@@ -113,7 +113,7 @@ async def auth_middleware(request: Request, call_next):
     """Optional API key auth when API_KEY is set. Skip docs/health/static."""
     if API_KEY:
         path = request.url.path
-        if path not in ("/", "/docs", "/redoc", "/openapi.json", "/demo", "/v1/health", "/v1/validate") and not path.startswith("/static"):
+        if path not in ("/", "/docs", "/redoc", "/openapi.json", "/demo", "/v1/health", "/v1/validate") and not path.startswith("/static") or path.startswith("/backend-static"):
             key = request.headers.get("X-API-Key")
             if key != API_KEY:
                 rid = getattr(request.state, "request_id", None)
@@ -134,10 +134,10 @@ async def generic_exception_handler(request: Request, exc: Exception):
     rid = getattr(request.state, "request_id", None)
     return error_response(500, "internal_error", "An unexpected error occurred.", rid)
 
-# Static files for themed docs + demo
+# Static files for themed docs + demo (use /backend-static to avoid conflict with frontend's /static)
 static_dir = Path(__file__).parent / "static"
 if static_dir.exists():
-    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+    app.mount("/backend-static", StaticFiles(directory=str(static_dir)), name="backend-static")
 
 # Include PharmaRisk (dev) routers when data loaded
 if PHARMARISK_LOADED:
@@ -147,12 +147,14 @@ if PHARMARISK_LOADED:
     app.include_router(genes.router, prefix="/v1")
     app.include_router(predict.router, prefix="/v1")
     app.include_router(explain.router, prefix="/v1")
+    # Main branch compatibility: /predict (no prefix) for GeneAI
+    app.include_router(predict.router)
 
 
 @app.get("/demo", include_in_schema=False)
 async def demo_redirect():
     """Redirect to API demo page."""
-    return RedirectResponse(url="/static/demo/index.html")
+    return RedirectResponse(url="/backend-static/demo/index.html")
 
 
 @app.get("/docs", include_in_schema=False)
@@ -353,10 +355,13 @@ if not PHARMARISK_LOADED:
         return {"valid": pubchem_ok, "message": "OK" if pubchem_ok else "PubChem unreachable"}
 
 
-@app.get("/", tags=["Health"], summary="API info")
-def root():
-    """Root endpoint with links to docs, demo, and health."""
-    return {"message": "Pharmagen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
+# Root: serve GeneAI app when frontend/build exists, else API info JSON
+FRONTEND_BUILD = ROOT / "frontend" / "build"
+if not FRONTEND_BUILD.exists():
+    @app.get("/", tags=["Health"], summary="API info")
+    def root():
+        """Root endpoint with links to docs, demo, and health."""
+        return {"message": "Pharmagen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
 
 
 # --- Drugs ---
@@ -407,7 +412,7 @@ if not PHARMARISK_LOADED:
 
 @app.get("/v1/drugs/search", tags=["Drugs"], summary="Search drugs by name", responses={**ERROR_RESPONSES, 200: {"content": {"application/json": {"example": {"query": "aspirin", "results": ["Aspirin", "aspirin"], "total": 10, "limit": 10, "offset": 0}}}}})
 def search_drugs(
-    q: str = Query(..., min_length=1, description="Search query (e.g. aspirin, ibuprofen)"),
+    q: str = Query(..., min_length=1, example="aspirin", description="Search query (e.g. aspirin, ibuprofen)"),
     limit: int = Query(10, ge=1, le=20, description="Max results (1–20)"),
     offset: int = Query(0, ge=0, description="Skip first N results"),
 ):
@@ -467,12 +472,15 @@ def _fetch_compound_from_pubchem(name: str) -> dict | None:
 
 
 @app.get("/v1/drugs/name/{name}", tags=["Drugs"], summary="Get compound by name", responses={**ERROR_RESPONSES, 200: {"content": {"application/json": {"example": {"name": "Aspirin", "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O", "formula": "C9H8O4", "cid": 2244}}}}})
-def get_compound(name: str, response: Response):
+def get_compound(name: str = Path(..., example="Aspirin", description="Drug name (e.g. Aspirin, Ibuprofen)"), response: Response):
     """
     Get compound details by name from PubChem.
     Returns SMILES, molecular formula, and PubChem CID.
+    Name lookup is case-insensitive (tries as-is, then lowercase).
     """
     result = _fetch_compound_from_pubchem(name)
+    if result is None and name != name.lower():
+        result = _fetch_compound_from_pubchem(name.lower())
     if result is None:
         raise HTTPException(status_code=404, detail="Compound not found")
     response.headers["Cache-Control"] = "public, max-age=3600"
@@ -724,6 +732,11 @@ def ask_interaction(req: AskRequest):
         return {"answer": r.choices[0].message.content}
     except Exception as e:
         return {"answer": f"Unable to answer: {str(e)}"}
+
+
+# Serve GeneAI app at / when frontend/build exists (must be last)
+if FRONTEND_BUILD.exists():
+    app.mount("/", StaticFiles(directory=str(FRONTEND_BUILD), html=True), name="app")
 
 
 if __name__ == "__main__":

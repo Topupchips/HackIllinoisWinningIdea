@@ -1,47 +1,48 @@
-/* Pharmagen API - Dark theme (matches app) */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap");
+/* Pharmagen API - Light theme, white backgrounds, dark text */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 @import url("https://unpkg.com/swagger-ui-dist@5/swagger-ui.css");
 
-/* Page background - no white borders or gaps */
+/* Page background - light gray to match main app & docs */
 html, body {
-  background: #0c0c0e !important;
+  background: #f0f0f0 !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Remove light box-shadows that can look like white borders */
+/* Swagger content area - white for readability */
 .swagger-ui .opblock,
 .swagger-ui .model-box,
 .swagger-ui .info,
 .swagger-ui .scheme-container,
-.swagger-ui .btn {
-  box-shadow: none !important;
+.swagger-ui .topbar,
+.swagger-ui .filter-container,
+.swagger-ui .information-container {
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Swagger UI root - ensure dark background throughout */
 #swagger-ui {
-  background: var(--pg-bg) !important;
+  background: #ffffff !important;
 }
 
-/* Overrides Swagger UI default styles */
 
 :root {
-  --pg-bg: #0c0c0e;
-  --pg-bg-secondary: #16161a;
-  --pg-bg-elevated: #1c1c21;
-  --pg-accent: #14b8a6;
-  --pg-accent-muted: rgba(20, 184, 166, 0.15);
-  --pg-text: #fafafa;
-  --pg-text-secondary: #a1a1aa;
-  --pg-text-muted: #71717a;
-  --pg-border: rgba(255, 255, 255, 0.08);
-  --pg-success: #22c55e;
-  --pg-warning: #eab308;
-  --pg-danger: #ef4444;
+  --pg-bg: #ffffff;
+  --pg-bg-secondary: #f8f9fa;
+  --pg-bg-elevated: #f0f2f5;
+  --pg-accent: #1a1a1a;
+  --pg-accent-muted: rgba(0, 0, 0, 0.08);
+  --pg-text: #1a1a1a;
+  --pg-text-secondary: #444;
+  --pg-text-muted: #555;
+  --pg-border: rgba(0, 0, 0, 0.1);
+  --pg-success: #2d8a6e;
+  --pg-warning: #c9a227;
+  --pg-danger: #c62828;
 }
 
 .swagger-ui {
-  font-family: 'DM Sans', system-ui, sans-serif !important;
+  font-family: 'Inter', 'Helvetica Neue', sans-serif !important;
   background: var(--pg-bg) !important;
   padding: 0 0 48px 0 !important;
 }
@@ -114,16 +115,20 @@ html, body {
   padding: 20px !important;
 }
 
-/* Schemas section - compact, collapsible */
+/* Schemas section - compact, collapsible, black heading */
 .swagger-ui section.models {
   margin-top: 32px !important;
   padding: 20px !important;
   border-radius: 8px !important;
 }
 
-.swagger-ui section.models h4 {
-  font-size: 0.9rem !important;
+.swagger-ui section.models h4,
+.swagger-ui section.models .models-title,
+.swagger-ui .models h4 {
+  font-size: 1rem !important;
   padding-bottom: 12px !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
 }
 
 .swagger-ui .topbar {
@@ -141,6 +146,43 @@ html, body {
   color: var(--pg-text) !important;
 }
 
+/* Filter search bar - matches green accent of endpoint cards */
+.swagger-ui .filter .filter-container,
+.swagger-ui .filter-container {
+  padding: 12px 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+.swagger-ui .filter input,
+.swagger-ui .filter-container input,
+.swagger-ui .operation-filter-input {
+  border: 1px solid rgba(45, 138, 110, 0.35) !important;
+  border-left: 4px solid var(--pg-success) !important;
+  background: rgba(45, 138, 110, 0.04) !important;
+  color: #1a1a1a !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  transition: border-color 0.2s, background 0.2s !important;
+}
+.swagger-ui .filter input:focus,
+.swagger-ui .filter-container input:focus {
+  border-color: var(--pg-success) !important;
+  border-left-color: var(--pg-success) !important;
+  background: #ffffff !important;
+  outline: none !important;
+}
+.swagger-ui .filter input::placeholder,
+.swagger-ui .filter-container input::placeholder,
+.swagger-ui .operation-filter-input::placeholder,
+.swagger-ui input.operation-filter-input::placeholder {
+  color: #555 !important;
+  opacity: 1 !important;
+}
+.swagger-ui .filter label {
+  color: #333 !important;
+  font-weight: 500 !important;
+}
 
 .swagger-ui .info .title {
   color: var(--pg-text) !important;
@@ -155,8 +197,11 @@ html, body {
 
 .swagger-ui .info p,
 .swagger-ui .info .description,
+.swagger-ui .info .description p,
+.swagger-ui .info .description li,
+.swagger-ui .info .description strong,
 .swagger-ui .info .base-url {
-  color: var(--pg-text-secondary) !important;
+  color: #000000 !important;
 }
 
 .swagger-ui .info a {
@@ -184,11 +229,11 @@ html, body {
 }
 
 .swagger-ui .opblock.opblock-get {
-  border-left: 4px solid var(--pg-accent) !important;
+  border-left: 4px solid var(--pg-success) !important;
 }
 
 .swagger-ui .opblock.opblock-post {
-  border-left: 4px solid var(--pg-success) !important;
+  border-left: 4px solid var(--pg-accent) !important;
 }
 
 .swagger-ui .opblock.opblock-put,
@@ -206,10 +251,16 @@ html, body {
   border: 1px solid var(--pg-accent) !important;
 }
 
-.swagger-ui .opblock.opblock-post .opblock-summary-method {
-  background: rgba(34, 197, 94, 0.15) !important;
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+  background: rgba(78, 205, 196, 0.2) !important;
   color: var(--pg-success) !important;
   border-color: var(--pg-success) !important;
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+  background: var(--pg-accent-muted) !important;
+  color: var(--pg-accent) !important;
+  border-color: var(--pg-accent) !important;
 }
 
 .swagger-ui .opblock .opblock-summary-path {
@@ -240,6 +291,9 @@ html, body {
   background: var(--pg-bg-secondary) !important;
 }
 
+.swagger-ui .opblock-body .tab-item {
+  color: var(--pg-text-secondary) !important;
+}
 .swagger-ui .opblock-body .tab-item.active {
   color: var(--pg-accent) !important;
   border-color: var(--pg-accent) !important;
@@ -253,35 +307,35 @@ html, body {
 
 .swagger-ui .btn:hover {
   background: var(--pg-accent) !important;
-  color: var(--pg-bg) !important;
+  color: #fff !important;
 }
 
 .swagger-ui .btn.execute {
   background: var(--pg-accent) !important;
   border-color: var(--pg-accent) !important;
-  color: var(--pg-bg) !important;
+  color: #fff !important;
 }
 
 .swagger-ui .btn.execute:hover {
-  background: #0d9488 !important;
-  border-color: #0d9488 !important;
+  background: #ff5252 !important;
+  border-color: #ff5252 !important;
 }
 
 .swagger-ui .model-box {
-  background: var(--pg-bg) !important;
-  border: 1px solid var(--pg-border) !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 .swagger-ui .model-box-control {
-  color: var(--pg-text-secondary) !important;
+  color: #333 !important;
 }
 
 .swagger-ui .model .property {
-  color: var(--pg-text-secondary) !important;
+  color: #000000 !important;
 }
 
 .swagger-ui .model .property.primitive {
-  color: var(--pg-accent) !important;
+  color: #333 !important;
 }
 
 .swagger-ui table thead tr th,
@@ -376,33 +430,34 @@ html, body {
 }
 
 .swagger-ui section.models {
-  border: 1px solid var(--pg-border) !important;
-  background: var(--pg-bg-secondary) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  background: #ffffff !important;
 }
 
+.swagger-ui section.models h4,
+.swagger-ui .models h4,
 .swagger-ui section.models h4 {
-  color: var(--pg-text) !important;
-  border-bottom: 1px solid var(--pg-border) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
 
 .swagger-ui .model-box-control {
-  color: var(--pg-accent) !important;
+  color: #333 !important;
 }
 
 .swagger-ui .model-toggle {
-  color: var(--pg-accent) !important;
+  color: #1a1a1a !important;
 }
 
 .swagger-ui .model-toggle:hover {
-  color: var(--pg-accent) !important;
+  color: #1a1a1a !important;
 }
 
 .swagger-ui .prop-attr {
-  color: var(--pg-text-muted) !important;
+  color: #333 !important;
 }
 
 .swagger-ui .prop-type {
-  color: var(--pg-accent) !important;
+  color: #333 !important;
 }
 
 /* Override any remaining light borders from base Swagger UI */
@@ -424,17 +479,82 @@ html, body {
   border-bottom-color: var(--pg-border) !important;
 }
 
-/* Response/request bodies - no white */
+/* Response/request bodies */
 .swagger-ui .responses-wrapper,
 .swagger-ui .responses-inner,
 .swagger-ui .highlight-code,
-.swagger-ui .microlight {
-  background: var(--pg-bg) !important;
-  border-color: var(--pg-border) !important;
+.swagger-ui .microlight,
+.swagger-ui .opblock-body,
+.swagger-ui .opblock-body pre,
+.swagger-ui .opblock-body .tab-header,
+.swagger-ui .download-url-wrapper,
+.swagger-ui .filter .operation-filter-input {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #000000 !important;
+}
+
+/* Schemas - white bg, black text */
+.swagger-ui section.models,
+.swagger-ui .model-box,
+.swagger-ui .model .property,
+.swagger-ui .model .property.primitive {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+.swagger-ui .model-box-control,
+.swagger-ui .prop-type,
+.swagger-ui .prop-attr {
+  color: #333 !important;
+}
+
+/* Schemas section title - force black */
+.swagger-ui section.models h4,
+.swagger-ui section.models > h4,
+.swagger-ui section.models .models-title,
+.swagger-ui .models h4,
+.swagger-ui section.models .model-box-control:first-of-type,
+.swagger-ui section.models > div > .model-box-control {
+  color: #000000 !important;
+  font-weight: 600 !important;
 }
 
 /* Curl command box */
 .swagger-ui .curl-command {
-  background: var(--pg-bg) !important;
+  background: var(--pg-bg-secondary) !important;
   border-color: var(--pg-border) !important;
+  color: var(--pg-text-secondary) !important;
+}
+
+/* Force visible text */
+.swagger-ui .opblock-summary-path,
+.swagger-ui .parameter__name,
+.swagger-ui .response-col_description,
+.swagger-ui .markdown p {
+  color: #1a1a1a !important;
+}
+.swagger-ui .opblock-summary-description,
+.swagger-ui .parameter__type,
+.swagger-ui .response-col_status,
+.swagger-ui .markdown code {
+  color: #444 !important;
+}
+
+/* Inputs and selects - dark */
+.swagger-ui input,
+.swagger-ui textarea,
+.swagger-ui select {
+  background: var(--pg-bg) !important;
+  color: var(--pg-text) !important;
+  border-color: var(--pg-border) !important;
+}
+
+/* Schemas title - ensure black (override any Swagger defaults) */
+#swagger-ui .swagger-ui section.models h4,
+#swagger-ui section.models h4,
+.swagger-ui section.models h4,
+section.models h4 {
+  color: #000000 !important;
+  font-weight: 600 !important;
 }
