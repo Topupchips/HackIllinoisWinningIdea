@@ -26,7 +26,6 @@ def load_model():
             gene_emb_path=str(MODEL_DIR / "embeddings" / "gene_embeddings.pkl"),
             drug_emb_path=str(MODEL_DIR / "embeddings" / "drug_embeddings.pkl"),
             target_flags_path=str(MODEL_DIR / "embeddings" / "target_flags.pkl"),
-            xgboost_path=str(MODEL_DIR / "xgboost_baseline.json"),
         )
         _using_mock = False
         logger.info("Real model loaded successfully")
