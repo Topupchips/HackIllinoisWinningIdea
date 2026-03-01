@@ -9,3 +9,4 @@ data/raw/*.sql
 data/raw/*.gz
 data/raw/*.tsv
 .DS_Store
+.DS_Store
