@@ -284,9 +284,15 @@ export default function GeneAI() {
       <DNAHelix riskLevel={riskLevel} />
 
       {/* Header */}
-      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "28px 44px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, padding: "16px 24px", background: "rgba(240,240,240,0.9)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", borderBottom: "1px solid rgba(0,0,0,0.07)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
         <span style={{ fontSize: "20px", fontWeight: "600", color: "#1a1a1a", letterSpacing: "-0.3px" }}>GeneAI</span>
-        <span style={{ fontSize: "14px", color: "#999" }}>2026</span>
+        <nav style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <a href={`${API_BASE}/docs`} target="_blank" rel="noopener noreferrer" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Info</a>
+          <a href={`${API_BASE}/docs/api`} target="_blank" rel="noopener noreferrer" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>API Endpoints</a>
+          <a href={`${API_BASE}/docs#setup`} target="_blank" rel="noopener noreferrer" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Setup</a>
+          <a href={`${API_BASE}/docs#run`} target="_blank" rel="noopener noreferrer" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Run</a>
+          <a href={`${API_BASE}/demo`} target="_blank" rel="noopener noreferrer" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Demo</a>
+        </nav>
       </div>
 
       {/* How it works */}
@@ -302,7 +308,7 @@ export default function GeneAI() {
             }}>+</a>
           </div>
           <p style={{ margin: 0, fontSize: "15px", color: "#555", lineHeight: "1.8" }}>
-            Understanding your drug-gene interactions is easy. Select your genetic profile, choose a medication, and receive personalized safety recommendations.
+            Understanding your drug-gene interactions is easy. Select your genetic profile, choose a medication, and receive personalized safety recommendations. API, docs, and an interactive demo are all available in the navigation above.
           </p>
         </div>
       </LiquidGlass>
