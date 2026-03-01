@@ -3,13 +3,45 @@ from fastapi import APIRouter, HTTPException
 from api.models.requests import NaturalPredictRequest, PredictRequest
 from api.models.responses import (
     ErrorResponse,
-    GeneContribution,
+    GeneDrugResult,
     PredictResponse,
 )
 from api.services import model_service, openai_service
 from api.services.data_service import data_service
 
 router = APIRouter(tags=["Predict"])
+
+
+def _enrich_with_cpic(result: dict, req_genes: list) -> dict:
+    """Override mock text with real CPIC recommendation if available."""
+    drug = result["medicine"]
+    gene = result["gene"]
+
+    # Find the phenotype the user submitted for this gene
+    phenotype = ""
+    for g in req_genes:
+        if g.name.upper() == gene.upper():
+            phenotype = g.phenotype
+            break
+
+    recs = data_service.get_recommendations_for_drug(gene, drug)
+    if not recs:
+        return result
+
+    # Try matching by phenotype first
+    for r in recs:
+        phenotype_field = r.get("phenotype", "").lower()
+        if phenotype.lower() in phenotype_field:
+            cpic_text = r.get("recommendation_text", "")
+            if cpic_text:
+                result["text"] = cpic_text
+            return result
+
+    # Fallback to first recommendation
+    cpic_text = recs[0].get("recommendation_text", "")
+    if cpic_text:
+        result["text"] = cpic_text
+    return result
 
 
 @router.post(
@@ -36,39 +68,25 @@ async def predict(req: PredictRequest):
     genes_input = [{"name": g.name, "phenotype": g.phenotype} for g in req.genes]
     result = model_service.predict(genes_input, req.drug)
 
-    # Find matching CPIC recommendation text
-    cpic_rec = None
-    rec_text = ""
-    for gene in req.genes:
-        recs = data_service.get_recommendations_for_drug(gene.name, req.drug)
-        if recs:
-            # Find best match by phenotype
-            for r in recs:
-                phenotype_field = r.get("phenotype", "").lower()
-                if gene.phenotype.lower() in phenotype_field:
-                    cpic_rec = r.get("recommendation_text", "")
-                    rec_text = r.get("combined_text", "")
-                    break
-            if not cpic_rec and recs:
-                cpic_rec = recs[0].get("recommendation_text", "")
-                rec_text = recs[0].get("combined_text", "")
+    # Enrich each gene result with CPIC text when available
+    enriched = []
+    for r in result["results"]:
+        r = _enrich_with_cpic(r, req.genes)
+        enriched.append(
+            GeneDrugResult(
+                gene=r["gene"],
+                activity_level=r["activity_level"],
+                medicine=r["medicine"],
+                text=r["text"],
+                risk_score=r["risk_score"],
+                contribution=r["contribution"],
+            )
+        )
 
     return PredictResponse(
-        drug=req.drug,
-        risk_score=result["risk_score"],
+        results=enriched,
+        overall_risk_score=result["overall_risk_score"],
         risk_label=result["risk_label"],
-        gene_contributions=[
-            GeneContribution(
-                gene=gene,
-                phenotype=next(
-                    (g.phenotype for g in req.genes if g.name == gene), ""
-                ),
-                contribution=contrib,
-            )
-            for gene, contrib in result["gene_contributions"].items()
-        ],
-        recommendation_text=rec_text,
-        cpic_recommendation=cpic_rec,
     )
 
 
@@ -85,7 +103,6 @@ async def predict_natural(req: NaturalPredictRequest):
             detail="Could not parse your input. Try: 'I'm a CYP2D6 poor metabolizer taking codeine'",
         )
 
-    # Build a PredictRequest and delegate
     from api.models.requests import GeneInput, PredictRequest as PR
 
     predict_req = PR(

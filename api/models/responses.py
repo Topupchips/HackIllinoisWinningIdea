@@ -6,25 +6,22 @@ class ErrorResponse(BaseModel):
     detail: str | None = Field(None, example="No drug matching 'xyz' was found")
 
 
-class GeneContribution(BaseModel):
+class GeneDrugResult(BaseModel):
     gene: str = Field(..., example="CYP2D6")
-    phenotype: str = Field(..., example="Poor Metabolizer")
-    contribution: float = Field(..., example=0.85)
+    activity_level: float = Field(..., ge=0.0, le=2.0, example=0.0)
+    medicine: str = Field(..., example="codeine")
+    text: str = Field(
+        ...,
+        example="Contraindicated. Ultrarapid metabolizers may convert codeine to morphine too rapidly.",
+    )
+    risk_score: float = Field(..., ge=1.0, le=10.0, example=9.0)
+    contribution: float = Field(..., ge=0.0, le=1.0, example=0.85)
 
 
 class PredictResponse(BaseModel):
-    drug: str = Field(..., example="codeine")
-    risk_score: float = Field(..., example=8.5)
+    results: list[GeneDrugResult]
+    overall_risk_score: float = Field(..., example=8.5)
     risk_label: str = Field(..., example="High Risk")
-    gene_contributions: list[GeneContribution]
-    recommendation_text: str = Field(
-        "",
-        example="Avoid codeine use due to CYP2D6 poor metabolizer status.",
-    )
-    cpic_recommendation: str | None = Field(
-        None,
-        example="Use an alternative analgesic. Avoid codeine.",
-    )
 
 
 class DrugResponse(BaseModel):
