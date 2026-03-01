@@ -69,7 +69,7 @@ class PharmaRiskModel:
         # ── Load Set Transformer ──────────────────────────────────────────────
         self.transformer = None
         if os.path.exists(model_path):
-            checkpoint = torch.load(model_path, map_location=self.device)
+            checkpoint = torch.load(model_path, map_location=self.device, weights_only=False)
             args       = checkpoint["args"]
 
             self.transformer = PharmaSetTransformer(
@@ -150,7 +150,7 @@ class PharmaRiskModel:
         # ── Inference ─────────────────────────────────────────────────────────
         with torch.no_grad():
             risk_score, attn_weights = self.transformer(
-                gene_tensor, drug_tensor, flag_tensor
+                gene_tensor, drug_tensor, activity_tensor, flag_tensor
             )
 
         score        = float(risk_score.cpu().item())

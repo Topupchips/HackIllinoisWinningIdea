@@ -52,7 +52,8 @@ def train_one_epoch(model, loader, optimizer, criterion, device):
             d_emb = drug_emb[i].unsqueeze(0)   # [1, 1024]
             f     = flag[i].unsqueeze(0)        # [1]
 
-            act   = activity[i].unsqueeze(0)   # [1]
+            act   = activity[i].squeeze()       # scalar → [1] after unsqueeze in model
+            act   = act.unsqueeze(0)            # [1]
             risk, _ = model(g_emb, d_emb, act, f)
             batch_preds.append(risk.unsqueeze(0))
 
@@ -89,7 +90,7 @@ def evaluate(model, loader, criterion, device):
             d_emb = drug_emb[i].unsqueeze(0)
             f     = flag[i].unsqueeze(0)
 
-            act   = activity[i].unsqueeze(0)   # [1]
+            act   = activity[i].squeeze().unsqueeze(0)   # [1]
             risk, _ = model(g_emb, d_emb, act, f)
             batch_preds.append(risk.unsqueeze(0))
 
@@ -147,7 +148,7 @@ def train(args):
 
     # ── Optimizer & loss ──────────────────────────────────────────────────────
     optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, patience=10, factor=0.5, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer, patience=10, factor=0.5)
     criterion = nn.SmoothL1Loss()   # robust to outliers, good for regression
 
     # ── Training loop ─────────────────────────────────────────────────────────
