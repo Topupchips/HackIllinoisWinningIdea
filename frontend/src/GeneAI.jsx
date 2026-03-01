@@ -5,7 +5,7 @@ const GENES = ["CYP2D6","CYP2C19","CYP2C9","CYP3A5","DPYD","TPMT","NUDT15","UGT1
 const PHENOTYPES = ["Poor Metabolizer","Intermediate Metabolizer","Normal Metabolizer","Rapid Metabolizer","Ultrarapid Metabolizer"];
 const SAMPLE_DRUGS = ["codeine","warfarin","clopidogrel","simvastatin","tamoxifen","omeprazole","abacavir","carbamazepine","metoprolol","amitriptyline","fluorouracil","azathioprine","allopurinol","tramadol","ibuprofen"];
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 function DNAHelix({ riskLevel }) {
   const mountRef = useRef(null);
