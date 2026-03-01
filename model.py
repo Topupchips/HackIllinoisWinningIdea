@@ -118,6 +118,16 @@ class PharmaSetTransformer(nn.Module):
         """
 
         # ── 1. Project to shared dimension ────────────────────────────────────
+        # Squeeze batch dim if present (training passes [1, 1280], inference passes [n_genes, 1280])
+        if gene_embeddings.dim() == 3:
+            gene_embeddings = gene_embeddings.squeeze(0)
+        if drug_embedding.dim() == 3:
+            drug_embedding = drug_embedding.squeeze(0)
+        if activity_levels.dim() == 2:
+            activity_levels = activity_levels.squeeze(0)
+        if target_flags.dim() == 2:
+            target_flags = target_flags.squeeze(0)
+
         genes = self.gene_proj(gene_embeddings)           # [n_genes, 128]
 
         # Scale each protein vector by its activity level BEFORE attention.

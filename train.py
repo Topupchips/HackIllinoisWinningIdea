@@ -147,11 +147,11 @@ def train(args):
 
     # ── Optimizer & loss ──────────────────────────────────────────────────────
     optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, patience=10, factor=0.5, verbose=True)
+    scheduler = ReduceLROnPlateau(optimizer, patience=10, factor=0.5)
     criterion = nn.SmoothL1Loss()   # robust to outliers, good for regression
 
     # ── Training loop ─────────────────────────────────────────────────────────
-    best_val_loss = float("inf")
+    best_spearman = -1.0
     patience_counter = 0
 
     for epoch in range(1, args.epochs + 1):
@@ -165,24 +165,24 @@ def train(args):
               f"Val Loss: {val_loss:.4f} | "
               f"Spearman: {spearman:.3f}")
 
-        if val_loss < best_val_loss:
-            best_val_loss    = val_loss
+        if spearman > best_spearman:
+            best_spearman    = spearman
             patience_counter = 0
             torch.save({
                 "epoch":       epoch,
                 "model_state": model.state_dict(),
-                "val_loss":    best_val_loss,
+                "val_loss":    val_loss,
                 "spearman":    spearman,
                 "args":        vars(args),
             }, args.save_path)
-            print(f"  --> Saved best model (val_loss={best_val_loss:.4f}, spearman={spearman:.3f})")
+            print(f"  --> Saved best model (spearman={best_spearman:.3f}, val_loss={val_loss:.4f})")
         else:
             patience_counter += 1
             if patience_counter >= args.patience:
                 print(f"Early stopping at epoch {epoch} (no improvement for {args.patience} epochs)")
                 break
 
-    print(f"\nTraining complete. Best val loss: {best_val_loss:.4f}")
+    print(f"\nTraining complete. Best Spearman: {best_spearman:.4f}")
     print(f"Model saved to: {args.save_path}")
 
 
