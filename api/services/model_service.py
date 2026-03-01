@@ -13,20 +13,20 @@ def load_model():
     global _real_model, _using_mock
     try:
         import sys
-        from api.config import BASE_DIR
+        from api.config import MODEL_DIR
 
-        # model_api.py and embeddings/ are at repo root
-        if str(BASE_DIR) not in sys.path:
-            sys.path.insert(0, str(BASE_DIR))
+        # model_api.py and all model files live in model/
+        if str(MODEL_DIR) not in sys.path:
+            sys.path.insert(0, str(MODEL_DIR))
 
         from model_api import PharmaRiskModel
 
         _real_model = PharmaRiskModel(
-            model_path=str(BASE_DIR / "set_transformer.pt"),
-            gene_emb_path=str(BASE_DIR / "embeddings" / "gene_embeddings.pkl"),
-            drug_emb_path=str(BASE_DIR / "embeddings" / "drug_embeddings.pkl"),
-            target_flags_path=str(BASE_DIR / "embeddings" / "target_flags.pkl"),
-            xgboost_path=str(BASE_DIR / "xgboost_baseline.json"),
+            model_path=str(MODEL_DIR / "set_transformer.pt"),
+            gene_emb_path=str(MODEL_DIR / "embeddings" / "gene_embeddings.pkl"),
+            drug_emb_path=str(MODEL_DIR / "embeddings" / "drug_embeddings.pkl"),
+            target_flags_path=str(MODEL_DIR / "embeddings" / "target_flags.pkl"),
+            xgboost_path=str(MODEL_DIR / "xgboost_baseline.json"),
         )
         _using_mock = False
         logger.info("Real model loaded successfully")
