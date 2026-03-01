@@ -197,8 +197,8 @@ curl -X POST http://localhost:8000/explain \
 
 ## Team
 
-- **Sanjavan Ghodasara** — API, data pipeline, frontend
-- **Charles** — Model architecture, training, embeddings
+- [Sanjavan Ghodasara](https://www.linkedin.com/in/sanjavan-ghodasara-854138235/)
+- [Suhaan Khan](https://www.linkedin.com/in/suhaankhan/)
 
 ## License
 
