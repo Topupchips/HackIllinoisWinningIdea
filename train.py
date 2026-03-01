@@ -19,11 +19,13 @@ Usage:
 """
 
 import argparse
+import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import Adam
-from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.optim.lr_scheduler import ReduceLROnPlateau, LinearLR
 from torch.utils.data import random_split, DataLoader
+from scipy.stats import spearmanr
 
 from dataset import PharmaDataset
 from model import PharmaSetTransformer, count_parameters
@@ -102,8 +104,6 @@ def evaluate(model, loader, criterion, device):
         all_preds.extend(preds.cpu().squeeze().tolist())
         all_labels.extend(risk_score.cpu().squeeze().tolist())
 
-    # Spearman correlation
-    from scipy.stats import spearmanr
     spearman, _ = spearmanr(all_preds, all_labels)
 
     return total_loss / total, spearman
@@ -148,8 +148,12 @@ def train(args):
 
     # ── Optimizer & loss ──────────────────────────────────────────────────────
     optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
-    scheduler = ReduceLROnPlateau(optimizer, patience=10, factor=0.5)
     criterion = nn.SmoothL1Loss()   # robust to outliers, good for regression
+
+    # LR warmup: ramp from lr/10 to lr over first 5 epochs, then ReduceLROnPlateau
+    warmup_epochs = 5
+    warmup_scheduler  = LinearLR(optimizer, start_factor=0.1, end_factor=1.0, total_iters=warmup_epochs)
+    plateau_scheduler = ReduceLROnPlateau(optimizer, patience=10, factor=0.5)
 
     # ── Training loop ─────────────────────────────────────────────────────────
     best_val_loss = float("inf")
@@ -159,12 +163,17 @@ def train(args):
         train_loss            = train_one_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, spearman    = evaluate(model, val_loader, criterion, device)
 
-        scheduler.step(val_loss)
+        if epoch <= warmup_epochs:
+            warmup_scheduler.step()
+        else:
+            plateau_scheduler.step(val_loss)
 
+        current_lr = optimizer.param_groups[0]["lr"]
         print(f"Epoch {epoch:3d}/{args.epochs} | "
               f"Train Loss: {train_loss:.4f} | "
               f"Val Loss: {val_loss:.4f} | "
-              f"Spearman: {spearman:.3f}")
+              f"Spearman: {spearman:.3f} | "
+              f"LR: {current_lr:.2e}")
 
         if val_loss < best_val_loss:
             best_val_loss    = val_loss
@@ -186,6 +195,56 @@ def train(args):
     print(f"\nTraining complete. Best val loss: {best_val_loss:.4f}")
     print(f"Model saved to: {args.save_path}")
 
+    # ── Final evaluation on best checkpoint ───────────────────────────────────
+    print("\n" + "=" * 60)
+    print("FINAL EVALUATION (best checkpoint)")
+    print("=" * 60)
+
+    best_ckpt = torch.load(args.save_path, map_location=device, weights_only=False)
+    model.load_state_dict(best_ckpt["model_state"])
+    model.eval()
+
+    all_preds  = []
+    all_labels = []
+
+    with torch.no_grad():
+        for gene_emb, activity, drug_emb, flag, risk_score in val_loader:
+            gene_emb   = gene_emb.to(device)
+            drug_emb   = drug_emb.to(device)
+            flag       = flag.to(device)
+            risk_score = risk_score.to(device)
+
+            for i in range(gene_emb.shape[0]):
+                g_emb = gene_emb[i].unsqueeze(0)
+                d_emb = drug_emb[i].unsqueeze(0)
+                f     = flag[i].unsqueeze(0)
+                act   = activity[i].squeeze().unsqueeze(0)
+                risk, _ = model(g_emb, d_emb, act, f)
+                all_preds.append(float(risk.cpu().item()))
+                all_labels.append(float(risk_score[i].cpu().item()))
+
+    preds_np  = np.array(all_preds)
+    labels_np = np.array(all_labels)
+
+    rmse_val        = float(np.sqrt(np.mean((preds_np - labels_np) ** 2)))
+    spearman_val, _ = spearmanr(all_preds, all_labels)
+    within_one      = float(np.mean(np.abs(preds_np - labels_np) <= 1.0))
+
+    def _to_level(s):
+        if s >= 7.0: return "HIGH"
+        if s >= 4.0: return "MEDIUM"
+        return "LOW"
+
+    level_correct = sum(1 for p, l in zip(all_preds, all_labels) if _to_level(p) == _to_level(l))
+    level_acc     = level_correct / len(all_preds)
+
+    print(f"  Samples        : {len(all_preds)}")
+    print(f"  RMSE           : {rmse_val:.4f}")
+    print(f"  Spearman       : {spearman_val:.4f}")
+    print(f"  +/-1 Accuracy  : {within_one*100:.1f}%")
+    print(f"  Risk Level Acc : {level_acc*100:.1f}%")
+    print("=" * 60)
+
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
@@ -195,13 +254,13 @@ if __name__ == "__main__":
     parser.add_argument("--gene_emb",      required=True)
     parser.add_argument("--drug_emb",      required=True)
     parser.add_argument("--target_flags",  required=True)
-    parser.add_argument("--epochs",        type=int,   default=100)
-    parser.add_argument("--patience",      type=int,   default=10)
+    parser.add_argument("--epochs",        type=int,   default=200)
+    parser.add_argument("--patience",      type=int,   default=20)
     parser.add_argument("--batch_size",    type=int,   default=32)
     parser.add_argument("--gene_dim",      type=int,   default=128)
     parser.add_argument("--n_heads",       type=int,   default=4)
     parser.add_argument("--dropout",       type=float, default=0.2)
-    parser.add_argument("--lr",            type=float, default=1e-3)
+    parser.add_argument("--lr",            type=float, default=5e-4)
     parser.add_argument("--save_path",     default="set_transformer.pt")
     args = parser.parse_args()
 
