@@ -217,11 +217,14 @@ export default function GeneAI() {
   const filtered = SAMPLE_DRUGS.filter(d => d.includes(drugSearch.toLowerCase())).slice(0, 6);
   const filteredGenes = (i) => GENES.filter(g => g.toLowerCase().includes((geneSearches[i] || "").toLowerCase())).slice(0, 8);
 
-  const addGene = () => { setGenes([...genes, { name: "", phenotype: "" }]); setGeneSearches([...geneSearches, ""]); setShowGenes([...showGenes, false]); };
-  const removeGene = (i) => { setGenes(genes.filter((_, idx) => idx !== i)); setGeneSearches(geneSearches.filter((_, idx) => idx !== i)); setShowGenes(showGenes.filter((_, idx) => idx !== i)); };
+  const [showPhenotypes, setShowPhenotypes] = useState([false]);
+
+  const addGene = () => { setGenes([...genes, { name: "", phenotype: "" }]); setGeneSearches([...geneSearches, ""]); setShowGenes([...showGenes, false]); setShowPhenotypes([...showPhenotypes, false]); };
+  const removeGene = (i) => { setGenes(genes.filter((_, idx) => idx !== i)); setGeneSearches(geneSearches.filter((_, idx) => idx !== i)); setShowGenes(showGenes.filter((_, idx) => idx !== i)); setShowPhenotypes(showPhenotypes.filter((_, idx) => idx !== i)); };
   const updateGene = (i, f, v) => { const u = [...genes]; u[i] = { ...u[i], [f]: v }; setGenes(u); };
   const setShowGene = (i, val) => { const u = [...showGenes]; u[i] = val; setShowGenes(u); };
   const setGeneSearch = (i, val) => { const u = [...geneSearches]; u[i] = val; setGeneSearches(u); };
+  const setShowPhenotype = (i, val) => { const u = [...showPhenotypes]; u[i] = val; setShowPhenotypes(u); };
 
   const analyze = async () => {
     setLoading(true); setError(null); setResults(null); setRiskLevel(null);
@@ -349,10 +352,32 @@ export default function GeneAI() {
                   </div>
                 )}
               </div>
-              <select value={g.phenotype} onChange={e => updateGene(i, "phenotype", e.target.value)} style={{ ...inp, flex: 1 }}>
-                <option value="">Phenotype...</option>
-                {PHENOTYPES.map(p => <option key={p} value={p}>{p}</option>)}
-              </select>
+              <div style={{ position: "relative", flex: 1 }}>
+                <div onClick={() => setShowPhenotype(i, !showPhenotypes[i])}
+                  onBlur={() => setTimeout(() => setShowPhenotype(i, false), 200)}
+                  tabIndex={0}
+                  style={{ ...inp, width: "100%", cursor: "pointer", color: g.phenotype ? "#1a1a1a" : "#aaa", userSelect: "none" }}>
+                  {g.phenotype || "Phenotype..."}
+                </div>
+                {showPhenotypes[i] && (
+                  <div style={{
+                    position: "absolute", top: "100%", left: 0, right: 0, marginTop: "6px", zIndex: 200,
+                    background: "rgba(245,245,247,0.92)", backdropFilter: "blur(60px) saturate(1.8)",
+                    WebkitBackdropFilter: "blur(60px) saturate(1.8)",
+                    border: "1px solid rgba(255,255,255,0.5)", borderRadius: "20px",
+                    boxShadow: "0 8px 40px rgba(0,0,0,0.1)", overflow: "hidden", padding: "6px 0"
+                  }}>
+                    {PHENOTYPES.map(p => (
+                      <div key={p} onMouseDown={e => { e.preventDefault(); updateGene(i, "phenotype", p); setShowPhenotype(i, false); }}
+                        style={{ padding: "10px 20px", cursor: "pointer", fontSize: "15px", color: "#333", margin: "2px 6px", borderRadius: "12px" }}
+                        onMouseEnter={e => e.target.style.background = "rgba(0,0,0,0.05)"}
+                        onMouseLeave={e => e.target.style.background = "transparent"}>
+                        {p}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               {genes.length > 1 && (
                 <button onClick={() => removeGene(i)} style={{
                   background: "rgba(255,255,255,0.5)", border: "1px solid rgba(0,0,0,0.07)",
