@@ -9,18 +9,24 @@ _using_mock = True
 
 
 def load_model():
-    """Try to load the real model; fall back to mock."""
+    """Try to load Charles's PharmaRiskModel; fall back to mock."""
     global _real_model, _using_mock
     try:
-        from model.model import PharmaRiskModel
-        from api.config import MODEL_DIR
+        import sys
+        from api.config import BASE_DIR
+
+        # model_api.py and embeddings/ are at repo root
+        if str(BASE_DIR) not in sys.path:
+            sys.path.insert(0, str(BASE_DIR))
+
+        from model_api import PharmaRiskModel
 
         _real_model = PharmaRiskModel(
-            transformer_path=str(MODEL_DIR / "set_transformer.pt"),
-            xgboost_path=str(MODEL_DIR / "xgboost_baseline.json"),
-            gene_embeddings_path=str(MODEL_DIR / "gene_embeddings.pkl"),
-            drug_embeddings_path=str(MODEL_DIR / "drug_embeddings.pkl"),
-            target_flags_path=str(MODEL_DIR / "target_flags.pkl"),
+            model_path=str(BASE_DIR / "set_transformer.pt"),
+            gene_emb_path=str(BASE_DIR / "embeddings" / "gene_embeddings.pkl"),
+            drug_emb_path=str(BASE_DIR / "embeddings" / "drug_embeddings.pkl"),
+            target_flags_path=str(BASE_DIR / "embeddings" / "target_flags.pkl"),
+            xgboost_path=str(BASE_DIR / "xgboost_baseline.json"),
         )
         _using_mock = False
         logger.info("Real model loaded successfully")
@@ -46,12 +52,59 @@ def predict(genes: list[dict], drug: str) -> dict:
     """
     if _real_model and not _using_mock:
         try:
-            result = _real_model.predict(genes, drug)
-            return result
+            return _predict_real(genes, drug)
         except Exception as e:
             logger.error(f"Real model predict failed: {e}, falling back to mock")
 
     return _mock_predict(genes, drug)
+
+
+def _predict_real(genes: list[dict], drug: str) -> dict:
+    """Call Charles's model and convert output to our per-gene format."""
+    # Convert phenotype -> activity_level for Charles's API
+    model_genes = [
+        {"name": g["name"], "activity_level": _phenotype_to_activity(g.get("phenotype", ""))}
+        for g in genes
+    ]
+
+    raw = _real_model.predict(model_genes, drug)
+
+    # Handle error responses from model
+    if raw.get("error") or raw.get("risk_score") is None:
+        raise ValueError(raw.get("error", "Model returned no score"))
+
+    overall_score = raw["risk_score"]
+    contributions = raw.get("gene_contributions", {})
+
+    # Build per-gene results array
+    results = []
+    for g in genes:
+        name = g["name"]
+        activity = _phenotype_to_activity(g.get("phenotype", ""))
+        contrib = contributions.get(name, contributions.get(name.upper(), 0.0))
+
+        results.append({
+            "gene": name,
+            "activity_level": activity,
+            "medicine": drug,
+            "text": "",  # will be enriched with CPIC text by the route
+            "risk_score": round(overall_score * max(contrib, 0.1), 1) if contrib else overall_score,
+            "contribution": contrib,
+        })
+
+    risk_label = raw.get("risk_level", "")
+    if risk_label == "HIGH":
+        label = "High Risk"
+    elif risk_label == "MEDIUM":
+        label = "Moderate Risk"
+    else:
+        label = "Low Risk"
+
+    return {
+        "results": results,
+        "overall_risk_score": overall_score,
+        "risk_label": label,
+    }
 
 
 # Phenotype -> activity level mapping (CPIC convention)
