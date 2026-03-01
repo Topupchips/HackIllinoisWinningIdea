@@ -207,15 +207,21 @@ export default function GeneAI() {
   const [drug, setDrug] = useState("");
   const [drugSearch, setDrugSearch] = useState("");
   const [showDrugs, setShowDrugs] = useState(false);
+  const [geneSearches, setGeneSearches] = useState([""]);
+  const [showGenes, setShowGenes] = useState([false]);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [riskLevel, setRiskLevel] = useState(null);
 
   const filtered = SAMPLE_DRUGS.filter(d => d.includes(drugSearch.toLowerCase())).slice(0, 6);
-  const addGene = () => setGenes([...genes, { name: "", phenotype: "" }]);
-  const removeGene = (i) => setGenes(genes.filter((_, idx) => idx !== i));
+  const filteredGenes = (i) => GENES.filter(g => g.toLowerCase().includes((geneSearches[i] || "").toLowerCase())).slice(0, 8);
+
+  const addGene = () => { setGenes([...genes, { name: "", phenotype: "" }]); setGeneSearches([...geneSearches, ""]); setShowGenes([...showGenes, false]); };
+  const removeGene = (i) => { setGenes(genes.filter((_, idx) => idx !== i)); setGeneSearches(geneSearches.filter((_, idx) => idx !== i)); setShowGenes(showGenes.filter((_, idx) => idx !== i)); };
   const updateGene = (i, f, v) => { const u = [...genes]; u[i] = { ...u[i], [f]: v }; setGenes(u); };
+  const setShowGene = (i, val) => { const u = [...showGenes]; u[i] = val; setShowGenes(u); };
+  const setGeneSearch = (i, val) => { const u = [...geneSearches]; u[i] = val; setGeneSearches(u); };
 
   const analyze = async () => {
     setLoading(true); setError(null); setResults(null); setRiskLevel(null);
@@ -314,16 +320,35 @@ export default function GeneAI() {
 
           {genes.map((g, i) => (
             <div key={i} style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
-              <input
-                list={`genes-${i}`}
-                value={g.name}
-                onChange={e => updateGene(i, "name", e.target.value)}
-                placeholder="Gene..."
-                style={{ ...inp, flex: 1 }}
-              />
-              <datalist id={`genes-${i}`}>
-                {GENES.map(gn => <option key={gn} value={gn} />)}
-              </datalist>
+              <div style={{ position: "relative", flex: 1 }}>
+                <input
+                  type="text"
+                  value={geneSearches[i] !== undefined ? geneSearches[i] : g.name}
+                  onChange={e => { setGeneSearch(i, e.target.value); updateGene(i, "name", e.target.value); setShowGene(i, true); }}
+                  onFocus={() => setShowGene(i, true)}
+                  onBlur={() => setTimeout(() => setShowGene(i, false), 200)}
+                  placeholder="Gene..."
+                  style={{ ...inp, width: "100%" }}
+                />
+                {showGenes[i] && filteredGenes(i).length > 0 && (
+                  <div style={{
+                    position: "absolute", top: "100%", left: 0, right: 0, marginTop: "6px", zIndex: 200,
+                    background: "rgba(245,245,247,0.92)", backdropFilter: "blur(60px) saturate(1.8)",
+                    WebkitBackdropFilter: "blur(60px) saturate(1.8)",
+                    border: "1px solid rgba(255,255,255,0.5)", borderRadius: "20px",
+                    boxShadow: "0 8px 40px rgba(0,0,0,0.1)", overflow: "hidden", padding: "6px 0"
+                  }}>
+                    {filteredGenes(i).map(gn => (
+                      <div key={gn} onMouseDown={e => { e.preventDefault(); updateGene(i, "name", gn); setGeneSearch(i, gn); setShowGene(i, false); }}
+                        style={{ padding: "10px 20px", cursor: "pointer", fontSize: "15px", color: "#333", margin: "2px 6px", borderRadius: "12px" }}
+                        onMouseEnter={e => e.target.style.background = "rgba(0,0,0,0.05)"}
+                        onMouseLeave={e => e.target.style.background = "transparent"}>
+                        {gn}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
               <select value={g.phenotype} onChange={e => updateGene(i, "phenotype", e.target.value)} style={{ ...inp, flex: 1 }}>
                 <option value="">Phenotype...</option>
                 {PHENOTYPES.map(p => <option key={p} value={p}>{p}</option>)}
