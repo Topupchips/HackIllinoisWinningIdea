@@ -3,39 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pharmagen API Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <title>Pharmagen Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: #0c0c0e;
-      color: #fafafa;
+      font-family: 'Inter', 'Helvetica Neue', sans-serif;
+      background: #f0f0f0;
+      color: #1a1a1a;
       min-height: 100vh;
       padding: 24px;
     }
-    .container { max-width: 800px; margin: 0 auto; }
+    .container { max-width: 800px; margin: 0 auto; padding-top: 24px; }
     h1 {
       font-size: 1.5rem;
       margin-bottom: 8px;
-      color: #14b8a6;
+      color: #1a1a1a;
+      font-weight: 600;
+      letter-spacing: -0.3px;
     }
     .subtitle {
-      color: #71717a;
+      color: #555;
       font-size: 14px;
       margin-bottom: 32px;
     }
     .card {
-      background: #16161a;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06), 0 1px 0 rgba(255, 255, 255, 0.45) inset;
+      border-radius: 24px;
+      padding: 24px;
       margin-bottom: 20px;
     }
     .card h2 {
       font-size: 1rem;
       margin-bottom: 12px;
-      color: #a1a1aa;
+      color: #1a1a1a;
+      font-weight: 600;
     }
     .row {
       display: flex;
@@ -46,39 +52,40 @@
     input, button {
       font-family: inherit;
       font-size: 14px;
-      padding: 10px 16px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03);
     }
     input {
-      background: #0c0c0e;
-      color: #fafafa;
+      color: #1a1a1a;
       flex: 1;
       min-width: 120px;
     }
     input:focus {
       outline: none;
-      border-color: #14b8a6;
+      border-color: rgba(0, 0, 0, 0.15);
     }
     button {
-      background: rgba(20, 184, 166, 0.15);
-      color: #14b8a6;
-      border-color: #14b8a6;
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #1a1a1a;
       cursor: pointer;
       white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
     }
     button:hover {
-      background: #14b8a6;
-      color: #0c0c0e;
+      opacity: 0.9;
     }
     button:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
     .output {
-      background: #0c0c0e;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 16px;
       padding: 16px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
@@ -87,36 +94,50 @@
       max-height: 300px;
       overflow-y: auto;
       margin-top: 12px;
+      color: #444;
     }
-    .output.empty { color: #71717a; }
-    .output.error { border-color: #ef4444; color: #ef4444; }
-    .output.success { border-color: #22c55e; }
-    .status { font-size: 12px; color: #71717a; margin-top: 8px; }
+    .output.empty { color: #777; }
+    .output.error { border-color: #cc2244; color: #cc2244; }
+    .output.success { border-color: #228844; }
+    .status { font-size: 12px; color: #555; margin-top: 8px; }
     .badge {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 4px 12px;
       font-size: 11px;
-      border-radius: 4px;
-      background: rgba(20, 184, 166, 0.15);
-      color: #14b8a6;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.06);
+      color: #555;
       margin-left: 8px;
     }
     .timeline-chart {
       height: 200px;
       margin-top: 12px;
-      background: #0c0c0e;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: 16px;
       position: relative;
     }
     .timeline-chart svg { width: 100%; height: 100%; }
-    .timeline-chart .risk { fill: rgba(239,68,68,0.3); stroke: #ef4444; }
-    .timeline-chart .conc { fill: rgba(20,184,166,0.3); stroke: #14b8a6; }
+    .timeline-chart .risk { fill: rgba(204, 34, 68, 0.25); stroke: #cc2244; }
+    .timeline-chart .conc { fill: rgba(34, 136, 68, 0.25); stroke: #228844; }
+    .site-header nav a:hover { color: #1a1a1a; background: rgba(0,0,0,0.05); }
   </style>
 </head>
 <body>
+  <header class="site-header" style="background:#f0f0f0;border-bottom:1px solid rgba(0,0,0,0.07);padding:16px 24px;position:sticky;top:0;z-index:1000">
+    <div style="max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+      <a href="/" style="font-size:1.25rem;font-weight:600;color:#1a1a1a;text-decoration:none;letter-spacing:-0.3px">Pharmagen</a>
+      <nav style="display:flex;gap:8px">
+        <a href="/docs" style="padding:8px 16px;font-size:14px;font-weight:500;color:#555;text-decoration:none;border-radius:6px">Home</a>
+        <a href="/docs/api" style="padding:8px 16px;font-size:14px;font-weight:500;color:#555;text-decoration:none;border-radius:6px">API Endpoints</a>
+        <a href="/docs#setup" style="padding:8px 16px;font-size:14px;font-weight:500;color:#555;text-decoration:none;border-radius:6px">Setup Guide</a>
+        <a href="/docs#run" style="padding:8px 16px;font-size:14px;font-weight:500;color:#555;text-decoration:none;border-radius:6px">Run Guide</a>
+        <a href="/demo" style="padding:8px 16px;font-size:14px;font-weight:500;color:#1a1a1a;background:rgba(0,0,0,0.08);text-decoration:none;border-radius:6px">Demo</a>
+      </nav>
+    </div>
+  </header>
   <div class="container">
-    <h1>Pharmagen API Demo</h1>
+    <h1>Demo</h1>
     <p class="subtitle">Try the API endpoints below. Uses <span id="api-base">/</span></p>
 
     <!-- Health -->
@@ -161,7 +182,7 @@
       <div class="row">
         <input type="number" id="timeline-count" placeholder="Compounds" value="2" min="1" max="10" style="max-width:80px">
         <input type="number" id="timeline-tanimoto" placeholder="Tanimoto" value="0.5" min="0" max="1" step="0.01" style="max-width:80px">
-        <label style="display:flex;align-items:center;gap:6px;color:#a1a1aa"><input type="checkbox" id="timeline-vaccine"> Vaccine</label>
+        <label style="display:flex;align-items:center;gap:6px;color:#555"><input type="checkbox" id="timeline-vaccine"> Vaccine</label>
         <button onclick="callTimeline()">Fetch Graph</button>
       </div>
       <div id="timeline-chart" class="timeline-chart"></div>
@@ -253,7 +274,7 @@
       const count = parseInt(document.getElementById('timeline-count').value) || 2;
       const tanimoto = parseFloat(document.getElementById('timeline-tanimoto').value) || 0.5;
       const hasVaccine = document.getElementById('timeline-vaccine').checked;
-      document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#71717a">Loading...</div>';
+      document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#555">Loading...</div>';
       out('timeline-output', '');
       try {
         const params = new URLSearchParams({
@@ -267,10 +288,10 @@
           renderChart(data.timeline);
           out('timeline-output', data);
         } else {
-          document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#ef4444">No data</div>';
+          document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#cc2244">No data</div>';
         }
       } catch (e) {
-        document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#ef4444">Error: ' + e.message + '</div>';
+        document.getElementById('timeline-chart').innerHTML = '<div style="padding:20px;color:#cc2244">Error: ' + e.message + '</div>';
         out('timeline-output', 'Error: ' + e.message, true);
       }
     }
@@ -291,14 +312,14 @@
       riskPath += ' L' + x(72) + ',' + (h - pad.b) + ' L' + pad.l + ',' + (h - pad.b) + ' Z';
       concPath += ' L' + x(72) + ',' + (h - pad.b) + ' L' + pad.l + ',' + (h - pad.b) + ' Z';
       const svg = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">
-        <line x1="${pad.l}" y1="${h-pad.b}" x2="${w-pad.r}" y2="${h-pad.b}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-        <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${h-pad.b}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-        <path d="${riskPath}" class="risk" stroke-width="2" fill="rgba(239,68,68,0.25)"/>
-        <path d="${concPath}" class="conc" stroke-width="2" fill="rgba(20,184,166,0.25)"/>
-        <text x="${pad.l}" y="${h-8}" fill="#71717a" font-size="10">0h</text>
-        <text x="${w-pad.r-25}" y="${h-8}" fill="#71717a" font-size="10">72h</text>
-        <text x="10" y="25" fill="#ef4444" font-size="10">Risk</text>
-        <text x="10" y="40" fill="#14b8a6" font-size="10">Concentration</text>
+        <line x1="${pad.l}" y1="${h-pad.b}" x2="${w-pad.r}" y2="${h-pad.b}" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+        <line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${h-pad.b}" stroke="rgba(0,0,0,0.12)" stroke-width="1"/>
+        <path d="${riskPath}" class="risk" stroke-width="2" fill="rgba(204,34,68,0.25)"/>
+        <path d="${concPath}" class="conc" stroke-width="2" fill="rgba(34,136,68,0.25)"/>
+        <text x="${pad.l}" y="${h-8}" fill="#555" font-size="10">0h</text>
+        <text x="${w-pad.r-25}" y="${h-8}" fill="#555" font-size="10">72h</text>
+        <text x="10" y="25" fill="#cc2244" font-size="10">Risk</text>
+        <text x="10" y="40" fill="#228844" font-size="10">Concentration</text>
       </svg>`;
       document.getElementById('timeline-chart').innerHTML = svg;
     }

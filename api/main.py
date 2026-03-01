@@ -48,6 +48,8 @@ app = FastAPI(
     ),
     version="1.0.0",
     lifespan=lifespan,
+    docs_url="/swagger",
+    redoc_url="/redoc",
 )
 
 # CORS
@@ -91,10 +93,14 @@ app.include_router(explain.router)
 # Static files + custom docs
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
-@app.get("/apidocs", include_in_schema=False)
-async def apidocs():
+@app.get("/docs", include_in_schema=False)
+async def docs_home():
     return FileResponse(STATIC_DIR / "docs" / "index.html")
 
-@app.get("/apidocs/endpoints", include_in_schema=False)
-async def apidocs_endpoints():
+@app.get("/docs/api", include_in_schema=False)
+async def docs_api():
     return FileResponse(STATIC_DIR / "docs" / "endpoints.html")
+
+@app.get("/demo", include_in_schema=False)
+async def demo():
+    return FileResponse(STATIC_DIR / "demo" / "index.html")
