@@ -1,11 +1,11 @@
 # Cloudflare Pages - deploy with: npx wrangler pages deploy dist
 # Or connect repo at https://dash.cloudflare.com/pages
 
-name = "pharmagen"
+name = "geneai"
 compatibility_date = "2024-01-01"
 
-# For Cloudflare Pages, use: wrangler pages project create pharmagen
-# Then: wrangler pages deploy dist --project-name pharmagen
+# For Cloudflare Pages, use: wrangler pages project create geneai
+# Then: wrangler pages deploy dist --project-name geneai
 
 [env.production]
 vars = { ENVIRONMENT = "production" }

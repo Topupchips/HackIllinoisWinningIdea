@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Endpoints — Pharmagen</title>
+  <title>API Endpoints — GeneAI</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/backend-static/docs/theme.css">
   <style>
@@ -61,9 +61,9 @@
 <body>
   <header class="site-header">
     <div class="site-header-inner">
-      <a href="/" class="site-logo">Pharmagen</a>
+      <a href="/" class="site-logo">GeneAI</a>
       <nav class="site-nav">
-        <a href="/docs" id="nav-home">Home</a>
+        <a href="/docs" id="nav-home">Info</a>
         <a href="/docs/api" id="nav-api" class="active">API Endpoints</a>
         <a href="/docs#setup" id="nav-setup">Setup Guide</a>
         <a href="/docs#run" id="nav-run">Run Guide</a>
@@ -74,6 +74,11 @@
 
   <div id="swagger-ui" style="position:relative;z-index:1"></div>
 
+  <script>
+    // Force light mode - remove dark-mode class and clear stored preference
+    document.documentElement.classList.remove('dark-mode');
+    try { localStorage.removeItem('swagger-ui-theme'); localStorage.removeItem('swagger-ui:theme'); } catch(e) {}
+  </script>
   <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
   <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js"></script>
   <script>
@@ -99,6 +104,16 @@
       } else if (!input && attempt < 50) {
         setTimeout(function() { setFilterPlaceholder(attempt + 1); }, 150);
       }
+    })();
+    // Keep light mode - observe and remove dark-mode if Swagger adds it
+    (function forceLightMode() {
+      document.documentElement.classList.remove('dark-mode');
+      var obs = new MutationObserver(function() {
+        if (document.documentElement.classList.contains('dark-mode')) {
+          document.documentElement.classList.remove('dark-mode');
+        }
+      });
+      obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     })();
   </script>
   <script>

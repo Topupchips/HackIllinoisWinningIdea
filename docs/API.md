@@ -1,4 +1,4 @@
-# Pharmagen API Reference
+# GeneAI API Reference
 
 Pharmacogenomics drug risk prediction API. Takes a patient's gene profile and a drug, returns a risk score with clinical recommendations from CPIC guidelines.
 
@@ -29,7 +29,7 @@ Pharmacogenomics drug risk prediction API. Takes a patient's gene profile and a 
 
 ## Overview
 
-The Pharmagen API enables developers to:
+The GeneAI API enables developers to:
 
 | Capability | Description |
 |------------|-------------|
@@ -49,7 +49,7 @@ All endpoints are versioned under `/v1/` for stable, backward-compatible evoluti
 | Environment | Base URL |
 |-------------|----------|
 | **Local** | `http://127.0.0.1:8000` |
-| **Modal** | `https://your-workspace--pharmagen-api.modal.run` |
+| **Modal** | `https://your-workspace--geneai-api.modal.run` |
 
 | Resource | URL |
 |----------|-----|
@@ -175,7 +175,7 @@ Returns API status and dependency health (PubChem, OpenAI).
 ```json
 {
   "status": "ok",
-  "api": "pharmagen",
+  "api": "geneai",
   "version": "1.0.0",
   "dependencies": {
     "pubchem": "ok",
@@ -214,7 +214,7 @@ Root endpoint with links to documentation and health.
 
 ```json
 {
-  "message": "Pharmagen API",
+  "message": "GeneAI API",
   "docs": "/docs",
   "demo": "/demo",
   "health": "/v1/health"

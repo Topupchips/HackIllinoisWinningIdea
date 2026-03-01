@@ -1,4 +1,4 @@
-# Pharmagen
+# GeneAI
 
 GeneAI is a pharmacogenomics platform: gene profile + drug → personalized risk score, clinical recommendation, and explainable AI guidance. Also supports drug–drug interaction prediction via PubChem.
 
@@ -84,7 +84,7 @@ python backend/run_local.py
 ## Deploy
 
 - **Modal:** `modal deploy backend/modal_app.py`
-- **Frontend:** `npm run build && npx wrangler pages deploy dist --project-name pharmagen`
+- **Frontend:** `npm run build && npx wrangler pages deploy dist --project-name geneai`
 
 ---
 

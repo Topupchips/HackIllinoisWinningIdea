@@ -8,7 +8,7 @@ This document specifies data types, sources, and model approaches for building a
 
 ## Current API Implementation (as of v1.0)
 
-The Pharmagen API implements a **hybrid approach**: deterministic logic today, with clear extension points for ML models.
+The GeneAI API implements a **hybrid approach**: deterministic logic today, with clear extension points for ML models.
 
 | Spec Concept | Current Implementation | Endpoint |
 |--------------|------------------------|----------|

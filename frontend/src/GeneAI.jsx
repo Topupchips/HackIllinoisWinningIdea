@@ -287,9 +287,9 @@ export default function GeneAI() {
         borderBottom: "1px solid rgba(0,0,0,0.07)",
         display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px"
       }}>
-        <a href="/" style={{ fontSize: "1.25rem", fontWeight: "600", color: "#1a1a1a", letterSpacing: "-0.3px", textDecoration: "none" }}>Pharmagen</a>
+        <a href="/" style={{ fontSize: "1.25rem", fontWeight: "600", color: "#1a1a1a", letterSpacing: "-0.3px", textDecoration: "none" }}>GeneAI</a>
         <nav style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-          <a href="/docs" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Home</a>
+          <a href="/docs" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Info</a>
           <a href="/docs/api" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>API Endpoints</a>
           <a href="/docs#setup" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Setup</a>
           <a href="/docs#run" style={{ padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "#555", textDecoration: "none", borderRadius: "6px" }}>Run</a>
@@ -310,7 +310,7 @@ export default function GeneAI() {
             }}>+</a>
           </div>
           <p style={{ margin: 0, fontSize: "15px", color: "#555", lineHeight: "1.8" }}>
-            Understanding your drug-gene interactions is easy. Select your genetic profile, choose a medication, and receive personalized safety recommendations.
+            Understanding your drug-gene interactions is easy. Select your genetic profile, choose a medication, and receive personalized safety recommendations. API, docs, and an interactive demo are all available in the navigation above.
           </p>
         </div>
       </LiquidGlass>

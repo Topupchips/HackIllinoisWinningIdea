@@ -1,6 +1,6 @@
-# Pharmagen Documentation
+# GeneAI Documentation
 
-Documentation for the Pharmagen drug–drug interaction prediction API.
+Documentation for the GeneAI drug–drug interaction prediction API.
 
 ---
 

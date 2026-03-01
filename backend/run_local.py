@@ -1,5 +1,5 @@
 """
-Pharmagen API - Drug interaction prediction & pharmacogenomics.
+GeneAI API - Drug interaction prediction & pharmacogenomics.
 Run: python backend/run_local.py
 Docs: http://127.0.0.1:8000/docs
 
@@ -12,7 +12,7 @@ import uuid
 from pathlib import Path
 from urllib.parse import quote
 import uvicorn
-from fastapi import FastAPI, Path, Query, HTTPException, Request
+from fastapi import FastAPI, Query, HTTPException, Request
 
 # Add project root for api imports, backend for config
 ROOT = Path(__file__).resolve().parent.parent
@@ -63,7 +63,7 @@ ERROR_RESPONSES = {
 }
 
 app = FastAPI(
-    title="Pharmagen API",
+    title="GeneAI API",
     description="""
 Pharmacogenomics drug risk prediction API. Takes a patient's gene profile and a drug, returns a risk score with clinical recommendations from CPIC guidelines.
 
@@ -333,14 +333,14 @@ def _check_openai() -> bool:
 
 
 if not PHARMARISK_LOADED:
-    @app.get("/v1/health", tags=["Health"], summary="Health check", responses={200: {"content": {"application/json": {"example": {"status": "ok", "api": "pharmagen", "version": "1.0.0", "dependencies": {"pubchem": "ok", "openai": "configured"}}}}}})
+    @app.get("/v1/health", tags=["Health"], summary="Health check", responses={200: {"content": {"application/json": {"example": {"status": "ok", "api": "geneai", "version": "1.0.0", "dependencies": {"pubchem": "ok", "openai": "configured"}}}}}})
     def health():
         """Returns API status and dependency health (PubChem, OpenAI)."""
         pubchem_ok = _check_pubchem()
         openai_configured = _check_openai()
         return {
             "status": "ok",
-            "api": "pharmagen",
+            "api": "geneai",
             "version": "1.0.0",
             "dependencies": {
                 "pubchem": "ok" if pubchem_ok else "unreachable",
@@ -361,7 +361,7 @@ if not FRONTEND_BUILD.exists():
     @app.get("/", tags=["Health"], summary="API info")
     def root():
         """Root endpoint with links to docs, demo, and health."""
-        return {"message": "Pharmagen API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
+        return {"message": "GeneAI API", "docs": "/docs", "demo": "/demo", "health": "/v1/health"}
 
 
 # --- Drugs ---
@@ -472,7 +472,7 @@ def _fetch_compound_from_pubchem(name: str) -> dict | None:
 
 
 @app.get("/v1/drugs/name/{name}", tags=["Drugs"], summary="Get compound by name", responses={**ERROR_RESPONSES, 200: {"content": {"application/json": {"example": {"name": "Aspirin", "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O", "formula": "C9H8O4", "cid": 2244}}}}})
-def get_compound(name: str = Path(..., example="Aspirin", description="Drug name (e.g. Aspirin, Ibuprofen)"), response: Response):
+def get_compound(name: str, response: Response):
     """
     Get compound details by name from PubChem.
     Returns SMILES, molecular formula, and PubChem CID.
