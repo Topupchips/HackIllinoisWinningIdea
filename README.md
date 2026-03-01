@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://geneai.tech"><strong>🌐 geneai.tech</strong></a>
+  <strong>Link:</strong> <a href="http://geneai.tech/">http://geneai.tech/</a>
 </p>
 
 ---
