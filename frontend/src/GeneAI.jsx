@@ -219,8 +219,9 @@ export default function GeneAI() {
 
   const analyze = async () => {
     setLoading(true); setError(null); setResults(null); setRiskLevel(null);
+    const effectiveDrug = drug || drugSearch.trim();
     const valid = genes.filter(g => g.name && g.phenotype);
-    if (!valid.length || !drug) {
+    if (!valid.length || !effectiveDrug) {
       setError("Select at least one gene with phenotype and a drug.");
       setLoading(false);
       return;
@@ -232,7 +233,7 @@ export default function GeneAI() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           genes: valid.map(g => ({ name: g.name, phenotype: g.phenotype })),
-          drug: drug
+          drug: effectiveDrug
         })
       });
 
@@ -313,10 +314,16 @@ export default function GeneAI() {
 
           {genes.map((g, i) => (
             <div key={i} style={{ display: "flex", gap: "8px", marginBottom: "10px" }}>
-              <select value={g.name} onChange={e => updateGene(i, "name", e.target.value)} style={{ ...inp, flex: 1 }}>
-                <option value="">Gene...</option>
-                {GENES.map(gn => <option key={gn} value={gn}>{gn}</option>)}
-              </select>
+              <input
+                list={`genes-${i}`}
+                value={g.name}
+                onChange={e => updateGene(i, "name", e.target.value)}
+                placeholder="Gene..."
+                style={{ ...inp, flex: 1 }}
+              />
+              <datalist id={`genes-${i}`}>
+                {GENES.map(gn => <option key={gn} value={gn} />)}
+              </datalist>
               <select value={g.phenotype} onChange={e => updateGene(i, "phenotype", e.target.value)} style={{ ...inp, flex: 1 }}>
                 <option value="">Phenotype...</option>
                 {PHENOTYPES.map(p => <option key={p} value={p}>{p}</option>)}
