@@ -1,14 +1,18 @@
 import logging
 import time
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from api.routes import drugs, explain, genes, health, predict
 from api.services import model_service
 from api.services.data_service import data_service
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 logging.basicConfig(
     level=logging.INFO,
@@ -83,3 +87,14 @@ app.include_router(drugs.router)
 app.include_router(genes.router)
 app.include_router(predict.router)
 app.include_router(explain.router)
+
+# Static files + custom docs
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+@app.get("/apidocs", include_in_schema=False)
+async def apidocs():
+    return FileResponse(STATIC_DIR / "docs" / "index.html")
+
+@app.get("/apidocs/endpoints", include_in_schema=False)
+async def apidocs_endpoints():
+    return FileResponse(STATIC_DIR / "docs" / "endpoints.html")
